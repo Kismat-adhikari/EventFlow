@@ -4,8 +4,8 @@
  */
 package eventflow;
 
-import javax.swing.JOptionPane;
 import eventflow.controllers.SignupController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -265,25 +265,57 @@ public class SignupForm extends javax.swing.JFrame {
 
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         // TODO add your handling code here:
-        String fullName = nameField.getText();
-        String email = emailField.getText();
-        String password = passwordField.getText();
-        String confirmPassword = confirmPasswordField.getText();
+        // Inside your signup button action method
 
+        String fullName = nameField.getText().trim();
+if (fullName.equals("Full Name")) fullName = "";
 
-        if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(this, "Passwords do not match!");
-            return;  // stop signup process here
-        }
+String email = emailField.getText().trim();
+String password = String.valueOf(passwordField.getPassword());
+String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
 
-        SignupController signupController = new SignupController();
-        boolean success = signupController.handleSignup(fullName, email, password);
+// Empty check
+if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "All fields are required.");
+    return;
+}
 
-        if (success) {
-            JOptionPane.showMessageDialog(this, "Signup successful!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Signup failed. Try again.");
-        }
+// Full name length check
+if (fullName.length() < 4) {
+    JOptionPane.showMessageDialog(this, "Full name must be at least 4 characters long.");
+    return;
+}
+
+// Email format check
+if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
+    JOptionPane.showMessageDialog(this, "Please enter a valid email address.");
+    return;
+}
+
+// Password strength check (at least 8 chars, 1 special character)
+if (!password.matches("^(?=.*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?]).{8,}$")) {
+    JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long and contain at least one special character.");
+    return;
+}
+
+// Confirm password match
+if (!password.equals(confirmPassword)) {
+    JOptionPane.showMessageDialog(this, "Passwords do not match.");
+    return;
+}
+
+// Proceed with signup
+SignupController controller = new SignupController();
+String result = controller.handleSignup(fullName, email, password);
+
+if (result.equals("success")) {
+    JOptionPane.showMessageDialog(this, "Signup successful!");
+} else {
+    JOptionPane.showMessageDialog(this, result);
+}
+
+       
+
 
     }//GEN-LAST:event_signupButtonActionPerformed
 
