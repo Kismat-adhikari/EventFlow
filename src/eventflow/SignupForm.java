@@ -309,10 +309,19 @@ SignupController controller = new SignupController();
 String result = controller.handleSignup(fullName, email, password);
 
 if (result.equals("success")) {
-    JOptionPane.showMessageDialog(this, "Signup successful!");
+    JOptionPane.showMessageDialog(this, "Signup successful! Please login.");
+
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new LoginForm().setVisible(true);
+        }
+    });
+
+    this.dispose();  // closes signup form window
 } else {
     JOptionPane.showMessageDialog(this, result);
 }
+
 
        
 
@@ -323,12 +332,13 @@ if (result.equals("success")) {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SignupForm().setVisible(true);
-            }
-        });
-    }
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new SignupForm().setVisible(true);
+        }
+    });
+}
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
