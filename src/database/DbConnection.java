@@ -10,10 +10,11 @@ import java.sql.SQLException;
 
 public class DbConnection {
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/eventflow"; // replace with your DB name
+        String url = "jdbc:mysql://localhost:3306/Eventflow"; // replace with your DB name
         String user = "root"; // timi haru ko MySQL ko username
-        String password = "password123"; // timiharu ko MySQL ko password
+        String password = "BEMUfyUA#0"; // timiharu ko MySQL ko password
 
         return DriverManager.getConnection(url, user, password);
     }
 }
+    
