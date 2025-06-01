@@ -203,6 +203,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Already have an account? Signin"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel4MouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="passwordField">
               <Properties>

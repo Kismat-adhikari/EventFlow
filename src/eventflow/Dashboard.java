@@ -9,16 +9,28 @@ package eventflow;
  * @author kisma
  */
 public class Dashboard extends javax.swing.JFrame {
+    
 
-    private String fullName;  
-    private String email;
-    public Dashboard(String fullName, String email) {
-        initComponents();
+    private final String fullname;
+private final String email;
+private final int isAdmin;
 
-        this.fullName = fullName; 
-        this.email=email;
-        fullNameLabel.setText(fullName); 
+    public Dashboard(String fullname, String email, int isAdmin) {
+    initComponents();
+    this.fullname = fullname;
+    this.email = email;
+    this.isAdmin = isAdmin;
+
+    fullNameLabel.setText(fullname);
+
+    if (isAdmin == 1) {
+        typeLabel.setText("Admin");
+    } else {
+        typeLabel.setText("User");
     }
+}
+
+
 
 
 
@@ -34,6 +46,8 @@ public class Dashboard extends javax.swing.JFrame {
         welcomeLabel = new javax.swing.JLabel();
         profileLabel = new javax.swing.JLabel();
         fullNameLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        typeLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,17 +62,26 @@ public class Dashboard extends javax.swing.JFrame {
 
         fullNameLabel.setText("Loading...");
 
+        jLabel1.setText("You are:");
+
+        typeLabel.setText("type");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(107, 107, 107)
-                .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(welcomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fullNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fullNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(112, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -70,7 +93,11 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(welcomeLabel)
                     .addComponent(fullNameLabel))
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(typeLabel))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         pack();
@@ -78,7 +105,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void profileLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileLabelMouseClicked
         // TODO add your handling code here:
-        new ProfileForm(fullName, email).setVisible(true);  // pass fullname and email to ProfileForm
+        new ProfileForm(fullname, email).setVisible(true);  // pass fullname and email to ProfileForm
         this.dispose();  // close Dashboard window
         
     }//GEN-LAST:event_profileLabelMouseClicked
@@ -121,7 +148,9 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fullNameLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel profileLabel;
+    private javax.swing.JLabel typeLabel;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,7 @@ package eventflow;
  * @author kisma
  */
 public class ProfileForm extends javax.swing.JFrame {
+    private final String email;
 
     /**
      * Creates new form ProfileForm
@@ -17,6 +18,7 @@ public class ProfileForm extends javax.swing.JFrame {
         initComponents();
         fullNameLabel.setText(fullname);
         emailLabel.setText(email);
+        this.email = email; // Store the email for later use
     }
 
     ProfileForm() {
@@ -36,6 +38,7 @@ public class ProfileForm extends javax.swing.JFrame {
         emailLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        changePasswordButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(710, 512));
@@ -48,6 +51,13 @@ public class ProfileForm extends javax.swing.JFrame {
         jLabel1.setText("Email:");
 
         jLabel2.setText("Full Name:");
+
+        changePasswordButton.setText("Change Password");
+        changePasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePasswordButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,6 +76,10 @@ public class ProfileForm extends javax.swing.JFrame {
                     .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fullNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(changePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,11 +92,18 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(fullNameLabel))
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addGap(67, 67, 67)
+                .addComponent(changePasswordButton)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void changePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordButtonActionPerformed
+        // TODO add your handling code here:
+        new ChangePasswordForm().setVisible(true);
+    }//GEN-LAST:event_changePasswordButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -120,6 +141,7 @@ public class ProfileForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton changePasswordButton;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel fullNameLabel;
     private javax.swing.JLabel jLabel1;

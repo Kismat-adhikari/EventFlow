@@ -21,6 +21,43 @@ public class AdminLogin extends javax.swing.JFrame {
      */
     public AdminLogin() {
         initComponents();
+        emailField.setText("Email Address");
+
+        emailField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (emailField.getText().equals("Email Address")) {
+                    emailField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (emailField.getText().isEmpty()) {
+                    emailField.setText("Email Address");
+                }
+            }
+        });passwordField.setText("Password");
+        passwordField.setEchoChar((char) 0); // show plain text initially for placeholder
+
+        passwordField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (String.valueOf(passwordField.getPassword()).equals("Password")) {
+                    passwordField.setText("");
+                    passwordField.setEchoChar('•'); // mask input
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (passwordField.getPassword().length == 0) {
+                    passwordField.setText("Password");
+                    passwordField.setEchoChar((char) 0); // show placeholder text
+                }
+            }
+        });
+
     }
 
     /**

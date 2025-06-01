@@ -163,6 +163,11 @@ public class SignupForm extends javax.swing.JFrame {
 
         jLabel4.setForeground(new java.awt.Color(160, 160, 178));
         jLabel4.setText("Already have an account? Signin");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         passwordField.setText("jPasswordField1");
 
@@ -327,6 +332,12 @@ if (result.equals("success")) {
 
 
     }//GEN-LAST:event_signupButtonActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        new LoginForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments

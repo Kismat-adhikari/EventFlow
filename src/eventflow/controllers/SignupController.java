@@ -22,7 +22,8 @@ public class SignupController {
             }
 
             // Insert if email not found
-            String sql = "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO users (fullname, email, password, balance) VALUES (?, ?, ?, DEFAULT)";
+
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, fullName);
                 stmt.setString(2, email);
