@@ -14,7 +14,8 @@ public class ChangePasswordForm extends javax.swing.JFrame {
     /**
      * Creates new form ChangePasswordForm
      */
-    public ChangePasswordForm() {
+    public ChangePasswordForm(int userId) {
+        this.userId = userId;
         initComponents();
         passwordField.setText("Password");
         passwordField.setEchoChar((char) 0); // show plain text initially for placeholder
