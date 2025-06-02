@@ -200,7 +200,7 @@ public class AdminLogin extends javax.swing.JFrame {
 String password = new String(passwordField.getPassword());
 
 try {
-    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/eventflow", "root", "BEMUfyUA#0");
+    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/eventflow", "root", "password123");
 
     String sql = "SELECT * FROM users WHERE email = ? AND password = ? AND is_admin = TRUE";
     PreparedStatement pstmt = conn.prepareStatement(sql);
