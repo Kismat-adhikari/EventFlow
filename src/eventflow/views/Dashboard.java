@@ -4,32 +4,40 @@
  */
 package eventflow.views;
 
-/**
- *
- * @author kisma
- */
+import eventflow.models.User;
+
 public class Dashboard extends javax.swing.JFrame {
-    
 
-    private final String fullname;
-private final String email;
-private final int isAdmin;
+    private final User user;
 
-    public Dashboard(String fullname, String email, int isAdmin) {
-    initComponents();
-    this.fullname = fullname;
-    this.email = email;
-    this.isAdmin = isAdmin;
+    public Dashboard(User user) {
+        initComponents();
+        
+        this.user = user;
 
-    fullNameLabel.setText(fullname);
 
-    if (isAdmin == 1) {
-        typeLabel.setText("Admin");
-    } else {
-        typeLabel.setText("User");
+        // Navigate to MyTickets on label click
+       
+
+        // Navigate to ProfileForm on label click
+        profileLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ProfileForm profile = new ProfileForm(user);
+                profile.setVisible(true);
+                dispose(); // optional: close current dashboard
+            }
+        });
+
+        // Set user information
+        fullNameLabel.setText(user.getFullname());
+
+        if (user.getIsAdmin() == 1) {
+            typeLabel.setText("Admin");
+        } else {
+            typeLabel.setText("User");
+        }
     }
-}
-
 
 
 
@@ -48,6 +56,7 @@ private final int isAdmin;
         fullNameLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         typeLabel = new javax.swing.JLabel();
+        myTicketsLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +75,8 @@ private final int isAdmin;
 
         typeLabel.setText("type");
 
+        myTicketsLabel.setText("My Tickets");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,19 +88,26 @@ private final int isAdmin;
                     .addComponent(welcomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fullNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(112, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(myTicketsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(profileLabel)
-                .addGap(61, 61, 61)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(profileLabel)
+                    .addComponent(myTicketsLabel))
+                .addGap(92, 92, 92)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(welcomeLabel)
                     .addComponent(fullNameLabel))
@@ -136,17 +154,13 @@ private final int isAdmin;
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-    public void run() {
-        new Dashboard("TestUser").setVisible(true);
-    }
-});
-
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fullNameLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel myTicketsLabel;
     private javax.swing.JLabel profileLabel;
     private javax.swing.JLabel typeLabel;
     private javax.swing.JLabel welcomeLabel;

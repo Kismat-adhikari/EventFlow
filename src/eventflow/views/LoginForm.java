@@ -3,12 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package eventflow.views;
-import eventflow.views.AdminLogin;
-import eventflow.views.Dashboard;
 import javax.swing.JOptionPane;
 import eventflow.controllers.LoginController;
 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import eventflow.models.User; 
 
@@ -23,29 +20,45 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
-        
-loginButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent evt) {
+ LoginController controller = new LoginController(); // You only need to create once
+ 
+
+    loginButton.addActionListener((ActionEvent evt) -> {
         String email = emailField.getText().trim();
         String password = new String(passwordField.getPassword());
 
         if (email.equals("Email Address")) email = "";
         if (password.equals("Password")) password = "";
 
-        LoginController controller = new LoginController();
         User user = controller.handleLogin(email, password);
 
         if (user != null) {
             JOptionPane.showMessageDialog(null, "Login successful!");
             dispose();
-            Dashboard dashboard = new Dashboard(user.getFullname(), user.getEmail(), user.getIsAdmin());
+            Dashboard dashboard = new Dashboard(user);
             dashboard.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Invalid email or password.");
         }
-    }
-});
+    });
+
+    // ✅ Add this to handle label click
+    loginTosign.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.handleLoginToSignupClick();
+            dispose();
+        }
+    });
+
+    loginToadmin.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.handleLoginToAdminClick();
+            dispose();
+        }
+    });
+
 
 
 
@@ -101,11 +114,11 @@ emailField.setText("Email Address");
         jPanel2 = new javax.swing.JPanel();
         loginButton = new javax.swing.JButton();
         emailField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        loginTosign = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        loginToadmin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,11 +148,11 @@ emailField.setText("Email Address");
             }
         });
 
-        jLabel1.setForeground(new java.awt.Color(160, 160, 178));
-        jLabel1.setText("Or, don't have an account? Signup");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        loginTosign.setForeground(new java.awt.Color(160, 160, 178));
+        loginTosign.setText("Or, don't have an account? Signup");
+        loginTosign.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                loginTosignMouseClicked(evt);
             }
         });
 
@@ -157,11 +170,11 @@ emailField.setText("Email Address");
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Login");
 
-        jLabel4.setForeground(new java.awt.Color(160, 160, 178));
-        jLabel4.setText("Are you an Admin?");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        loginToadmin.setForeground(new java.awt.Color(160, 160, 178));
+        loginToadmin.setText("Are you an Admin?");
+        loginToadmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                loginToadminMouseClicked(evt);
             }
         });
 
@@ -180,8 +193,8 @@ emailField.setText("Email Address");
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loginToadmin)
+                    .addComponent(loginTosign, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(emailField)
@@ -202,9 +215,9 @@ emailField.setText("Email Address");
                 .addGap(18, 18, 18)
                 .addComponent(loginButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(loginToadmin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(loginTosign)
                 .addGap(54, 54, 54))
         );
 
@@ -252,11 +265,11 @@ emailField.setText("Email Address");
 
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void loginTosignMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginTosignMouseClicked
         // TODO add your handling code here:
 //        new SignupForm().setVisible(true);
 //        this.dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_loginTosignMouseClicked
 
     private void emailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFieldFocusGained
         // TODO add your handling code here:
@@ -276,12 +289,10 @@ emailField.setText("Email Address");
         
     }//GEN-LAST:event_jLabel2MouseClicked
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void loginToadminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginToadminMouseClicked
         // TODO add your handling code here:
-        AdminLogin admin= new AdminLogin();
-        admin.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel4MouseClicked
+        
+    }//GEN-LAST:event_loginToadminMouseClicked
 
     /**
      * @param args the command line arguments
@@ -322,13 +333,13 @@ emailField.setText("Email Address");
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailField;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton loginButton;
+    private javax.swing.JLabel loginToadmin;
+    private javax.swing.JLabel loginTosign;
     private javax.swing.JPasswordField passwordField;
     // End of variables declaration//GEN-END:variables
 }

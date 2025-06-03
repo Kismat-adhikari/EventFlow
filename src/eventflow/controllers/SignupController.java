@@ -11,6 +11,7 @@ import eventflow.views.SignupForm;
 public class SignupController {
 
     private SignupForm view;
+    
 
     public SignupController(SignupForm view) {
         this.view = view;

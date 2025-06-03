@@ -19,36 +19,45 @@ public class SignupForm extends javax.swing.JFrame {
     public SignupForm() {
         initComponents();
         
-        signupButton.addActionListener(new java.awt.event.ActionListener() {
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        String name = nameField.getText().trim();
-        String email = emailField.getText().trim();
-        String password = new String(passwordField.getPassword());
-        String confirmPassword = new String(confirmPasswordField.getPassword());
+        SignupController controller = new SignupController(this); // setup controller
 
-        if (name.equals("Full Name")) name = "";
-        if (email.equals("Email Address")) email = "";
-        if (password.equals("Password")) password = "";
-        if (confirmPassword.equals("Confirm Password")) confirmPassword = "";
+    signupButton.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            String name = nameField.getText().trim();
+            String email = emailField.getText().trim();
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
 
-        if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(null, "Passwords do not match.");
-            return;
+            if (name.equals("Full Name")) name = "";
+            if (email.equals("Email Address")) email = "";
+            if (password.equals("Password")) password = "";
+            if (confirmPassword.equals("Confirm Password")) confirmPassword = "";
+
+            if (!password.equals(confirmPassword)) {
+                JOptionPane.showMessageDialog(null, "Passwords do not match.");
+                return;
+            }
+
+            String result = controller.handleSignup(name, email, password);
+
+            if (result.equals("success")) {
+                JOptionPane.showMessageDialog(null, "Signup successful!");
+                dispose();
+                new LoginForm().setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, result);
+            }
         }
+    });
 
-        SignupController controller = new SignupController(SignupForm.this);
-        String result = controller.handleSignup(name, email, password);
-
-        if (result.equals("success")) {
-            JOptionPane.showMessageDialog(null, "Signup successful!");
-            dispose(); // Optional: go to login form
-            new LoginForm().setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, result);
+    // New: use controller for redirect
+    signupTolog.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.handleSignupToLoginClick();
         }
-    }
-});
+    });
+
 
 
         emailField.setText("Email Address");

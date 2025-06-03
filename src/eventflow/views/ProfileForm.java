@@ -2,30 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
 package eventflow.views;
 
-import eventflow.views.ChangePasswordForm;
+import eventflow.models.User;
 
 /**
  *
  * @author kisma
  */
+
 public class ProfileForm extends javax.swing.JFrame {
-    private final String email;
+    private final User user;
 
-    /**
-     * Creates new form ProfileForm
-     */
-    public ProfileForm(String fullname, String email) {
+    public ProfileForm(User user) {
         initComponents();
-        fullNameLabel.setText(fullname);
-        emailLabel.setText(email);
-        this.email = email; // Store the email for later use
+        
+        this.user = user;
+
+        fullNameLabel.setText(user.getFullname());
+        emailLabel.setText(user.getEmail());
+
+        changePasswordButton.addActionListener(evt -> {
+            ChangePasswordForm cpf = new ChangePasswordForm(user);
+            cpf.setVisible(true);
+            dispose(); // optionally close profile
+        });
     }
 
-    ProfileForm() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -104,7 +108,6 @@ public class ProfileForm extends javax.swing.JFrame {
 
     private void changePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordButtonActionPerformed
         // TODO add your handling code here:
-        new ChangePasswordForm().setVisible(true);
     }//GEN-LAST:event_changePasswordButtonActionPerformed
 
     /**

@@ -1,20 +1,26 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+ */// In MyTickets.java
 package eventflow.views;
 
-/**
- *
- * @author kisma
- */
+import eventflow.models.User;
+
 public class MyTickets extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MyTickets
-     */
+    private final User user;
+
+    public MyTickets(User user) {
+        initComponents();
+        this.user = user;
+
+        // You can now use user.getFullname(), user.getEmail(), etc. here
+    }
+
+    // Optionally keep a default constructor if NetBeans GUI uses it
     public MyTickets() {
         initComponents();
+        this.user = null;
     }
 
     /**
