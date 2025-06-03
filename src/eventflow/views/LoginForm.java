@@ -2,13 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package eventflow;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+package eventflow.views;
+import eventflow.views.AdminLogin;
+import eventflow.views.Dashboard;
 import javax.swing.JOptionPane;
+import eventflow.controllers.LoginController;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import eventflow.models.User; 
 
 /**
  *
@@ -21,7 +23,33 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
-        emailField.setText("Email Address");
+        
+loginButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        String email = emailField.getText().trim();
+        String password = new String(passwordField.getPassword());
+
+        if (email.equals("Email Address")) email = "";
+        if (password.equals("Password")) password = "";
+
+        LoginController controller = new LoginController();
+        User user = controller.handleLogin(email, password);
+
+        if (user != null) {
+            JOptionPane.showMessageDialog(null, "Login successful!");
+            dispose();
+            Dashboard dashboard = new Dashboard(user.getFullname(), user.getEmail(), user.getIsAdmin());
+            dashboard.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid email or password.");
+        }
+    }
+});
+
+
+
+emailField.setText("Email Address");
 
         emailField.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
@@ -219,43 +247,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        String email = emailField.getText();
-String password = new String(passwordField.getPassword());
-
-try {
-    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/eventflow", "root", "password123");
-    String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-PreparedStatement pstmt = conn.prepareStatement(sql);
-pstmt.setString(1, email);
-pstmt.setString(2, password);
-
-ResultSet rs = pstmt.executeQuery();
-
-if (rs.next()) {
-    JOptionPane.showMessageDialog(null, "User login successful");
-
-    String fullName = rs.getString("fullname");  // Your DB column
-    String emailFromDB = rs.getString("email");
-    int isAdmin = rs.getInt("is_admin"); // fetch is_admin column (1 or 0)
-
-    // Open dashboard passing fullname, email, and isAdmin
-    java.awt.EventQueue.invokeLater(() -> {
-        new Dashboard(fullName, emailFromDB, isAdmin).setVisible(true);
-        this.dispose();
-    });
-
-} else {
-    JOptionPane.showMessageDialog(null, "Invalid user credentials");
-}
-
-
-    rs.close();
-    pstmt.close();
-    conn.close();
-} catch (SQLException ex) {
-    ex.printStackTrace();
-    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-}
+        
 
 
     }//GEN-LAST:event_loginButtonActionPerformed

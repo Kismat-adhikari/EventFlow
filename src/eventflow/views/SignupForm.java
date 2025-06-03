@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package eventflow;
+package eventflow.views;
 
 import eventflow.controllers.SignupController;
 import javax.swing.JOptionPane;
@@ -18,6 +18,39 @@ public class SignupForm extends javax.swing.JFrame {
      */
     public SignupForm() {
         initComponents();
+        
+        signupButton.addActionListener(new java.awt.event.ActionListener() {
+    @Override
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        String name = nameField.getText().trim();
+        String email = emailField.getText().trim();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+
+        if (name.equals("Full Name")) name = "";
+        if (email.equals("Email Address")) email = "";
+        if (password.equals("Password")) password = "";
+        if (confirmPassword.equals("Confirm Password")) confirmPassword = "";
+
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Passwords do not match.");
+            return;
+        }
+
+        SignupController controller = new SignupController(SignupForm.this);
+        String result = controller.handleSignup(name, email, password);
+
+        if (result.equals("success")) {
+            JOptionPane.showMessageDialog(null, "Signup successful!");
+            dispose(); // Optional: go to login form
+            new LoginForm().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, result);
+        }
+    }
+});
+
+
         emailField.setText("Email Address");
 
         emailField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -100,6 +133,7 @@ public class SignupForm extends javax.swing.JFrame {
 
     }
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -117,7 +151,7 @@ public class SignupForm extends javax.swing.JFrame {
         emailField = new javax.swing.JTextField();
         nameField = new javax.swing.JTextField();
         signupButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        signupTolog = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         confirmPasswordField = new javax.swing.JPasswordField();
 
@@ -161,11 +195,11 @@ public class SignupForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setForeground(new java.awt.Color(160, 160, 178));
-        jLabel4.setText("Already have an account? Signin");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        signupTolog.setForeground(new java.awt.Color(160, 160, 178));
+        signupTolog.setText("Already have an account? Signin");
+        signupTolog.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                signupTologMouseClicked(evt);
             }
         });
 
@@ -187,7 +221,7 @@ public class SignupForm extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(signupTolog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(signupButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(201, 201, 201)
@@ -221,7 +255,7 @@ public class SignupForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(signupButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addComponent(signupTolog)
                 .addContainerGap(89, Short.MAX_VALUE))
         );
 
@@ -272,72 +306,17 @@ public class SignupForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Inside your signup button action method
 
-        String fullName = nameField.getText().trim();
-if (fullName.equals("Full Name")) fullName = "";
-
-String email = emailField.getText().trim();
-String password = String.valueOf(passwordField.getPassword());
-String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
-
-// Empty check
-if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "All fields are required.");
-    return;
-}
-
-// Full name length check
-if (fullName.length() < 4) {
-    JOptionPane.showMessageDialog(this, "Full name must be at least 4 characters long.");
-    return;
-}
-
-// Email format check
-if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
-    JOptionPane.showMessageDialog(this, "Please enter a valid email address.");
-    return;
-}
-
-// Password strength check (at least 8 chars, 1 special character)
-if (!password.matches("^(?=.*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?]).{8,}$")) {
-    JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long and contain at least one special character.");
-    return;
-}
-
-// Confirm password match
-if (!password.equals(confirmPassword)) {
-    JOptionPane.showMessageDialog(this, "Passwords do not match.");
-    return;
-}
-
-// Proceed with signup
-SignupController controller = new SignupController();
-String result = controller.handleSignup(fullName, email, password);
-
-if (result.equals("success")) {
-    JOptionPane.showMessageDialog(this, "Signup successful! Please login.");
-
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new LoginForm().setVisible(true);
-        }
-    });
-
-    this.dispose();  // closes signup form window
-} else {
-    JOptionPane.showMessageDialog(this, result);
-}
-
-
+       
        
 
 
     }//GEN-LAST:event_signupButtonActionPerformed
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void signupTologMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signupTologMouseClicked
         // TODO add your handling code here:
-        new LoginForm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel4MouseClicked
+//        new LoginForm().setVisible(true);
+//        this.dispose();
+    }//GEN-LAST:event_signupTologMouseClicked
 
     /**
      * @param args the command line arguments
@@ -358,11 +337,11 @@ if (result.equals("success")) {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField nameField;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton signupButton;
+    private javax.swing.JLabel signupTolog;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package eventflow;
+package eventflow.views;
 
 /**
  *
@@ -104,9 +104,7 @@ private final int isAdmin;
     }// </editor-fold>//GEN-END:initComponents
 
     private void profileLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileLabelMouseClicked
-        // TODO add your handling code here:
-        new ProfileForm(fullname, email).setVisible(true);  // pass fullname and email to ProfileForm
-        this.dispose();  // close Dashboard window
+       
         
     }//GEN-LAST:event_profileLabelMouseClicked
 

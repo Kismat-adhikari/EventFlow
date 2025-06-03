@@ -10,7 +10,7 @@ public class AuthService {
         User user = null;
 
         try {
-            String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+            String sql = "SELECT * FROM users WHERE email = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setString(2, password);
@@ -18,12 +18,14 @@ public class AuthService {
 
             if (rs.next()) {
                 user = new User(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("password"),
-                    rs.getDouble("balance")
-                );
+                rs.getInt("id"),
+                rs.getString("fullname"),  
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getDouble("balance"),
+                rs.getInt("isAdmin")
+            );
+
             }
 
         } catch (SQLException e) {

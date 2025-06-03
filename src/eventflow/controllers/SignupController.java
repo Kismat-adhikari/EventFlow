@@ -5,9 +5,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import database.DbConnection;
+import eventflow.views.LoginForm;
+import eventflow.views.SignupForm;
 
 public class SignupController {
 
+    private SignupForm view;
+
+    public SignupController(SignupForm view) {
+        this.view = view;
+    }
+
+    // Called when user clicks the label to go to Login
+    public void handleSignupToLoginClick() {
+        new LoginForm().setVisible(true);
+        view.dispose();
+    }
+
+    // Called when user clicks the Sign Up button
     public String handleSignup(String fullName, String email, String password) {
         try (Connection conn = DbConnection.getConnection()) {
 
@@ -21,15 +36,14 @@ public class SignupController {
                 }
             }
 
-            // Insert if email not found
+            // Insert new user
             String sql = "INSERT INTO users (fullname, email, password, balance) VALUES (?, ?, ?, DEFAULT)";
-
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, fullName);
                 stmt.setString(2, email);
                 stmt.setString(3, password);
-
                 int rowsInserted = stmt.executeUpdate();
+
                 return rowsInserted > 0 ? "success" : "Signup failed. Try again.";
             }
 
