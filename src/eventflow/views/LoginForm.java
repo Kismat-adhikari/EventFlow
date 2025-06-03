@@ -254,8 +254,8 @@ emailField.setText("Email Address");
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-        new SignupForm().setVisible(true);
-        this.dispose();
+//        new SignupForm().setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void emailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFieldFocusGained

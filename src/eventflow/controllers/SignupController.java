@@ -24,32 +24,34 @@ public class SignupController {
 
     // Called when user clicks the Sign Up button
     public String handleSignup(String fullName, String email, String password) {
-        try (Connection conn = DbConnection.getConnection()) {
+    try (Connection conn = DbConnection.getConnection()) {
 
-            // Check if email already exists
-            String checkSql = "SELECT id FROM users WHERE email = ?";
-            try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
-                checkStmt.setString(1, email);
-                ResultSet rs = checkStmt.executeQuery();
-                if (rs.next()) {
-                    return "This email is already registered.";
-                }
+        // Check if email already exists
+        String checkSql = "SELECT id FROM users WHERE email = ?";
+        try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+            checkStmt.setString(1, email);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next()) {
+                return "This email is already registered.";
             }
-
-            // Insert new user
-            String sql = "INSERT INTO users (fullname, email, password, balance) VALUES (?, ?, ?, DEFAULT)";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, fullName);
-                stmt.setString(2, email);
-                stmt.setString(3, password);
-                int rowsInserted = stmt.executeUpdate();
-
-                return rowsInserted > 0 ? "success" : "Signup failed. Try again.";
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return "Signup failed due to a database error.";
         }
+
+        // Insert new user with balance = 1000
+        String sql = "INSERT INTO users (fullname, email, password, balance) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, fullName);
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.setDouble(4, 1000.0);  // initial balance
+            int rowsInserted = stmt.executeUpdate();
+
+            return rowsInserted > 0 ? "success" : "Signup failed. Try again.";
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return "Signup failed due to a database error.";
     }
+}
+
 }
