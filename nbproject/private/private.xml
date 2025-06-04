@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/SignupForm.java</file>
             <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/SignupController.java</file>
             <file>file:/C:/Users/kisma/EventFlow/src/eventflow/models/User.java</file>
@@ -13,6 +14,23 @@
             <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/LoginController.java</file>
             <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/AdminLoginController.java</file>
             <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/AdminLogin.java</file>
+=======
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/EventFlow.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/database/DbConnection.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/controllers/SignupController.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/controllers/LoginController.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/controllers/EventController.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/views/ChangePasswordForm.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/views/ProfileForm.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/controllers/DashboardController.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/views/LoginForm.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/views/AdminLogin.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/views/SignupForm.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/dao/UserDao.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/controllers/AdminLoginController.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/views/MyEvents.java</file>
+            <file>file:/C:/Users/ISHAN/Documents/C%20led%20project%202/EventFlow/src/eventflow/views/MyTickets.java</file>
+>>>>>>> 6df5fd0faf1b5abc05d59097fb4fb2f9c7e5b5ce
         </group>
     </open-files>
 </project-private>
