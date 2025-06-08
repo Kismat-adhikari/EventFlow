@@ -3,7 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ACER/OneDrive/Desktop/eventflow/src/eventflow/views/MyTickets.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/SignupForm.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/SignupController.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/models/User.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/dao/UserDao.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/services/AuthService.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/database/DbConnection.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/LoginForm.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/LoginController.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/AdminLoginController.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/AdminLogin.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/Dashboard.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/Create.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/TicketController.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/ProfileController.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/EventController.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/controllers/DashboardController.java</file>
+            <file>file:/C:/Users/kisma/EventFlow/src/eventflow/views/MyTickets.java</file>
         </group>
     </open-files>
 </project-private>
