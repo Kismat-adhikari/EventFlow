@@ -9,16 +9,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/eventflow";
-    private static final String USER = "root";
-    private static final String PASSWORD = "password123"; // Replace with your actual password
+    public static Connection getConnection() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/Eventflow"; // replace with your DB name
+        String user = "root"; // timi haru ko MySQL ko username
+        String password = "password123"; // timiharu ko MySQL ko password
 
-    public static Connection getConnection() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); // Make sure the JAR is in Libraries
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (ClassNotFoundException | SQLException e) {
-            return null;
-        }
+        return DriverManager.getConnection(url, user, password);
     }
 }
+    
