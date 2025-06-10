@@ -21,7 +21,7 @@ public class AuthService {
             rs.getString("email"),
             rs.getString("password"),
             rs.getDouble("balance"),
-            rs.getInt("isAdmin") // ✅ make sure this is passed
+            rs.getInt("is_admin") // ✅ make sure this is passed
         );
 
         }
