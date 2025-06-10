@@ -8,38 +8,11 @@ import eventflow.models.User;
 
 public class Dashboard extends javax.swing.JFrame {
 
-    private final User user;
-
     public Dashboard(User user) {
         initComponents();
-        
-        this.user = user;
-
-
-        // Navigate to MyTickets on label click
-       
-
-        // Navigate to ProfileForm on label click
-        profileLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ProfileForm profile = new ProfileForm(user);
-                profile.setVisible(true);
-                dispose(); // optional: close current dashboard
-            }
-        });
-
-        // Set user information
-        fullNameLabel.setText(user.getFullname());
-
-        if (user.getIsAdmin() == 1) {
-            typeLabel.setText("Admin");
-        } else {
-            typeLabel.setText("User");
-        }
     }
 
-
+ 
 
 
     /**
@@ -56,7 +29,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        myTicketsLabel = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
         jToggleButton4 = new javax.swing.JToggleButton();
         jToggleButton5 = new javax.swing.JToggleButton();
@@ -98,11 +71,16 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton2.setBackground(new java.awt.Color(58, 58, 98));
-        jToggleButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jToggleButton2.setForeground(new java.awt.Color(160, 160, 178));
-        jToggleButton2.setText("My Events");
-        jToggleButton2.setPreferredSize(new java.awt.Dimension(200, 40));
+        myTicketsLabel.setBackground(new java.awt.Color(58, 58, 98));
+        myTicketsLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        myTicketsLabel.setForeground(new java.awt.Color(160, 160, 178));
+        myTicketsLabel.setText("My Events");
+        myTicketsLabel.setPreferredSize(new java.awt.Dimension(200, 40));
+        myTicketsLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myTicketsLabelActionPerformed(evt);
+            }
+        });
 
         jToggleButton3.setBackground(new java.awt.Color(58, 58, 98));
         jToggleButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -147,7 +125,7 @@ public class Dashboard extends javax.swing.JFrame {
                                     .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                                     .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(myTicketsLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addComponent(jToggleButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(30, 30, 30))
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -168,7 +146,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(myTicketsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -229,6 +207,10 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton4ActionPerformed
 
+    private void myTicketsLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTicketsLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myTicketsLabelActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -267,10 +249,16 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
+    private javax.swing.JToggleButton myTicketsLabel;
     // End of variables declaration//GEN-END:variables
+
+    public class myTicketsButton {
+
+        public myTicketsButton() {
+        }
+    }
 }
