@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package eventflow.controllers;
 
 import eventflow.models.User;
@@ -7,8 +11,12 @@ import eventflow.views.MyEvents;
 import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
 
-public class TicketController {
-     public static void goToCreate(User user) {
+/**
+ *
+ * @author kisma
+ */
+public class CreateController {
+        public static void goToCreate(User user) {
         Create createPage = new Create(user);
         createPage.setVisible(true);
     }
