@@ -24,7 +24,6 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
-
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -32,14 +31,12 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="jPanel1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel1">
-
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="62" green="3a" red="3a" type="rgb"/>
@@ -57,7 +54,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel3" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-
               </Group>
           </Group>
         </DimensionLayout>
@@ -293,7 +289,6 @@
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="62" green="3a" red="3a" type="rgb"/>
-
             </Property>
           </Properties>
 
@@ -324,7 +319,6 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanel22" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-
                   </Group>
               </Group>
             </DimensionLayout>
@@ -345,7 +339,6 @@
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="74" green="42" red="42" type="rgb"/>
-
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
@@ -380,7 +373,6 @@
                                       <Component id="jLabel52" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
-
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel57" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel53" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -443,7 +435,7 @@
                 <Container class="javax.swing.JPanel" name="jPanel23">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="cc" red="33" type="rgb"/>
+                      <Color blue="99" green="6e" red="1f" type="rgb"/>
                     </Property>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="cc" red="33" type="rgb"/>
@@ -458,7 +450,6 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLabel3" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
                                   <Component id="jLabel46" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
-
                               </Group>
                               <EmptySpace pref="55" max="32767" attributes="0"/>
                           </Group>
@@ -469,7 +460,6 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -490,7 +480,6 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel3">
-
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Date"/>
                       </Properties>
@@ -628,7 +617,7 @@
             <Component class="javax.swing.JTextField" name="jTextField6">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="99" red="33" type="rgb"/>
+                  <Color blue="a4" green="c8" red="6" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="12" style="1"/>
@@ -646,7 +635,6 @@
             </Component>
           </SubComponents>
         </Container>
-
       </SubComponents>
     </Container>
   </SubComponents>

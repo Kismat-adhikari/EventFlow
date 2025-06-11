@@ -43,14 +43,12 @@ public class MyTickets extends javax.swing.JFrame {
         jToggleButton5 = new javax.swing.JToggleButton();
         jToggleButton6 = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
-
         jPanel21 = new javax.swing.JPanel();
         jLabel43 = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel46 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-
         jTextField5 = new javax.swing.JTextField();
         jLabel47 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
@@ -186,16 +184,14 @@ public class MyTickets extends javax.swing.JFrame {
 
         jPanel21.setBackground(new java.awt.Color(58, 58, 98));
 
-
         jLabel43.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel43.setForeground(java.awt.Color.white);
         jLabel43.setText("MY TICKETS");
 
         jPanel22.setBackground(new java.awt.Color(66, 66, 116));
-
         jPanel22.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel23.setBackground(new java.awt.Color(51, 204, 255));
+        jPanel23.setBackground(new java.awt.Color(31, 110, 153));
         jPanel23.setForeground(new java.awt.Color(51, 204, 255));
 
         jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -212,7 +208,6 @@ public class MyTickets extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-
                     .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
@@ -221,7 +216,6 @@ public class MyTickets extends javax.swing.JFrame {
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jLabel3)
-
                 .addGap(18, 18, 18)
                 .addComponent(jLabel46)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -300,7 +294,6 @@ public class MyTickets extends javax.swing.JFrame {
                             .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel52))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel57)
                             .addComponent(jLabel53))
@@ -345,7 +338,7 @@ public class MyTickets extends javax.swing.JFrame {
             .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTextField6.setBackground(new java.awt.Color(51, 153, 0));
+        jTextField6.setBackground(new java.awt.Color(6, 200, 164));
         jTextField6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jTextField6.setForeground(java.awt.Color.white);
         jTextField6.setText("All Tickets");
@@ -401,7 +394,6 @@ public class MyTickets extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -415,7 +407,6 @@ public class MyTickets extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-
         );
 
         pack();
@@ -472,7 +463,6 @@ public class MyTickets extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
@@ -500,6 +490,5 @@ public class MyTickets extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
-
     // End of variables declaration//GEN-END:variables
 }
