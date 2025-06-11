@@ -192,7 +192,7 @@ public class MyTickets extends javax.swing.JFrame {
         jPanel22.setBackground(new java.awt.Color(66, 66, 116));
         jPanel22.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel23.setBackground(new java.awt.Color(51, 204, 255));
+        jPanel23.setBackground(new java.awt.Color(31, 110, 153));
         jPanel23.setForeground(new java.awt.Color(51, 204, 255));
 
         jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -339,7 +339,7 @@ public class MyTickets extends javax.swing.JFrame {
             .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTextField6.setBackground(new java.awt.Color(51, 153, 0));
+        jTextField6.setBackground(new java.awt.Color(6, 200, 164));
         jTextField6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jTextField6.setForeground(java.awt.Color.white);
         jTextField6.setText("All Tickets");
