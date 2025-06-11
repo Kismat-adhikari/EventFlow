@@ -5,40 +5,26 @@
 package eventflow.views;
 
 import eventflow.models.User;
-
 public class Dashboard extends javax.swing.JFrame {
 
     private final User user;
 
     public Dashboard(User user) {
-        initComponents();
+        initComponents(); // NetBeans GUI setup
         this.user = user;
 
-        // Set user information if those labels still exist
-        // Remove or comment out if your new UI doesn't have them
-        try {
-            fullNameLabel.setText(user.getFullname());
-            if (user.getIsAdmin() == 1) {
-                typeLabel.setText("Admin");
-            } else {
-                typeLabel.setText("User");
+        // ✅ Set label texts
+        jLabel3.setText("Welcome " + user.getFullname());
+        sideLabel.setText(user.getFullname());
+
+        // ✅ Button to navigate to Create.java
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eventflow.controllers.DashboardController.goToCreate(user);
+                dispose(); // Close the Dashboard
             }
-        } catch (Exception e) {
-            System.out.println("Some labels not found in new UI. Skipping setText.");
-        }
-
-        // If you want to re-add navigation, do it like this:
-        // JLabel profileLabel = new JLabel(); // or get it from the UI
-        // profileLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-        //     @Override
-        //     public void mouseClicked(java.awt.event.MouseEvent evt) {
-        //         ProfileForm profile = new ProfileForm(user);
-        //         profile.setVisible(true);
-        //         dispose();
-        //     }
-        // });
+        });
     }
-
 
 
     /**
@@ -49,6 +35,7 @@ public class Dashboard extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         jScrollPane1 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
         jPanel1 = new javax.swing.JPanel();
@@ -61,7 +48,7 @@ public class Dashboard extends javax.swing.JFrame {
         jToggleButton4 = new javax.swing.JToggleButton();
         jToggleButton5 = new javax.swing.JToggleButton();
         jToggleButton6 = new javax.swing.JToggleButton();
-        jLabel2 = new javax.swing.JLabel();
+        sideLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -144,9 +131,9 @@ public class Dashboard extends javax.swing.JFrame {
         jToggleButton6.setForeground(new java.awt.Color(160, 160, 178));
         jToggleButton6.setText("Profile");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Username");
+        sideLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        sideLabel.setForeground(new java.awt.Color(255, 255, 255));
+        sideLabel.setText("username");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -165,7 +152,7 @@ public class Dashboard extends javax.swing.JFrame {
                                     .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addComponent(jToggleButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(30, 30, 30))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(sideLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -193,7 +180,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -408,7 +395,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -427,5 +413,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
+    private javax.swing.JLabel sideLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -155,7 +155,7 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel2" alignment="1" min="-2" pref="152" max="-2" attributes="0"/>
+                                  <Component id="sideLabel" alignment="1" min="-2" pref="152" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -190,7 +190,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jToggleButton6" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace pref="78" max="32767" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="sideLabel" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -304,7 +304,7 @@
                 <Property name="text" type="java.lang.String" value="Profile"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel2">
+            <Component class="javax.swing.JLabel" name="sideLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
@@ -312,7 +312,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Username"/>
+                <Property name="text" type="java.lang.String" value="username"/>
               </Properties>
             </Component>
           </SubComponents>

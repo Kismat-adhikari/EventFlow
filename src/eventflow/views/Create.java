@@ -4,17 +4,20 @@
  */
 package eventflow.views;
 
+import eventflow.models.User;
+
 /**
  *
  * @author kisma
- */
-public class Create extends javax.swing.JFrame {
+ */public class Create extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Create
-     */
-    public Create() {
+    private final User user;
+
+    public Create(User user) {
         initComponents();
+        this.user = user;
+
+        // Use `user` info if needed
     }
 
     /**
