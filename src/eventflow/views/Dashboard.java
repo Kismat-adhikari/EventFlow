@@ -12,33 +12,32 @@ public class Dashboard extends javax.swing.JFrame {
 
     public Dashboard(User user) {
         initComponents();
-        
         this.user = user;
 
-
-        // Navigate to MyTickets on label click
-       
-
-        // Navigate to ProfileForm on label click
-        profileLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ProfileForm profile = new ProfileForm(user);
-                profile.setVisible(true);
-                dispose(); // optional: close current dashboard
+        // Set user information if those labels still exist
+        // Remove or comment out if your new UI doesn't have them
+        try {
+            fullNameLabel.setText(user.getFullname());
+            if (user.getIsAdmin() == 1) {
+                typeLabel.setText("Admin");
+            } else {
+                typeLabel.setText("User");
             }
-        });
-
-        // Set user information
-        fullNameLabel.setText(user.getFullname());
-
-        if (user.getIsAdmin() == 1) {
-            typeLabel.setText("Admin");
-        } else {
-            typeLabel.setText("User");
+        } catch (Exception e) {
+            System.out.println("Some labels not found in new UI. Skipping setText.");
         }
-    }
 
+        // If you want to re-add navigation, do it like this:
+        // JLabel profileLabel = new JLabel(); // or get it from the UI
+        // profileLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        //     @Override
+        //     public void mouseClicked(java.awt.event.MouseEvent evt) {
+        //         ProfileForm profile = new ProfileForm(user);
+        //         profile.setVisible(true);
+        //         dispose();
+        //     }
+        // });
+    }
 
 
 
