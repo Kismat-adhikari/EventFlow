@@ -16,8 +16,45 @@ import eventflow.models.User;
     public Create(User user) {
         initComponents();
         this.user = user;
+        
+        sideLabel.setText(user.getFullname());
+dashBut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToDashboard(user);
+        dispose(); // Close the current window
+    }
+});
+        // ✅ Button to navigate to Create.java
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eventflow.controllers.DashboardController.goToCreate(user);
+                dispose(); // Close the Dashboard
+            }
+        });
+        myEventsbut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToMyEvents(user);
+        dispose(); // Close the Dashboard window
+    }
+});
+        myTicketsbut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToMyTickets(user);
+        dispose(); // Close the Dashboard window
+    }
+});
+        
+        profileBut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToProfile(user);
+        dispose(); // Close the Dashboard window
+    }
+});
 
-        // Use `user` info if needed
+
+
+
+
     }
 
     /**
@@ -33,13 +70,13 @@ import eventflow.models.User;
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        dashBut = new javax.swing.JToggleButton();
+        myEventsbut = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
-        jToggleButton5 = new javax.swing.JToggleButton();
-        jToggleButton6 = new javax.swing.JToggleButton();
-        jLabel2 = new javax.swing.JLabel();
+        myTicketsbut = new javax.swing.JToggleButton();
+        walletBut = new javax.swing.JToggleButton();
+        profileBut = new javax.swing.JToggleButton();
+        sideLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -66,51 +103,51 @@ import eventflow.models.User;
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("EVENTFLOW");
 
-        jToggleButton1.setBackground(new java.awt.Color(58, 58, 98));
-        jToggleButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jToggleButton1.setForeground(new java.awt.Color(160, 160, 178));
-        jToggleButton1.setText("Dashboard");
-        jToggleButton1.setPreferredSize(new java.awt.Dimension(200, 40));
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        dashBut.setBackground(new java.awt.Color(58, 58, 98));
+        dashBut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        dashBut.setForeground(new java.awt.Color(160, 160, 178));
+        dashBut.setText("Dashboard");
+        dashBut.setPreferredSize(new java.awt.Dimension(200, 40));
+        dashBut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                dashButActionPerformed(evt);
             }
         });
 
-        jToggleButton2.setBackground(new java.awt.Color(58, 58, 98));
-        jToggleButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jToggleButton2.setForeground(new java.awt.Color(160, 160, 178));
-        jToggleButton2.setText("My Events");
-        jToggleButton2.setPreferredSize(new java.awt.Dimension(200, 40));
+        myEventsbut.setBackground(new java.awt.Color(58, 58, 98));
+        myEventsbut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        myEventsbut.setForeground(new java.awt.Color(160, 160, 178));
+        myEventsbut.setText("My Events");
+        myEventsbut.setPreferredSize(new java.awt.Dimension(200, 40));
 
         jToggleButton3.setBackground(new java.awt.Color(58, 58, 98));
         jToggleButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jToggleButton3.setForeground(new java.awt.Color(160, 160, 178));
         jToggleButton3.setText("Create");
 
-        jToggleButton4.setBackground(new java.awt.Color(58, 58, 98));
-        jToggleButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jToggleButton4.setForeground(new java.awt.Color(160, 160, 178));
-        jToggleButton4.setText("Tickets");
-        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+        myTicketsbut.setBackground(new java.awt.Color(58, 58, 98));
+        myTicketsbut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        myTicketsbut.setForeground(new java.awt.Color(160, 160, 178));
+        myTicketsbut.setText("Tickets");
+        myTicketsbut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton4ActionPerformed(evt);
+                myTicketsbutActionPerformed(evt);
             }
         });
 
-        jToggleButton5.setBackground(new java.awt.Color(58, 58, 98));
-        jToggleButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jToggleButton5.setForeground(new java.awt.Color(160, 160, 178));
-        jToggleButton5.setText("Wallet");
+        walletBut.setBackground(new java.awt.Color(58, 58, 98));
+        walletBut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        walletBut.setForeground(new java.awt.Color(160, 160, 178));
+        walletBut.setText("Wallet");
 
-        jToggleButton6.setBackground(new java.awt.Color(58, 58, 98));
-        jToggleButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jToggleButton6.setForeground(new java.awt.Color(160, 160, 178));
-        jToggleButton6.setText("Profile");
+        profileBut.setBackground(new java.awt.Color(58, 58, 98));
+        profileBut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        profileBut.setForeground(new java.awt.Color(160, 160, 178));
+        profileBut.setText("Profile");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Username");
+        sideLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        sideLabel.setForeground(new java.awt.Color(255, 255, 255));
+        sideLabel.setText("Username");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -123,15 +160,15 @@ import eventflow.models.User;
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                    .addComponent(walletBut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(myTicketsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                                     .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jToggleButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(myEventsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(profileBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(30, 30, 30))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(sideLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -145,19 +182,19 @@ import eventflow.models.User;
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(myEventsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(myTicketsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(walletBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(profileBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -203,13 +240,13 @@ import eventflow.models.User;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void myTicketsbutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTicketsbutActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_myTicketsbutActionPerformed
 
-    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
+    private void dashButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashButActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton4ActionPerformed
+    }//GEN-LAST:event_dashButActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,16 +284,16 @@ import eventflow.models.User;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton dashBut;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
-    private javax.swing.JToggleButton jToggleButton5;
-    private javax.swing.JToggleButton jToggleButton6;
+    private javax.swing.JToggleButton myEventsbut;
+    private javax.swing.JToggleButton myTicketsbut;
+    private javax.swing.JToggleButton profileBut;
+    private javax.swing.JLabel sideLabel;
+    private javax.swing.JToggleButton walletBut;
     // End of variables declaration//GEN-END:variables
 }
