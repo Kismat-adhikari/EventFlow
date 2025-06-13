@@ -3,12 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package eventflow.views;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 
 
@@ -25,6 +19,7 @@ public class AdminLogin extends javax.swing.JFrame {
      */
     public AdminLogin() {
         initComponents();
+        
         emailField.setText("Email Address");
 
         emailField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -199,35 +194,7 @@ public class AdminLogin extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        String email = emailField.getText();
-String password = new String(passwordField.getPassword());
-
-try {
-    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/eventflow", "root", "password123");
-
-    String sql = "SELECT * FROM users WHERE email = ? AND password = ? AND is_admin = TRUE";
-    PreparedStatement pstmt = conn.prepareStatement(sql);
-    pstmt.setString(1, email);
-    pstmt.setString(2, password);
-
-    ResultSet rs = pstmt.executeQuery();
-
-    if (rs.next()) {
-        JOptionPane.showMessageDialog(null, "Admin login successful");
-        // TODO: Open admin panel here
-    } else {
-        JOptionPane.showMessageDialog(null, "Invalid admin credentials");
-    }
-
-    rs.close();
-    pstmt.close();
-    conn.close();
-} catch (SQLException ex) {
-    ex.printStackTrace();
-    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-}
-
-
+   
         
     }//GEN-LAST:event_loginButtonActionPerformed
 

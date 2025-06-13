@@ -13,7 +13,10 @@ public class MyTickets extends javax.swing.JFrame {
     public MyTickets(User user) {
         initComponents();
         this.user = user;
-         sideLabel.setText(user.getFullname());
+        sideLabel.setText(user.getFullname());
+
+        double balance = eventflow.controllers.TicketController.getUserBalance(user);
+        balanceLabel.setText("Balance: RS" + balance);
 
         // ✅ Button to navigate to Create.java
         jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -374,6 +377,7 @@ public class MyTickets extends javax.swing.JFrame {
         jTextField6.setText("All Tickets");
         jTextField6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        balanceLabel.setForeground(new java.awt.Color(255, 255, 255));
         balanceLabel.setText("Balance..");
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
@@ -391,8 +395,8 @@ public class MyTickets extends javax.swing.JFrame {
                     .addGroup(jPanel21Layout.createSequentialGroup()
                         .addComponent(jLabel43)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(balanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41))))
+                        .addComponent(balanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,7 +409,7 @@ public class MyTickets extends javax.swing.JFrame {
                 .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

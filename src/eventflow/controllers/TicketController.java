@@ -28,4 +28,10 @@ public static void goToProfile(User user) {
         Dashboard dashboardPage = new Dashboard(user);
         dashboardPage.setVisible(true);
     }
+ 
+ 
+ public static double getUserBalance(User user) {
+    return new eventflow.dao.UserDAO().getBalanceById(user.getId());
+}
+
 }

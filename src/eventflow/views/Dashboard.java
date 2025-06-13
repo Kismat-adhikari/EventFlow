@@ -17,6 +17,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3.setText("Welcome " + user.getFullname());
         sideLabel.setText(user.getFullname());
 dashBut.addActionListener(new java.awt.event.ActionListener() {
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         eventflow.controllers.DashboardController.goToDashboard(user);
         dispose(); // Close the current window
@@ -25,6 +26,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
 
         // ✅ Button to navigate to Create.java
         jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eventflow.controllers.DashboardController.goToCreate(user);
                 dispose(); // Close the Dashboard
