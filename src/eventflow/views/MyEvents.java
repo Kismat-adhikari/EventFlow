@@ -74,27 +74,28 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
         jPanel11 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        aEvents = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        income = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        eventDate = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        peoples = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        totalEvent = new javax.swing.JLabel();
+        tEvents = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -220,9 +221,9 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
         jLabel5.setForeground(new java.awt.Color(160, 160, 178));
         jLabel5.setText("Active Events");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("3");
+        aEvents.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        aEvents.setForeground(new java.awt.Color(255, 255, 255));
+        aEvents.setText("Number");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -232,7 +233,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel9))
+                    .addComponent(aEvents))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -241,7 +242,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addContainerGap()
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jLabel9)
+                .addComponent(aEvents)
                 .addContainerGap())
         );
 
@@ -250,9 +251,9 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
         jLabel6.setForeground(new java.awt.Color(160, 160, 178));
         jLabel6.setText("Total Revenue");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("2,00,000");
+        income.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        income.setForeground(new java.awt.Color(255, 255, 255));
+        income.setText("Revenues");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -261,7 +262,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
+                    .addComponent(income)
                     .addComponent(jLabel6))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
@@ -271,7 +272,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addContainerGap(10, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
+                .addComponent(income)
                 .addContainerGap())
         );
 
@@ -284,8 +285,8 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
         jLabel13.setForeground(new java.awt.Color(160, 160, 178));
         jLabel13.setText("Description of the Event");
 
-        jLabel14.setForeground(new java.awt.Color(160, 160, 178));
-        jLabel14.setText("Date - Time");
+        eventDate.setForeground(new java.awt.Color(160, 160, 178));
+        eventDate.setText("Date ");
 
         jLabel15.setForeground(new java.awt.Color(51, 255, 153));
         jLabel15.setText("Price");
@@ -320,6 +321,9 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addGap(46, 46, 46))
         );
 
+        jLabel2.setForeground(new java.awt.Color(160, 160, 178));
+        jLabel2.setText("Time");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -329,7 +333,10 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(jLabel14)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(eventDate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
                             .addComponent(jLabel17)
@@ -348,7 +355,9 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eventDate)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -363,9 +372,9 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
         jLabel7.setForeground(new java.awt.Color(160, 160, 178));
         jLabel7.setText("Total Attendees");
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("5,000");
+        peoples.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        peoples.setForeground(new java.awt.Color(255, 255, 255));
+        peoples.setText("Meeters");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -376,7 +385,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addComponent(jLabel7)
                 .addContainerGap(43, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jLabel11)
+                .addComponent(peoples)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -385,7 +394,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jLabel11)
+                .addComponent(peoples)
                 .addContainerGap())
         );
 
@@ -407,9 +416,9 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
         jLabel4.setForeground(new java.awt.Color(160, 160, 178));
         jLabel4.setText("Total Events");
 
-        totalEvent.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        totalEvent.setForeground(new java.awt.Color(255, 255, 255));
-        totalEvent.setText("20");
+        tEvents.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        tEvents.setForeground(new java.awt.Color(255, 255, 255));
+        tEvents.setText("Number");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -419,7 +428,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(totalEvent))
+                    .addComponent(tEvents))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -428,7 +437,7 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(totalEvent)
+                .addComponent(tEvents)
                 .addContainerGap())
         );
 
@@ -554,24 +563,24 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel aEvents;
     private javax.swing.JToggleButton dashBut;
+    private javax.swing.JLabel eventDate;
+    private javax.swing.JLabel income;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
@@ -585,9 +594,10 @@ dashBut.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton myEventsbut;
     private javax.swing.JToggleButton myTicketsbut;
+    private javax.swing.JLabel peoples;
     private javax.swing.JToggleButton profileBut;
     private javax.swing.JLabel sideLabel;
-    private javax.swing.JLabel totalEvent;
+    private javax.swing.JLabel tEvents;
     private javax.swing.JToggleButton walletBut;
     // End of variables declaration//GEN-END:variables
 }
