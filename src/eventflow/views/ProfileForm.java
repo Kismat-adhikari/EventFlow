@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 package eventflow.views;
 
 import eventflow.models.User;
@@ -11,23 +10,50 @@ import eventflow.models.User;
  *
  * @author kisma
  */
-
 public class ProfileForm extends javax.swing.JFrame {
+
     private final User user;
 
     public ProfileForm(User user) {
         initComponents();
-        
         this.user = user;
 
-        fullNameLabel.setText(user.getFullname());
-        emailLabel.setText(user.getEmail());
+        
+        sideLabel.setText(user.getFullname());
 
-        changePasswordButton.addActionListener(evt -> {
-            ChangePasswordForm cpf = new ChangePasswordForm(user);
-            cpf.setVisible(true);
-            dispose(); // optionally close profile
+        // ✅ Button to navigate to Create.java
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eventflow.controllers.DashboardController.goToCreate(user);
+                dispose(); // Close the Dashboard
+            }
         });
+        myEventsbut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToMyEvents(user);
+        dispose(); // Close the Dashboard window
+    }
+});
+        myTicketsbut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToMyTickets(user);
+        dispose(); // Close the Dashboard window
+    }
+});
+        
+        profileBut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToProfile(user);
+        dispose(); // Close the Dashboard window
+    }
+});
+dashBut.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eventflow.controllers.DashboardController.goToDashboard(user);
+        dispose(); // Close the current window
+    }
+});
+        // You can now use user.getEmail(), user.getFullname(), etc.
     }
 
 
@@ -95,19 +121,42 @@ public class ProfileForm extends javax.swing.JFrame {
         jTextField33 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(710, 512));
-        setResizable(false);
 
-        fullNameLabel.setText("Loading...");
+        jPanel1.setBackground(new java.awt.Color(58, 58, 98));
 
-        emailLabel.setText("Loading...");
+        jPanel6.setBackground(new java.awt.Color(52, 52, 86));
 
-        jLabel1.setText("Email:");
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("EVENTFLOW");
 
-        jLabel2.setText("Full Name:");
+        dashBut.setBackground(new java.awt.Color(58, 58, 98));
+        dashBut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        dashBut.setForeground(new java.awt.Color(160, 160, 178));
+        dashBut.setText("Dashboard");
+        dashBut.setPreferredSize(new java.awt.Dimension(200, 40));
+        dashBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashButjToggleButton1ActionPerformed(evt);
+            }
+        });
 
-        changePasswordButton.setText("Change Password");
-        changePasswordButton.addActionListener(new java.awt.event.ActionListener() {
+        myEventsbut.setBackground(new java.awt.Color(58, 58, 98));
+        myEventsbut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        myEventsbut.setForeground(new java.awt.Color(160, 160, 178));
+        myEventsbut.setText("My Events");
+        myEventsbut.setPreferredSize(new java.awt.Dimension(200, 40));
+
+        jToggleButton3.setBackground(new java.awt.Color(58, 58, 98));
+        jToggleButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jToggleButton3.setForeground(new java.awt.Color(160, 160, 178));
+        jToggleButton3.setText("Create");
+
+        myTicketsbut.setBackground(new java.awt.Color(58, 58, 98));
+        myTicketsbut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        myTicketsbut.setForeground(new java.awt.Color(160, 160, 178));
+        myTicketsbut.setText("Tickets");
+        myTicketsbut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myTicketsbutjToggleButton4ActionPerformed(evt);
             }
@@ -845,6 +894,7 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -886,6 +936,7 @@ public class ProfileForm extends javax.swing.JFrame {
                                 .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
+
                 .addContainerGap())
         );
 
@@ -893,44 +944,31 @@ public class ProfileForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(78, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fullNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(changePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 580, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(99, 99, 99)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(emailLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(fullNameLabel))
-                .addGap(67, 67, 67)
-                .addComponent(changePasswordButton)
-                .addContainerGap(73, Short.MAX_VALUE))
+            .addGap(0, 415, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void changePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordButtonActionPerformed
+    private void dashButjToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashButjToggleButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dashButjToggleButton1ActionPerformed
+
+    private void myTicketsbutjToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTicketsbutjToggleButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dashButjToggleButton1ActionPerformed
 
@@ -1070,6 +1108,7 @@ public class ProfileForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField33ActionPerformed
 
+
     /**
      * @param args the command line arguments
      */
@@ -1153,6 +1192,7 @@ public class ProfileForm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton myEventsbut;
     private javax.swing.JToggleButton myTicketsbut;

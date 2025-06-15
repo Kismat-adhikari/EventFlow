@@ -15,7 +15,7 @@ import eventflow.views.ProfileForm;
  *
  * @author kisma
  */
-public class ProfileController {
+public class MyEventsController {
         public static void goToCreate(User user) {
         Create createPage = new Create(user);
         createPage.setVisible(true);
