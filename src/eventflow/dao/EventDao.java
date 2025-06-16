@@ -1,15 +1,68 @@
 package eventflow.dao;
 
+import database.DbConnection;
+import eventflow.models.Event;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventDao {
+    private Connection getConnection() throws SQLException {
+        return DbConnection.getConnection();
+    }
 
-    private final Connection conn;
+    public boolean createEvent(Event event) {
+        String sql = "INSERT INTO events (eventTitle, eventDesc, eventTickets, eventPrice, eventDate, eventTime, eventLocation, user_id) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public EventDao(Connection conn) {
-        this.conn = conn;
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, event.getEventTitle());
+            stmt.setString(2, event.getEventDesc());
+            stmt.setInt(3, event.getEventTickets());
+            stmt.setDouble(4, event.getEventPrice());
+            stmt.setString(5, event.getEventDate());
+            stmt.setString(6, event.getEventTime());
+            stmt.setString(7, event.getEventLocation());
+            stmt.setInt(8, event.getUserId());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<EventWithUser> getAllEventsWithUploader() {
+        List<EventWithUser> list = new ArrayList<>();
+
+        String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, e.eventDate, e.eventTime, e.eventLocation, u.fullname " +
+                     "FROM events e " +
+                     "JOIN users u ON e.user_id = u.id";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                EventWithUser e = new EventWithUser();
+                e.setId(rs.getInt("id"));
+                e.setEventTitle(rs.getString("eventTitle"));
+                e.setEventDesc(rs.getString("eventDesc"));
+                e.setEventTickets(rs.getInt("eventTickets"));
+                e.setEventPrice(rs.getDouble("eventPrice"));
+                e.setEventDate(rs.getString("eventDate"));
+                e.setEventTime(rs.getString("eventTime"));
+                e.setEventLocation(rs.getString("eventLocation"));
+                e.setUploaderFullname(rs.getString("fullname"));
+                list.add(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public static class EventWithUser {
@@ -51,32 +104,5 @@ public class EventDao {
 
         public String getUploaderFullname() { return uploaderFullname; }
         public void setUploaderFullname(String uploaderFullname) { this.uploaderFullname = uploaderFullname; }
-    }
-
-    public List<EventWithUser> getAllEventsWithUploader() throws SQLException {
-        List<EventWithUser> list = new ArrayList<>();
-
-        String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, e.eventDate, e.eventTime, e.eventLocation, u.fullname " +
-                     "FROM events e " +
-                     "JOIN users u ON e.user_id = u.id";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                EventWithUser e = new EventWithUser();
-                e.setId(rs.getInt("id"));
-                e.setEventTitle(rs.getString("eventTitle"));
-                e.setEventDesc(rs.getString("eventDesc"));
-                e.setEventTickets(rs.getInt("eventTickets"));
-                e.setEventPrice(rs.getDouble("eventPrice"));
-                e.setEventDate(rs.getString("eventDate"));
-                e.setEventTime(rs.getString("eventTime"));
-                e.setEventLocation(rs.getString("eventLocation"));
-                e.setUploaderFullname(rs.getString("fullname"));
-                list.add(e);
-            }
-        }
-        return list;
     }
 }

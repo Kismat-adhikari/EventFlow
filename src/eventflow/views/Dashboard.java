@@ -49,7 +49,53 @@ public class Dashboard extends javax.swing.JFrame {
         });
     }
 
-   
+    public void loadEvents(List<EventWithUser> events) {
+        // Clear existing panels if any
+        eventsPanel.removeAll();
+        eventsPanel.setLayout(new BoxLayout(eventsPanel, BoxLayout.Y_AXIS));
+
+        for (EventWithUser event : events) {
+            JPanel eventCard = new JPanel();
+            eventCard.setLayout(new BoxLayout(eventCard, BoxLayout.Y_AXIS));
+            eventCard.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            eventCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+            eventCard.setBackground(Color.WHITE);
+
+            // Title
+            JLabel titleLabel = new JLabel(event.getEventTitle());
+            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            
+            // Description
+            JLabel descLabel = new JLabel("<html><body style='width: 300px'>" + event.getEventDesc() + "</html>");
+            
+            // Details
+            JLabel dateTimeLabel = new JLabel("Date: " + event.getEventDate() + " | Time: " + event.getEventTime());
+            JLabel locationLabel = new JLabel("Location: " + event.getEventLocation());
+            JLabel ticketsLabel = new JLabel(String.format("Tickets Available: %d | Price: $%.2f", 
+                event.getEventTickets(), event.getEventPrice()));
+            JLabel uploaderLabel = new JLabel("Posted by: " + event.getUploaderFullname());
+
+            // Add components
+            eventCard.add(Box.createRigidArea(new Dimension(0, 10)));
+            eventCard.add(titleLabel);
+            eventCard.add(Box.createRigidArea(new Dimension(0, 5)));
+            eventCard.add(descLabel);
+            eventCard.add(Box.createRigidArea(new Dimension(0, 5)));
+            eventCard.add(dateTimeLabel);
+            eventCard.add(locationLabel);
+            eventCard.add(ticketsLabel);
+            eventCard.add(uploaderLabel);
+            eventCard.add(Box.createRigidArea(new Dimension(0, 10)));
+
+            // Add some space between cards
+            eventsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+            eventsPanel.add(eventCard);
+        }
+
+        // Refresh the panel
+        eventsPanel.revalidate();
+        eventsPanel.repaint();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,7 +155,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
+            .addGap(0, 327, Short.MAX_VALUE)
         );
 
         jPanel4.setBackground(new java.awt.Color(52, 52, 86));
@@ -348,7 +394,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -395,6 +441,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void myTicketsbutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTicketsbutActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_myTicketsbutActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
