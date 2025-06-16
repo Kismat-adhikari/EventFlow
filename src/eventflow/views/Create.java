@@ -349,7 +349,7 @@ public class Create extends javax.swing.JFrame {
         jLabel6.setText("Event Title");
 
         eventDesc.setBackground(new java.awt.Color(85, 85, 131));
-        eventDesc.setForeground(new java.awt.Color(153, 153, 153));
+        eventDesc.setForeground(new java.awt.Color(255, 255, 255));
         eventDesc.setText("Write your Event Description.");
         eventDesc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -361,14 +361,14 @@ public class Create extends javax.swing.JFrame {
         jLabel7.setText("Event Description ");
 
         eventTickets.setBackground(new java.awt.Color(85, 85, 131));
-        eventTickets.setForeground(new java.awt.Color(153, 153, 153));
+        eventTickets.setForeground(new java.awt.Color(255, 255, 255));
         eventTickets.setText("Tickets");
 
         jLabel8.setForeground(new java.awt.Color(123, 115, 145));
         jLabel8.setText("Total TIckets");
 
         eventTitle.setBackground(new java.awt.Color(85, 85, 131));
-        eventTitle.setForeground(new java.awt.Color(153, 153, 153));
+        eventTitle.setForeground(new java.awt.Color(255, 255, 255));
         eventTitle.setText("Write your Event Title.");
         eventTitle.setCaretColor(new java.awt.Color(45, 156, 219));
         eventTitle.setDisabledTextColor(new java.awt.Color(45, 156, 219));
@@ -377,7 +377,7 @@ public class Create extends javax.swing.JFrame {
         jLabel9.setText("Ticket Price ");
 
         eventLocation.setBackground(new java.awt.Color(85, 85, 131));
-        eventLocation.setForeground(new java.awt.Color(153, 153, 153));
+        eventLocation.setForeground(new java.awt.Color(255, 255, 255));
         eventLocation.setText("Location");
         eventLocation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -389,21 +389,21 @@ public class Create extends javax.swing.JFrame {
         jLabel10.setText("Event Date");
 
         eventPrice.setBackground(new java.awt.Color(85, 85, 131));
-        eventPrice.setForeground(new java.awt.Color(153, 153, 153));
+        eventPrice.setForeground(new java.awt.Color(255, 255, 255));
         eventPrice.setText("Price");
 
         jLabel11.setForeground(new java.awt.Color(123, 115, 145));
         jLabel11.setText("Event Location");
 
         eventDate.setBackground(new java.awt.Color(85, 85, 131));
-        eventDate.setForeground(new java.awt.Color(153, 153, 153));
+        eventDate.setForeground(new java.awt.Color(255, 255, 255));
         eventDate.setText("MM/DD/YY");
 
         jLabel12.setForeground(new java.awt.Color(123, 115, 145));
         jLabel12.setText("Event Time");
 
         eventTime.setBackground(new java.awt.Color(85, 85, 131));
-        eventTime.setForeground(new java.awt.Color(153, 153, 153));
+        eventTime.setForeground(new java.awt.Color(255, 255, 255));
         eventTime.setText("HH:MM");
 
         toggleCreate.setBackground(new java.awt.Color(0, 200, 166));
