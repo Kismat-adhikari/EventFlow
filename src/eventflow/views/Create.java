@@ -96,30 +96,7 @@ public class Create extends javax.swing.JFrame {
         });
 
         // Navigation buttons wiring
-        dashBut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToDashboard(user);
-            dispose();
-        });
-
-        jToggleButton3.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToCreate(user);
-            dispose();
-        });
-
-        myEventsbut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToMyEvents(user);
-            dispose();
-        });
-
-        myTicketsbut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToMyTickets(user);
-            dispose();
-        });
-
-        profileBut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToProfile(user);
-            dispose();
-        });
+       
 
         // ====== Setup placeholder and input validation ======
 
