@@ -365,7 +365,7 @@ public class Create extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(123, 115, 145));
         jLabel7.setText("Event Description ");
 
-        eventTickets.setBackground(new java.awt.Color(85, 85, 131));
+        eventTickets.setBackground(new java.awt.Color(66, 66, 116));
         eventTickets.setForeground(new java.awt.Color(255, 255, 255));
         eventTickets.setText("Tickets");
 
@@ -381,7 +381,7 @@ public class Create extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(123, 115, 145));
         jLabel9.setText("Ticket Price ");
 
-        eventLocation.setBackground(new java.awt.Color(85, 85, 131));
+        eventLocation.setBackground(new java.awt.Color(66, 66, 116));
         eventLocation.setForeground(new java.awt.Color(255, 255, 255));
         eventLocation.setText("Location");
         eventLocation.addActionListener(new java.awt.event.ActionListener() {
@@ -393,21 +393,21 @@ public class Create extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(123, 115, 145));
         jLabel10.setText("Event Date");
 
-        eventPrice.setBackground(new java.awt.Color(85, 85, 131));
+        eventPrice.setBackground(new java.awt.Color(66, 66, 116));
         eventPrice.setForeground(new java.awt.Color(255, 255, 255));
         eventPrice.setText("Price");
 
         jLabel11.setForeground(new java.awt.Color(123, 115, 145));
         jLabel11.setText("Event Location");
 
-        eventDate.setBackground(new java.awt.Color(85, 85, 131));
+        eventDate.setBackground(new java.awt.Color(66, 66, 116));
         eventDate.setForeground(new java.awt.Color(255, 255, 255));
         eventDate.setText("MM/DD/YY");
 
         jLabel12.setForeground(new java.awt.Color(123, 115, 145));
         jLabel12.setText("Event Time");
 
-        eventTime.setBackground(new java.awt.Color(85, 85, 131));
+        eventTime.setBackground(new java.awt.Color(66, 66, 116));
         eventTime.setForeground(new java.awt.Color(255, 255, 255));
         eventTime.setText("HH:MM");
 
