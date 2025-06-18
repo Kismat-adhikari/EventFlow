@@ -557,12 +557,7 @@ public class MyEvents extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MyEvents().setVisible(true);
-            }
-        });
-    }
+           }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aEvents;

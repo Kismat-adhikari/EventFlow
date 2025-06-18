@@ -10,114 +10,10 @@
  */
 package eventflow.views;
 
-import javax.swing.*;
-import java.sql.*;
 
 public class ChangePasswordForm extends javax.swing.JFrame {
-    private final int userId;
 
-    public ChangePasswordForm(int userId) {
-        this.userId = userId;
-        initComponents();
-
-        // Placeholder logic
-        passwordField.setText("Password");
-        passwordField.setEchoChar((char) 0);
-        newPasswordField.setText("New Password");
-        newPasswordField.setEchoChar((char) 0);
-        confirmNewPasswordField.setText("Confirm New Password");
-        confirmNewPasswordField.setEchoChar((char) 0);
-
-        addFocusEvents();
-
-        // 🔐 Change Password Button Logic
-        changePasswordButton.addActionListener(evt -> {
-            String currentPassword = String.valueOf(passwordField.getPassword()).trim();
-            String newPassword = String.valueOf(newPasswordField.getPassword()).trim();
-            String confirmPassword = String.valueOf(confirmNewPasswordField.getPassword()).trim();
-
-            if (currentPassword.equals("") || newPassword.equals("") || confirmPassword.equals("")) {
-                JOptionPane.showMessageDialog(this, "All fields are required.");
-                return;
-            }
-
-            if (!newPassword.equals(confirmPassword)) {
-                JOptionPane.showMessageDialog(this, "New passwords do not match.");
-                return;
-            }
-
-            if (!checkCurrentPassword(currentPassword)) {
-                JOptionPane.showMessageDialog(this, "Current password is incorrect.");
-                return;
-            }
-
-            if (updatePassword(newPassword)) {
-                JOptionPane.showMessageDialog(this, "Password changed successfully.");
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to change password.");
-            }
-        });
-    }
-
-    // 👉 Checks current password from DB
-    private boolean checkCurrentPassword(String currentPassword) {
-        try (Connection conn = DbConnection.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT password FROM users WHERE id = ?");
-            stmt.setInt(1, userId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                String storedPassword = rs.getString("password");
-                return storedPassword.equals(currentPassword); // add hashing if used
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // 👉 Updates the password in DB
-    private boolean updatePassword(String newPassword) {
-        try (Connection conn = DbConnection.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE users SET password = ? WHERE id = ?");
-            stmt.setString(1, newPassword); // add hashing if needed
-            stmt.setInt(2, userId);
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // 🧠 Placeholder behavior setup
-    private void addFocusEvents() {
-        setupPlaceholder(passwordField, "Password");
-        setupPlaceholder(newPasswordField, "New Password");
-        setupPlaceholder(confirmNewPasswordField, "Confirm New Password");
-    }
-
-    private void setupPlaceholder(JPasswordField field, String placeholder) {
-        field.setText(placeholder);
-        field.setEchoChar((char) 0);
-        field.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (String.valueOf(field.getPassword()).equals(placeholder)) {
-                    field.setText("");
-                    field.setEchoChar('•');
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (field.getPassword().length == 0) {
-                    field.setText(placeholder);
-                    field.setEchoChar((char) 0);
-                }
-            }
-        });
-    }
-
+    
 
 
     /**
@@ -303,11 +199,7 @@ public class ChangePasswordForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ChangePasswordForm().setVisible(true);
-            }
-        });
+      
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
