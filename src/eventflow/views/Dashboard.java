@@ -50,51 +50,7 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     public void loadEvents(List<EventWithUser> events) {
-        // Clear existing panels if any
-        eventsPanel.removeAll();
-        eventsPanel.setLayout(new BoxLayout(eventsPanel, BoxLayout.Y_AXIS));
-
-        for (EventWithUser event : events) {
-            JPanel eventCard = new JPanel();
-            eventCard.setLayout(new BoxLayout(eventCard, BoxLayout.Y_AXIS));
-            eventCard.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-            eventCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
-            eventCard.setBackground(Color.WHITE);
-
-            // Title
-            JLabel titleLabel = new JLabel(event.getEventTitle());
-            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            
-            // Description
-            JLabel descLabel = new JLabel("<html><body style='width: 300px'>" + event.getEventDesc() + "</html>");
-            
-            // Details
-            JLabel dateTimeLabel = new JLabel("Date: " + event.getEventDate() + " | Time: " + event.getEventTime());
-            JLabel locationLabel = new JLabel("Location: " + event.getEventLocation());
-            JLabel ticketsLabel = new JLabel(String.format("Tickets Available: %d | Price: $%.2f", 
-                event.getEventTickets(), event.getEventPrice()));
-            JLabel uploaderLabel = new JLabel("Posted by: " + event.getUploaderFullname());
-
-            // Add components
-            eventCard.add(Box.createRigidArea(new Dimension(0, 10)));
-            eventCard.add(titleLabel);
-            eventCard.add(Box.createRigidArea(new Dimension(0, 5)));
-            eventCard.add(descLabel);
-            eventCard.add(Box.createRigidArea(new Dimension(0, 5)));
-            eventCard.add(dateTimeLabel);
-            eventCard.add(locationLabel);
-            eventCard.add(ticketsLabel);
-            eventCard.add(uploaderLabel);
-            eventCard.add(Box.createRigidArea(new Dimension(0, 10)));
-
-            // Add some space between cards
-            eventsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-            eventsPanel.add(eventCard);
-        }
-
-        // Refresh the panel
-        eventsPanel.revalidate();
-        eventsPanel.repaint();
+       
     }
 
     /**
