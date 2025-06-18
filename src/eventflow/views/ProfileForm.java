@@ -27,36 +27,36 @@ public class ProfileForm extends javax.swing.JFrame {
         jTextField1.setText("Profile Information");
 
         // ✅ Button to navigate to Create.java
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventflow.controllers.DashboardController.goToCreate(user);
-                dispose(); // Close the Dashboard
-            }
-        });
-        myEventsbut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventflow.controllers.DashboardController.goToMyEvents(user);
-                dispose(); // Close the Dashboard window
-            }
-        });
-        myTicketsbut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventflow.controllers.DashboardController.goToMyTickets(user);
-                dispose(); // Close the Dashboard window
-            }
+       sideLabel.setText(user.getFullname());
+
+        dashBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToDashboard(user);
+            dispose();
         });
 
-        profileBut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventflow.controllers.DashboardController.goToProfile(user);
-                dispose(); // Close the Dashboard window
-            }
+        jToggleButton3.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToCreate(user);
+            dispose();
         });
-        dashBut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventflow.controllers.DashboardController.goToDashboard(user);
-                dispose(); // Close the current window
-            }
+
+        myEventsbut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToMyEvents(user);
+            dispose();
+        });
+
+        myTicketsbut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToMyTickets(user);
+            dispose();
+        });
+
+        profileBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToProfile(user);
+            dispose();
+        });
+        
+        walletBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToWallet(user);
+            dispose();
         });
         // You can now use user.getEmail(), user.getFullname(), etc.
     }

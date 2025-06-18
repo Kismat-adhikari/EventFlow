@@ -15,42 +15,41 @@ public class MyTickets extends javax.swing.JFrame {
         this.user = user;
         sideLabel.setText(user.getFullname());
 
+        dashBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToDashboard(user);
+            dispose();
+        });
+
+        jToggleButton3.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToCreate(user);
+            dispose();
+        });
+
+        myEventsbut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToMyEvents(user);
+            dispose();
+        });
+
+        myTicketsbut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToMyTickets(user);
+            dispose();
+        });
+
+        profileBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToProfile(user);
+            dispose();
+        });
+        
+        walletBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToWallet(user);
+            dispose();
+        });
+
         double balance = eventflow.controllers.TicketController.getUserBalance(user);
         balanceLabel.setText("Balance: RS" + balance);
 
         // ✅ Button to navigate to Create.java
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventflow.controllers.DashboardController.goToCreate(user);
-                dispose(); // Close the Dashboard
-            }
-        });
-        myEventsbut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToMyEvents(user);
-        dispose(); // Close the Dashboard window
-    }
-});
-        myTicketsbut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToMyTickets(user);
-        dispose(); // Close the Dashboard window
-    }
-});
         
-        profileBut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToProfile(user);
-        dispose(); // Close the Dashboard window
-    }
-});
-        
-        dashBut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToDashboard(user);
-        dispose(); // Close the current window
-    }
-});
         // You can now use user.getFullname(), user.getId(), etc.
     }
 
