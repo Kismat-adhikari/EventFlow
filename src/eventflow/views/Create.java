@@ -308,13 +308,13 @@ public class Create extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Create New Event ");
 
-        roundedPanelcreate.setBackground(new java.awt.Color(67, 66, 116));
+        roundedPanelcreate.setBackground(new java.awt.Color(58, 58, 98));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Event Details ");
 
-        jPanel2.setBackground(new java.awt.Color(67, 66, 116));
+        jPanel2.setBackground(new java.awt.Color(66, 66, 116));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(45, 156, 219), null));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -353,7 +353,7 @@ public class Create extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(123, 115, 145));
         jLabel6.setText("Event Title");
 
-        eventDesc.setBackground(new java.awt.Color(85, 85, 131));
+        eventDesc.setBackground(new java.awt.Color(66, 66, 116));
         eventDesc.setForeground(new java.awt.Color(255, 255, 255));
         eventDesc.setText("Write your Event Description.");
         eventDesc.addActionListener(new java.awt.event.ActionListener() {
@@ -372,7 +372,7 @@ public class Create extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(123, 115, 145));
         jLabel8.setText("Total TIckets");
 
-        eventTitle.setBackground(new java.awt.Color(85, 85, 131));
+        eventTitle.setBackground(new java.awt.Color(66, 66, 116));
         eventTitle.setForeground(new java.awt.Color(255, 255, 255));
         eventTitle.setText("Write your Event Title.");
         eventTitle.setCaretColor(new java.awt.Color(45, 156, 219));
