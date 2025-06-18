@@ -179,6 +179,7 @@ emailField.setText("Email Address");
             }
         });
 
+        jToggleButton1.setBackground(new java.awt.Color(1, 200, 167));
         jToggleButton1.setText("Show");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

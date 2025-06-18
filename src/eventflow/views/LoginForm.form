@@ -212,6 +212,9 @@
             </Component>
             <Component class="javax.swing.JToggleButton" name="jToggleButton1">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="a7" green="c8" red="1" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Show"/>
               </Properties>
             </Component>
