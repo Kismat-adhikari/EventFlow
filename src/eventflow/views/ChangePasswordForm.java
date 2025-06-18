@@ -10,11 +10,8 @@
  */
 package eventflow.views;
 
-import javax.swing.*;
-import java.sql.*;
 
 public class ChangePasswordForm extends javax.swing.JFrame {
-    private final int userId;
 
     
 
