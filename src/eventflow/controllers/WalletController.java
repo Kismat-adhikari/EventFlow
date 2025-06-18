@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package eventflow.controllers;
 
 import eventflow.models.User;
@@ -8,7 +12,11 @@ import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
 import eventflow.views.WalletForm;
 
-public class TicketController {
+/**
+ *
+ * @author User
+ */
+public class WalletController {
     
     public static void goToDashboard(User user){
         
@@ -39,10 +47,5 @@ public class TicketController {
     WalletForm walletPage = new WalletForm(user);
     walletPage.setVisible(true);
 }
- 
- 
- public static double getUserBalance(User user) {
-    return new eventflow.dao.UserDAO().getBalanceById(user.getId());
-}
-
+    
 }
