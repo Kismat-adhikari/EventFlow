@@ -4,15 +4,20 @@
  */
 package eventflow.views;
 
-/**
- *
- * @author ISHAN
- */
+import eventflow.models.User;
+
 public class WalletForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form WalletForm
-     */
+    private User user;  // save user for use inside WalletForm
+
+    public WalletForm(User user) {
+        initComponents();
+        this.user = user;
+
+        // You can use user info here, e.g.
+        // jLabelUserName.setText(user.getFullname());
+    }
+
     public WalletForm() {
         initComponents();
     }

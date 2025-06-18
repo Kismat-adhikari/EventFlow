@@ -8,6 +8,7 @@ import eventflow.views.Dashboard;
 import eventflow.views.MyEvents;
 import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
+import eventflow.views.WalletForm;
 import java.util.List;
 
 public class DashboardController {
@@ -51,4 +52,10 @@ public class DashboardController {
         ProfileForm profilePage = new ProfileForm(user);
         profilePage.setVisible(true);
     }
+    
+    public static void goToWallet(User user) {
+    WalletForm walletPage = new WalletForm(user);
+    walletPage.setVisible(true);
+}
+
 }

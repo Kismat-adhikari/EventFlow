@@ -7,8 +7,6 @@ package eventflow.views;
 import eventflow.models.User;
 import eventflow.dao.EventDao.EventWithUser;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 public class Dashboard extends javax.swing.JFrame {
@@ -45,6 +43,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         profileBut.addActionListener(evt -> {
             eventflow.controllers.DashboardController.goToProfile(user);
+            dispose();
+        });
+        
+        walletBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToWallet(user);
             dispose();
         });
     }
