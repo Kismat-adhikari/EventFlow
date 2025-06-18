@@ -17,5 +17,16 @@ public class AuthService {
     public boolean signup(User user) {
         return userDAO.createUser(user);
     }
-}
     
+    public boolean changePassword(int userId, String oldPass, String newPass) {
+    User user = userDAO.getUserById(userId);
+    if (user == null) return false;
+
+    if (!user.getPassword().equals(oldPass)) {
+        return false; // old password doesn't match
+    }
+
+    return userDAO.updatePassword(userId, newPass); // update in DB
+}
+
+}

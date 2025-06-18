@@ -1,64 +1,62 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package eventflow.views;
 
+import eventflow.controllers.AdminLoginController;
 
-
-
-
-/**
- *
- * @author kisma
- */
 public class AdminLogin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AdminLogin
-     */
+    private AdminLoginController controller;
+
     public AdminLogin() {
         initComponents();
-        
-        emailField.setText("Email Address");
 
+        // Initialize the controller
+        controller = new AdminLoginController(this);
+
+        emailField.setText("Email Address");
+        passwordField.setText("Password");
+        passwordField.setEchoChar((char) 0); // Show plain initially
+
+        // Focus behavior
         emailField.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (emailField.getText().equals("Email Address")) {
                     emailField.setText("");
                 }
             }
 
-            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (emailField.getText().isEmpty()) {
                     emailField.setText("Email Address");
                 }
             }
-        });passwordField.setText("Password");
-        passwordField.setEchoChar((char) 0); // show plain text initially for placeholder
+        });
 
         passwordField.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (String.valueOf(passwordField.getPassword()).equals("Password")) {
                     passwordField.setText("");
-                    passwordField.setEchoChar('•'); // mask input
+                    passwordField.setEchoChar('•'); // Hide text
                 }
             }
 
-            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (passwordField.getPassword().length == 0) {
+                if (String.valueOf(passwordField.getPassword()).isEmpty()) {
                     passwordField.setText("Password");
-                    passwordField.setEchoChar((char) 0); // show placeholder text
+                    passwordField.setEchoChar((char) 0); // Show placeholder
                 }
             }
         });
 
+        // 💥 LOGIN BUTTON ACTION
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        String email = emailField.getText().trim();
+        String password = String.valueOf(passwordField.getPassword()).trim();
+        controller.handleAdminLogin(email, password);
     }
+});
 
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

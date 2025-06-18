@@ -18,16 +18,16 @@ public class AdminLoginController {
         this.adminLogin = adminLogin;
         this.authService = new AuthService();
     }
-
+    
     public void handleAdminLogin(String email, String password) {
-        User user = authService.login(email, password);
-        if (user != null && user.getIsAdmin() == 1) {
-            // Admin login success, open dashboard and close admin login form
-            Dashboard dashboard = new Dashboard(user);  // pass user if needed
-            dashboard.setVisible(true);
-            adminLogin.dispose();
-        } else {
-            JOptionPane.showMessageDialog(adminLogin, "Invalid admin credentials", "Login Failed", JOptionPane.ERROR_MESSAGE);
-        }
+    User user = authService.login(email, password);
+    if (user != null && user.getIsAdmin() == 1) {
+        Dashboard dashboard = new Dashboard(user);
+        dashboard.setVisible(true);
+        adminLogin.dispose();
+    } else {
+        JOptionPane.showMessageDialog(adminLogin, "Invalid admin credentials", "Login Failed", JOptionPane.ERROR_MESSAGE);
     }
+}
+
 }
