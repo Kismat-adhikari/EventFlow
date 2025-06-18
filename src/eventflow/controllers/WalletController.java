@@ -6,6 +6,7 @@ package eventflow.controllers;
 
 import eventflow.models.User;
 import eventflow.views.Create;
+import eventflow.views.Dashboard;
 import eventflow.views.MyEvents;
 import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
@@ -16,6 +17,12 @@ import eventflow.views.WalletForm;
  * @author User
  */
 public class WalletController {
+    
+    public static void goToDashboard(User user){
+        
+        Dashboard dashboardPage = new Dashboard(user);
+        dashboardPage.setVisible(true);
+    }
     public static void goToCreate(User user) {
         Create createPage = new Create(user);
         createPage.setVisible(true);
