@@ -517,6 +517,9 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="a4" green="c8" red="6" type="rgb"/>
                 </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pay"/>
               </Properties>
             </Component>
@@ -530,6 +533,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="eventLocation">
               <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="b2" green="a0" red="a0" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Location"/>
               </Properties>
             </Component>
