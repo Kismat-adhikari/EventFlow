@@ -199,6 +199,8 @@ public class SignupForm extends javax.swing.JFrame {
         });
 
         signupButton.setBackground(new java.awt.Color(1, 200, 167));
+        signupButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        signupButton.setForeground(new java.awt.Color(255, 255, 255));
         signupButton.setText("Create Account");
         signupButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,9 +221,11 @@ public class SignupForm extends javax.swing.JFrame {
         confirmPasswordField.setText("jPasswordField1");
 
         jToggleButton1.setBackground(new java.awt.Color(1, 200, 167));
+        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
         jToggleButton1.setText("Show");
 
         jToggleButton2.setBackground(new java.awt.Color(1, 200, 167));
+        jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
         jToggleButton2.setText("Show");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
