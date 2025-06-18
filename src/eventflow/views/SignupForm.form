@@ -234,12 +234,15 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="a4" green="c8" red="6" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Show password"/>
+                <Property name="text" type="java.lang.String" value="Show"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Show password"/>
+                <Property name="text" type="java.lang.String" value="Show"/>
               </Properties>
             </Component>
           </SubComponents>
