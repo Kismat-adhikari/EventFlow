@@ -12,39 +12,8 @@ public class MyEvents extends javax.swing.JFrame {
     public MyEvents(User user) {
         initComponents();
         this.user = user;
-        sideLabel.setText(user.getFullname());
-dashBut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToDashboard(user);
-        dispose(); // Close the current window
-    }
-});
-        // ✅ Button to navigate to Create.java
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventflow.controllers.DashboardController.goToCreate(user);
-                dispose(); // Close the Dashboard
-            }
-        });
-        myEventsbut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToMyEvents(user);
-        dispose(); // Close the Dashboard window
-    }
-});
-        myTicketsbut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToMyTickets(user);
-        dispose(); // Close the Dashboard window
-    }
-});
-        
-        profileBut.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        eventflow.controllers.DashboardController.goToProfile(user);
-        dispose(); // Close the Dashboard window
-    }
-});
+
+
         
         
         sideLabel.setText(user.getFullname());
