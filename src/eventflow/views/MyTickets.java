@@ -15,6 +15,36 @@ public class MyTickets extends javax.swing.JFrame {
         this.user = user;
         sideLabel.setText(user.getFullname());
 
+        dashBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToDashboard(user);
+            dispose();
+        });
+
+        jToggleButton3.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToCreate(user);
+            dispose();
+        });
+
+        myEventsbut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToMyEvents(user);
+            dispose();
+        });
+
+        myTicketsbut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToMyTickets(user);
+            dispose();
+        });
+
+        profileBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToProfile(user);
+            dispose();
+        });
+        
+        walletBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToWallet(user);
+            dispose();
+        });
+
         double balance = eventflow.controllers.TicketController.getUserBalance(user);
         balanceLabel.setText("Balance: RS" + balance);
 
