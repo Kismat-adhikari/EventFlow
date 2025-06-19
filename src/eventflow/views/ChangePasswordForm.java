@@ -54,7 +54,7 @@ public class ChangePasswordForm extends javax.swing.JFrame {
         jLabel6.setText("New Password");
 
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Rewrite New Password");
+        jLabel7.setText("Confirm New Password");
 
         passwordField1.setText("jPasswordField1");
         passwordField1.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +70,7 @@ public class ChangePasswordForm extends javax.swing.JFrame {
         changePasswordButton1.setBackground(new java.awt.Color(1, 200, 167));
         changePasswordButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         changePasswordButton1.setForeground(new java.awt.Color(255, 255, 255));
-        changePasswordButton1.setText("Change Password");
+        changePasswordButton1.setText("Submit");
 
         jLabel8.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
