@@ -19,27 +19,38 @@ public class SignupForm extends javax.swing.JFrame {
     public SignupForm() {
         initComponents();
         showTog.addActionListener(new java.awt.event.ActionListener() {
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         if (showTog.isSelected()) {
-            passwordField.setEchoChar((char) 0); // Show password
-            showTog.setText("Hide"); // Optional: change button text
+            passwordField.setEchoChar((char) 0);
+            showTog.setText("Hide");
         } else {
-            passwordField.setEchoChar('•'); // Hide password (or use '*')
+            passwordField.setEchoChar('•');
             showTog.setText("Show");
         }
     }
 });
+
+ 
+        
         showTogConfirm.addActionListener(new java.awt.event.ActionListener() {
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         if (showTogConfirm.isSelected()) {
-            confirmPasswordField.setEchoChar((char) 0); // Show confirm password
+            confirmPasswordField.setEchoChar((char) 0);
             showTogConfirm.setText("Hide");
         } else {
-            confirmPasswordField.setEchoChar('•'); // Hide confirm password
+            confirmPasswordField.setEchoChar('•');
             showTogConfirm.setText("Show");
-        }
-    }
+        }
+    }
 });
+
+        
+        
+        
+        
+        
         SignupController controller = new SignupController(this); // setup controller
 
     signupButton.addActionListener(new java.awt.event.ActionListener() {

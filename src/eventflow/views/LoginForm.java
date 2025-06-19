@@ -20,17 +20,7 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
-        showTog.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        if (showTog.isSelected()) {
-            passwordField.setEchoChar((char) 0); // Show password
-            showTog.setText("Hide"); // Optional: change button text
-        } else {
-            passwordField.setEchoChar('•'); // Hide password (or use '*')
-            showTog.setText("Show");
-        }
-    }
-});
+        
  LoginController controller = new LoginController(); // You only need to create once
  
 
@@ -72,7 +62,6 @@ public class LoginForm extends javax.swing.JFrame {
 
 
 
-
 emailField.setText("Email Address");
 
         emailField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -110,6 +99,20 @@ emailField.setText("Email Address");
                 }
             }
         });
+        
+      showTog.addActionListener(new java.awt.event.ActionListener() {
+    @Override
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        if (showTog.isSelected()) {
+            passwordField.setEchoChar((char) 0);
+            showTog.setText("Hide");
+        } else {
+            passwordField.setEchoChar('•');
+            showTog.setText("Show");
+        }
+    }
+});
+
     }
 
     /**

@@ -9,16 +9,18 @@ public class AdminLogin extends javax.swing.JFrame {
     public AdminLogin() {
         initComponents();
         showTog.addActionListener(new java.awt.event.ActionListener() {
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         if (showTog.isSelected()) {
-            passwordField.setEchoChar((char) 0); // Show password
-            showTog.setText("Hide"); // Optional: change button text
+            passwordField.setEchoChar((char) 0);
+            showTog.setText("Hide");
         } else {
-            passwordField.setEchoChar('•'); // Hide password (or use '*')
+            passwordField.setEchoChar('•');
             showTog.setText("Show");
-        }
-    }
+        }
+    }
 });
+
 
         // Initialize the controller
         controller = new AdminLoginController(this);
