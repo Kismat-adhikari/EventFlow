@@ -87,7 +87,7 @@ public class AdminLogin extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        showTog = new javax.swing.JToggleButton();
 
         jMenu1.setText("jMenu1");
 
@@ -139,9 +139,9 @@ public class AdminLogin extends javax.swing.JFrame {
 
         passwordField.setText("jPasswordField1");
 
-        jToggleButton1.setBackground(new java.awt.Color(1, 200, 167));
-        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton1.setText("Show");
+        showTog.setBackground(new java.awt.Color(1, 200, 167));
+        showTog.setForeground(new java.awt.Color(255, 255, 255));
+        showTog.setText("Show");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,7 +167,7 @@ public class AdminLogin extends javax.swing.JFrame {
                             .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                             .addComponent(passwordField))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToggleButton1))
+                        .addComponent(showTog))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addComponent(jLabel1)))
@@ -187,7 +187,7 @@ public class AdminLogin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
+                    .addComponent(showTog))
                 .addGap(27, 27, 27)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -290,8 +290,8 @@ public class AdminLogin extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordField;
+    private javax.swing.JToggleButton showTog;
     // End of variables declaration//GEN-END:variables
 }
