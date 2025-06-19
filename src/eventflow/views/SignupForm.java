@@ -29,6 +29,17 @@ public class SignupForm extends javax.swing.JFrame {
         }
     }
 });
+        showTogConfirm.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        if (showTogConfirm.isSelected()) {
+            confirmPasswordField.setEchoChar((char) 0); // Show confirm password
+            showTogConfirm.setText("Hide");
+        } else {
+            confirmPasswordField.setEchoChar('•'); // Hide confirm password
+            showTogConfirm.setText("Show");
+        }
+    }
+});
         SignupController controller = new SignupController(this); // setup controller
 
     signupButton.addActionListener(new java.awt.event.ActionListener() {
