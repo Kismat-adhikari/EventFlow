@@ -243,11 +243,11 @@ public class SignupForm extends javax.swing.JFrame {
 
         jToggleButton1.setBackground(new java.awt.Color(1, 200, 167));
         jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton1.setText("Show password");
+        jToggleButton1.setText("Show");
 
         jToggleButton2.setBackground(new java.awt.Color(1, 200, 167));
         jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton2.setText("Show password");
+        jToggleButton2.setText("Show");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
