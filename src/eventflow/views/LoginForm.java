@@ -130,7 +130,7 @@ emailField.setText("Email Address");
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         loginToadmin = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        showTog = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -190,9 +190,9 @@ emailField.setText("Email Address");
             }
         });
 
-        jToggleButton1.setBackground(new java.awt.Color(1, 200, 167));
-        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton1.setText("Show");
+        showTog.setBackground(new java.awt.Color(1, 200, 167));
+        showTog.setForeground(new java.awt.Color(255, 255, 255));
+        showTog.setText("Show");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -211,7 +211,7 @@ emailField.setText("Email Address");
                                     .addComponent(emailField)
                                     .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jToggleButton1))))
+                                .addComponent(showTog))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(141, 141, 141)
                         .addComponent(jLabel3))
@@ -230,7 +230,7 @@ emailField.setText("Email Address");
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
+                    .addComponent(showTog))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
@@ -356,10 +356,10 @@ emailField.setText("Email Address");
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel loginToadmin;
     private javax.swing.JLabel loginTosign;
     private javax.swing.JPasswordField passwordField;
+    private javax.swing.JToggleButton showTog;
     // End of variables declaration//GEN-END:variables
 }
