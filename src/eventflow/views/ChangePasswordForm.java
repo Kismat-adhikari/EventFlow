@@ -13,6 +13,9 @@ package eventflow.views;
 
 public class ChangePasswordForm extends javax.swing.JFrame {
 
+    public ChangePasswordForm(){
+
+}
     
 
 
