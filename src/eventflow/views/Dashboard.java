@@ -53,7 +53,25 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     public void loadEvents(List<EventWithUser> events) {
-       
+        if (events == null || events.isEmpty()) {
+            fullname.setText("No events available");
+            eventTime.setText("");
+            eventDate.setText("");
+            eventLocation.setText("");
+            eventPrice.setText("");
+            eventTitle.setText("");
+            eventDesc.setText("");
+            return;
+        }
+        // Display the first event
+        EventWithUser event = events.get(0);
+        fullname.setText(event.getUploaderFullname());
+        eventTime.setText(event.getEventTime());
+        eventDate.setText(event.getEventDate());
+        eventLocation.setText(event.getEventLocation());
+        eventPrice.setText(String.valueOf(event.getEventPrice()));
+        eventTitle.setText(event.getEventTitle());
+        eventDesc.setText(event.getEventDesc());
     }
 
     /**

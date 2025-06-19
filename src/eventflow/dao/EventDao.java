@@ -35,35 +35,36 @@ public class EventDao {
         }
     }
 
-    public List<EventWithUser> getAllEventsWithUploader() {
-        List<EventWithUser> list = new ArrayList<>();
+   public List<EventWithUser> getAllEventsWithUploader() {
+    List<EventWithUser> list = new ArrayList<>();
+    // Use alias 'uploaderFullname' to match setter name
+    String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, "
+               + "e.eventDate, e.eventTime, e.eventLocation, u.fullname AS uploaderFullname "
+               + "FROM events e JOIN users u ON e.user_id = u.id";
 
-        String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, e.eventDate, e.eventTime, e.eventLocation, u.fullname " +
-                     "FROM events e " +
-                     "JOIN users u ON e.user_id = u.id";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                EventWithUser e = new EventWithUser();
-                e.setId(rs.getInt("id"));
-                e.setEventTitle(rs.getString("eventTitle"));
-                e.setEventDesc(rs.getString("eventDesc"));
-                e.setEventTickets(rs.getInt("eventTickets"));
-                e.setEventPrice(rs.getDouble("eventPrice"));
-                e.setEventDate(rs.getString("eventDate"));
-                e.setEventTime(rs.getString("eventTime"));
-                e.setEventLocation(rs.getString("eventLocation"));
-                e.setUploaderFullname(rs.getString("fullname"));
-                list.add(e);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (rs.next()) {
+            EventWithUser e = new EventWithUser();
+            e.setId(rs.getInt("id"));
+            e.setEventTitle(rs.getString("eventTitle"));
+            e.setEventDesc(rs.getString("eventDesc"));
+            e.setEventTickets(rs.getInt("eventTickets"));
+            e.setEventPrice(rs.getDouble("eventPrice"));
+            e.setEventDate(rs.getString("eventDate"));
+            e.setEventTime(rs.getString("eventTime"));
+            e.setEventLocation(rs.getString("eventLocation"));
+            // Corrected: Use alias 'uploaderFullname'
+            e.setUploaderFullname(rs.getString("uploaderFullname"));
+            list.add(e);
         }
-        return list;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return list;
+}
 
     public static class EventWithUser {
         private int id;
@@ -104,5 +105,9 @@ public class EventDao {
 
         public String getUploaderFullname() { return uploaderFullname; }
         public void setUploaderFullname(String uploaderFullname) { this.uploaderFullname = uploaderFullname; }
+
+        public String getEvent201Location() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
     }
 }
