@@ -184,8 +184,8 @@ public class SignupForm extends javax.swing.JFrame {
         signupTolog = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         confirmPasswordField = new javax.swing.JPasswordField();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        showTog = new javax.swing.JToggleButton();
+        showTogConfirm = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(710, 512));
@@ -241,13 +241,13 @@ public class SignupForm extends javax.swing.JFrame {
 
         confirmPasswordField.setText("jPasswordField1");
 
-        jToggleButton1.setBackground(new java.awt.Color(1, 200, 167));
-        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton1.setText("Show");
+        showTog.setBackground(new java.awt.Color(1, 200, 167));
+        showTog.setForeground(new java.awt.Color(255, 255, 255));
+        showTog.setText("Show");
 
-        jToggleButton2.setBackground(new java.awt.Color(1, 200, 167));
-        jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton2.setText("Show");
+        showTogConfirm.setBackground(new java.awt.Color(1, 200, 167));
+        showTogConfirm.setForeground(new java.awt.Color(255, 255, 255));
+        showTogConfirm.setText("Show");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -278,8 +278,8 @@ public class SignupForm extends javax.swing.JFrame {
                             .addComponent(passwordField))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jToggleButton1)
-                            .addComponent(jToggleButton2))))
+                            .addComponent(showTog)
+                            .addComponent(showTogConfirm))))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -297,11 +297,11 @@ public class SignupForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
+                    .addComponent(showTog))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton2))
+                    .addComponent(showTogConfirm))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(signupButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -389,10 +389,10 @@ public class SignupForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JTextField nameField;
     private javax.swing.JPasswordField passwordField;
+    private javax.swing.JToggleButton showTog;
+    private javax.swing.JToggleButton showTogConfirm;
     private javax.swing.JButton signupButton;
     private javax.swing.JLabel signupTolog;
     // End of variables declaration//GEN-END:variables
