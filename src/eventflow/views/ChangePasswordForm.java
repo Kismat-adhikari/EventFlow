@@ -14,7 +14,19 @@ package eventflow.views;
 public class ChangePasswordForm extends javax.swing.JFrame {
 
     public ChangePasswordForm(){
-
+        initComponents();
+        showTog.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        if (showTog.isSelected()) {
+            passwordField.setEchoChar((char) 0); // Show password
+            showTog.setText("Hide"); // Optional: change button text
+        } else {
+            passwordField.setEchoChar('•'); // Hide password (or use '*')
+            showTog.setText("Show");
+        }
+    }
+});
+        
 }
     
 
