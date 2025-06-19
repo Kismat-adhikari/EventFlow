@@ -13,6 +13,31 @@ package eventflow.views;
 
 public class ChangePasswordForm extends javax.swing.JFrame {
 
+    public ChangePasswordForm(){
+        initComponents();
+        showTog.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        if (showTog.isSelected()) {
+            passwordField.setEchoChar((char) 0); // Show password
+            showTog.setText("Hide"); // Optional: change button text
+        } else {
+            passwordField.setEchoChar('•'); // Hide password (or use '*')
+            showTog.setText("Show");
+        }
+    }
+});
+        showTogConfirm.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        if (showTogConfirm.isSelected()) {
+            confirmPasswordField.setEchoChar((char) 0); // Show confirm password
+            showTogConfirm.setText("Hide");
+        } else {
+            confirmPasswordField.setEchoChar('•'); // Hide confirm password
+            showTogConfirm.setText("Show");
+        }
+    }
+});
+}
     
 
 
@@ -26,6 +51,7 @@ public class ChangePasswordForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -39,6 +65,8 @@ public class ChangePasswordForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
+
+        jToggleButton1.setText("jToggleButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(58, 58, 98));
@@ -54,7 +82,7 @@ public class ChangePasswordForm extends javax.swing.JFrame {
         jLabel6.setText("New Password");
 
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Rewrite New Password");
+        jLabel7.setText("Confirm New Password");
 
         passwordField1.setText("jPasswordField1");
         passwordField1.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +98,7 @@ public class ChangePasswordForm extends javax.swing.JFrame {
         changePasswordButton1.setBackground(new java.awt.Color(1, 200, 167));
         changePasswordButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         changePasswordButton1.setForeground(new java.awt.Color(255, 255, 255));
-        changePasswordButton1.setText("Change Password");
+        changePasswordButton1.setText("Submit");
 
         jLabel8.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -213,6 +241,7 @@ public class ChangePasswordForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JPasswordField newPasswordField1;
     private javax.swing.JPasswordField passwordField1;
     // End of variables declaration//GEN-END:variables
