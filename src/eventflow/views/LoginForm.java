@@ -20,6 +20,17 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
+        showTog.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        if (showTog.isSelected()) {
+            passwordField.setEchoChar((char) 0); // Show password
+            showTog.setText("Hide"); // Optional: change button text
+        } else {
+            passwordField.setEchoChar('•'); // Hide password (or use '*')
+            showTog.setText("Show");
+        }
+    }
+});
  LoginController controller = new LoginController(); // You only need to create once
  
 
