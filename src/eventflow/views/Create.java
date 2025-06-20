@@ -7,6 +7,7 @@ package eventflow.views;
 import eventflow.models.User;
 import eventflow.models.Event;
 import eventflow.controllers.CreateController;
+import javax.swing.JFrame;
 
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
@@ -17,7 +18,7 @@ public class Create extends javax.swing.JFrame {
 
     public Create(User user) {
         initComponents();
-
+         setExtendedState(JFrame.MAXIMIZED_BOTH);
         sideLabel.setText(user.getFullname());
 
         dashBut.addActionListener(evt -> {

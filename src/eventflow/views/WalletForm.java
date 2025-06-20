@@ -5,6 +5,7 @@
 package eventflow.views;
 
 import eventflow.models.User;
+import javax.swing.JFrame;
 
 public class WalletForm extends javax.swing.JFrame {
 
@@ -13,6 +14,7 @@ public class WalletForm extends javax.swing.JFrame {
     public WalletForm(User user) {
         initComponents();
         this.user = user;
+         setExtendedState(JFrame.MAXIMIZED_BOTH);
         sideLabel.setText(user.getFullname());
 
         dashBut.addActionListener(evt -> {

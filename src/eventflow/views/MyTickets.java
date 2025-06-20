@@ -5,6 +5,7 @@
 package eventflow.views;
 
 import eventflow.models.User;
+import javax.swing.JFrame;
 
 public class MyTickets extends javax.swing.JFrame {
 
@@ -12,6 +13,7 @@ public class MyTickets extends javax.swing.JFrame {
 
     public MyTickets(User user) {
         initComponents();
+         setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.user = user;
         sideLabel.setText(user.getFullname());
 

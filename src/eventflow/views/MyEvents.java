@@ -18,6 +18,7 @@ public class MyEvents extends javax.swing.JFrame {
 
     public MyEvents(User user) {
         initComponents();
+         setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.user = user;
 
         sideLabel.setText(user.getFullname());

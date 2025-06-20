@@ -17,6 +17,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     public Dashboard(User user) {
         initComponents(); // NetBeans GUI setup
+         setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.user = user;
 
         // Set welcome labels
