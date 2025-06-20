@@ -349,7 +349,6 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel6" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
                                           <Component id="jLabel7" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
-                                          <Component id="eventTickets" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
                                           <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Group type="102" alignment="0" attributes="0">
@@ -360,23 +359,24 @@
                                                       </Group>
                                                   </Group>
                                                   <Component id="jLabel8" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
+                                                  <Component id="eventTickets" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="eventDate" min="-2" pref="102" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
                                                           <Component id="jLabel12" min="-2" pref="69" max="-2" attributes="0"/>
                                                           <Component id="eventTime" min="-2" pref="81" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="jLabel11" min="-2" pref="90" max="-2" attributes="0"/>
-                                                          <Component id="eventLocation" min="-2" pref="128" max="-2" attributes="0"/>
-                                                      </Group>
                                                   </Group>
-                                                  <Component id="jLabel10" min="-2" pref="69" max="-2" attributes="0"/>
+                                                  <Component id="jLabel10" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
+                                                  <Component id="eventDate" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel11" min="-2" pref="90" max="-2" attributes="0"/>
+                                                  <Component id="eventLocation" min="-2" pref="128" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -407,26 +407,18 @@
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="eventTickets" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="eventPrice" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="eventDate" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="eventTime" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="eventLocation" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="eventLocation" alignment="0" min="-2" pref="33" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="eventDate" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="eventTime" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="69" max="32767" attributes="0"/>
+                      <EmptySpace pref="263" max="32767" attributes="0"/>
                       <Component id="toggleCreate" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
