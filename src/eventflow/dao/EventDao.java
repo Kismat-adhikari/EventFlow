@@ -2,19 +2,20 @@ package eventflow.dao;
 
 import database.DbConnection;
 import eventflow.models.Event;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventDao {
+
     private Connection getConnection() throws SQLException {
         return DbConnection.getConnection();
     }
 
     public boolean createEvent(Event event) {
         String sql = "INSERT INTO events (eventTitle, eventDesc, eventTickets, eventPrice, eventDate, eventTime, eventLocation, user_id) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -35,37 +36,68 @@ public class EventDao {
         }
     }
 
-   public List<EventWithUser> getAllEventsWithUploader() {
-    List<EventWithUser> list = new ArrayList<>();
-    // Use alias 'uploaderFullname' to match setter name
-    String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, "
-               + "e.eventDate, e.eventTime, e.eventLocation, u.fullname AS uploaderFullname "
-               + "FROM events e JOIN users u ON e.user_id = u.id";
+    public List<EventWithUser> getAllEventsWithUploader() {
+        List<EventWithUser> list = new ArrayList<>();
+        String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, " +
+                     "e.eventDate, e.eventTime, e.eventLocation, u.fullname AS uploaderFullname " +
+                     "FROM events e JOIN users u ON e.user_id = u.id";
 
-    try (Connection conn = getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
-        while (rs.next()) {
-            EventWithUser e = new EventWithUser();
-            e.setId(rs.getInt("id"));
-            e.setEventTitle(rs.getString("eventTitle"));
-            e.setEventDesc(rs.getString("eventDesc"));
-            e.setEventTickets(rs.getInt("eventTickets"));
-            e.setEventPrice(rs.getDouble("eventPrice"));
-            e.setEventDate(rs.getString("eventDate"));
-            e.setEventTime(rs.getString("eventTime"));
-            e.setEventLocation(rs.getString("eventLocation"));
-            // Corrected: Use alias 'uploaderFullname'
-            e.setUploaderFullname(rs.getString("uploaderFullname"));
-            list.add(e);
+            while (rs.next()) {
+                EventWithUser e = new EventWithUser();
+                e.setId(rs.getInt("id"));
+                e.setEventTitle(rs.getString("eventTitle"));
+                e.setEventDesc(rs.getString("eventDesc"));
+                e.setEventTickets(rs.getInt("eventTickets"));
+                e.setEventPrice(rs.getDouble("eventPrice"));
+                e.setEventDate(rs.getString("eventDate"));
+                e.setEventTime(rs.getString("eventTime"));
+                e.setEventLocation(rs.getString("eventLocation"));
+                e.setUploaderFullname(rs.getString("uploaderFullname"));
+                list.add(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return list;
     }
-    return list;
-}
 
+    // New method to fetch events by specific user/uploader id
+    public List<EventWithUser> getEventsByUploader(int userId) {
+        List<EventWithUser> list = new ArrayList<>();
+        String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, " +
+                     "e.eventDate, e.eventTime, e.eventLocation, u.fullname AS uploaderFullname " +
+                     "FROM events e JOIN users u ON e.user_id = u.id WHERE u.id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                EventWithUser e = new EventWithUser();
+                e.setId(rs.getInt("id"));
+                e.setEventTitle(rs.getString("eventTitle"));
+                e.setEventDesc(rs.getString("eventDesc"));
+                e.setEventTickets(rs.getInt("eventTickets"));
+                e.setEventPrice(rs.getDouble("eventPrice"));
+                e.setEventDate(rs.getString("eventDate"));
+                e.setEventTime(rs.getString("eventTime"));
+                e.setEventLocation(rs.getString("eventLocation"));
+                e.setUploaderFullname(rs.getString("uploaderFullname"));
+                list.add(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Inner class to hold event details with uploader info
     public static class EventWithUser {
         private int id;
         private String eventTitle;
@@ -77,7 +109,7 @@ public class EventDao {
         private String eventLocation;
         private String uploaderFullname;
 
-        // Getters and setters for all fields
+        // Getters and setters
 
         public int getId() { return id; }
         public void setId(int id) { this.id = id; }
@@ -105,9 +137,5 @@ public class EventDao {
 
         public String getUploaderFullname() { return uploaderFullname; }
         public void setUploaderFullname(String uploaderFullname) { this.uploaderFullname = uploaderFullname; }
-
-        public String getEvent201Location() {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
     }
 }
