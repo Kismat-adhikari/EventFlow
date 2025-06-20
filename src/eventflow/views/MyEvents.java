@@ -1,9 +1,16 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */package eventflow.views;
+ */
+package eventflow.views;
 
+import eventflow.dao.EventDao;
+import eventflow.dao.EventDao.EventWithUser;
 import eventflow.models.User;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 public class MyEvents extends javax.swing.JFrame {
 
@@ -13,9 +20,6 @@ public class MyEvents extends javax.swing.JFrame {
         initComponents();
         this.user = user;
 
-
-        
-        
         sideLabel.setText(user.getFullname());
 
         dashBut.addActionListener(evt -> {
@@ -42,16 +46,70 @@ public class MyEvents extends javax.swing.JFrame {
             eventflow.controllers.DashboardController.goToProfile(user);
             dispose();
         });
-        
+
         walletBut.addActionListener(evt -> {
             eventflow.controllers.DashboardController.goToWallet(user);
             dispose();
         });
 
-        // Example: show user's name somewhere
-        // jLabel1.setText("Events for " + user.getFullname());
+        loadUserEvents();
     }
 
+    private void loadUserEvents() {
+        EventDao dao = new EventDao();
+        List<EventWithUser> events = dao.getEventsByUploader(user.getId());
+
+        myEventsPanel.removeAll();
+        myEventsPanel.setLayout(new BoxLayout(myEventsPanel, BoxLayout.Y_AXIS));
+
+        if (events == null || events.isEmpty()) {
+            JLabel noEvents = new JLabel("You have not created any events.");
+            noEvents.setForeground(Color.WHITE);
+            noEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
+            myEventsPanel.add(noEvents);
+        } else {
+            for (EventWithUser event : events) {
+                JPanel card = new JPanel();
+                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+                card.setBackground(new Color(66, 66, 116));
+                card.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+                card.setMaximumSize(new Dimension(700, 250));
+                card.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                JLabel titleLabel = new JLabel(event.getEventTitle());
+                titleLabel.setForeground(Color.WHITE);
+                titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+                JLabel descLabel = new JLabel("<html><body style='width:650px'>" + event.getEventDesc() + "</body></html>");
+                descLabel.setForeground(new Color(200, 200, 200));
+
+                JLabel timeLabel = new JLabel("Time: " + event.getEventTime());
+                timeLabel.setForeground(Color.LIGHT_GRAY);
+
+                JLabel dateLabel = new JLabel("Date: " + event.getEventDate());
+                dateLabel.setForeground(Color.LIGHT_GRAY);
+
+                JLabel locationLabel = new JLabel("Location: " + event.getEventLocation());
+                locationLabel.setForeground(Color.LIGHT_GRAY);
+
+                JLabel priceLabel = new JLabel("Price: Rs. " + event.getEventPrice());
+                priceLabel.setForeground(new Color(0, 255, 153));
+
+                card.add(titleLabel);
+                card.add(descLabel);
+                card.add(timeLabel);
+                card.add(dateLabel);
+                card.add(locationLabel);
+                card.add(priceLabel);
+
+                myEventsPanel.add(card);
+                myEventsPanel.add(Box.createVerticalStrut(20)); // gap between cards
+            }
+        }
+
+        myEventsPanel.revalidate();
+        myEventsPanel.repaint();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -73,6 +131,7 @@ public class MyEvents extends javax.swing.JFrame {
         walletBut = new javax.swing.JToggleButton();
         profileBut = new javax.swing.JToggleButton();
         sideLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel11 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -80,15 +139,13 @@ public class MyEvents extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         income = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
+        myEventsPanel = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         eventDate = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jPanel23 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -278,7 +335,7 @@ public class MyEvents extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel9.setBackground(new java.awt.Color(66, 66, 116));
+        myEventsPanel.setBackground(new java.awt.Color(66, 66, 116));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -299,74 +356,48 @@ public class MyEvents extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(160, 160, 178));
         jLabel18.setText("Location");
 
-        jPanel23.setBackground(new java.awt.Color(31, 110, 153));
-        jPanel23.setForeground(new java.awt.Color(51, 204, 255));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Image");
-
-        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel23Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
-                .addComponent(jLabel16)
-                .addGap(46, 46, 46))
-        );
-
         jLabel2.setForeground(new java.awt.Color(160, 160, 178));
         jLabel2.setText("Time");
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        javax.swing.GroupLayout myEventsPanelLayout = new javax.swing.GroupLayout(myEventsPanel);
+        myEventsPanel.setLayout(myEventsPanelLayout);
+        myEventsPanelLayout.setHorizontalGroup(
+            myEventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(myEventsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(myEventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
+                    .addGroup(myEventsPanelLayout.createSequentialGroup()
                         .addComponent(eventDate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
+                    .addGroup(myEventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, myEventsPanelLayout.createSequentialGroup()
                             .addComponent(jLabel17)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel18))
                         .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(301, Short.MAX_VALUE))
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+        myEventsPanelLayout.setVerticalGroup(
+            myEventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(myEventsPanelLayout.createSequentialGroup()
+                .addGap(123, 123, 123)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(myEventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(eventDate)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(myEventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(jLabel18))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(66, 66, 116));
@@ -449,13 +480,13 @@ public class MyEvents extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(myEventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel11Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1))
                         .addGroup(jPanel11Layout.createSequentialGroup()
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -464,7 +495,7 @@ public class MyEvents extends javax.swing.JFrame {
                             .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,9 +511,11 @@ public class MyEvents extends javax.swing.JFrame {
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addComponent(myEventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(230, Short.MAX_VALUE))
         );
+
+        jScrollPane1.setViewportView(jPanel11);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -491,16 +524,16 @@ public class MyEvents extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -569,7 +602,6 @@ public class MyEvents extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
@@ -581,14 +613,14 @@ public class MyEvents extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JPanel myEventsPanel;
     private javax.swing.JToggleButton myEventsbut;
     private javax.swing.JToggleButton myTicketsbut;
     private javax.swing.JLabel peoples;
