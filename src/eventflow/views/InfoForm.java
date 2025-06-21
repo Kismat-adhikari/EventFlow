@@ -71,7 +71,7 @@ public class InfoForm extends javax.swing.JFrame {
         userBio.setRows(5);
         jScrollPane1.setViewportView(userBio);
 
-        makeBut.setText("jToggleButton1");
+        makeBut.setText("Chnage changes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -29,6 +29,11 @@ public class User {
     public double getBalance() { return balance; }
     public int getIsAdmin() { return isAdmin; }
 
+    // Helper method to check if user is admin
+    public boolean isAdmin() { 
+        return isAdmin == 1; 
+    }
+
     // Setters
     public void setBalance(double balance) {
         this.balance = balance;

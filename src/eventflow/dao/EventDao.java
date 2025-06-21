@@ -14,10 +14,11 @@ public class EventDao {
 
     // Insert a new event into the database
     public boolean createEvent(Event event) {
-        String sql = "INSERT INTO events (eventTitle, eventDesc, eventTickets, eventPrice, eventDate, eventTime, eventLocation, user_id) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO events (eventTitle, eventDesc, eventTickets, eventPrice, eventDate, eventTime, eventLocation, user_id) "
+                +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, event.getEventTitle());
             stmt.setString(2, event.getEventDesc());
@@ -34,16 +35,17 @@ public class EventDao {
             e.printStackTrace();
             return false;
         }
-    }    // Retrieve all events with uploader's fullname
+    } // Retrieve all events with uploader's fullname
+
     public List<EventWithUser> getAllEventsWithUploader() {
         List<EventWithUser> list = new ArrayList<>();
         String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, " +
-                     "e.eventDate, e.eventTime, e.eventLocation, e.user_id, u.fullname AS uploaderFullname " +
-                     "FROM events e JOIN users u ON e.user_id = u.id";
+                "e.eventDate, e.eventTime, e.eventLocation, e.user_id, u.fullname AS uploaderFullname " +
+                "FROM events e JOIN users u ON e.user_id = u.id";
 
         try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 EventWithUser e = new EventWithUser();
@@ -63,15 +65,16 @@ public class EventDao {
             e.printStackTrace();
         }
         return list;
-    }    // Retrieve events uploaded by a specific user
+    } // Retrieve events uploaded by a specific user
+
     public List<EventWithUser> getEventsByUploader(int userId) {
         List<EventWithUser> list = new ArrayList<>();
         String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, " +
-                     "e.eventDate, e.eventTime, e.eventLocation, e.user_id, u.fullname AS uploaderFullname " +
-                     "FROM events e JOIN users u ON e.user_id = u.id WHERE u.id = ?";
+                "e.eventDate, e.eventTime, e.eventLocation, e.user_id, u.fullname AS uploaderFullname " +
+                "FROM events e JOIN users u ON e.user_id = u.id WHERE u.id = ?";
 
         try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -100,7 +103,7 @@ public class EventDao {
     public int getCreatorIdByEventId(int eventId) {
         String sql = "SELECT user_id FROM events WHERE id = ?";
         try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, eventId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -111,7 +114,24 @@ public class EventDao {
             e.printStackTrace();
         }
         return -1; // not found or error
-    }    // Inner class to represent event + uploader info together
+    }
+
+    // Delete an event from the database
+    public boolean deleteEvent(int eventId) {
+        String sql = "DELETE FROM events WHERE id = ?";
+        try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, eventId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Inner class to represent event + uploader info together
     public static class EventWithUser {
         private int id;
         private String eventTitle;
@@ -125,34 +145,84 @@ public class EventDao {
         private String uploaderFullname;
 
         // Getters and setters
-        public int getId() { return id; }
-        public void setId(int id) { this.id = id; }
+        public int getId() {
+            return id;
+        }
 
-        public String getEventTitle() { return eventTitle; }
-        public void setEventTitle(String eventTitle) { this.eventTitle = eventTitle; }
+        public void setId(int id) {
+            this.id = id;
+        }
 
-        public String getEventDesc() { return eventDesc; }
-        public void setEventDesc(String eventDesc) { this.eventDesc = eventDesc; }
+        public String getEventTitle() {
+            return eventTitle;
+        }
 
-        public int getEventTickets() { return eventTickets; }
-        public void setEventTickets(int eventTickets) { this.eventTickets = eventTickets; }
+        public void setEventTitle(String eventTitle) {
+            this.eventTitle = eventTitle;
+        }
 
-        public double getEventPrice() { return eventPrice; }
-        public void setEventPrice(double eventPrice) { this.eventPrice = eventPrice; }
+        public String getEventDesc() {
+            return eventDesc;
+        }
 
-        public String getEventDate() { return eventDate; }
-        public void setEventDate(String eventDate) { this.eventDate = eventDate; }
+        public void setEventDesc(String eventDesc) {
+            this.eventDesc = eventDesc;
+        }
 
-        public String getEventTime() { return eventTime; }
-        public void setEventTime(String eventTime) { this.eventTime = eventTime; }
+        public int getEventTickets() {
+            return eventTickets;
+        }
 
-        public String getEventLocation() { return eventLocation; }
-        public void setEventLocation(String eventLocation) { this.eventLocation = eventLocation; }
+        public void setEventTickets(int eventTickets) {
+            this.eventTickets = eventTickets;
+        }
 
-        public int getCreatorUserId() { return creatorUserId; }
-        public void setCreatorUserId(int creatorUserId) { this.creatorUserId = creatorUserId; }
+        public double getEventPrice() {
+            return eventPrice;
+        }
 
-        public String getUploaderFullname() { return uploaderFullname; }
-        public void setUploaderFullname(String uploaderFullname) { this.uploaderFullname = uploaderFullname; }
+        public void setEventPrice(double eventPrice) {
+            this.eventPrice = eventPrice;
+        }
+
+        public String getEventDate() {
+            return eventDate;
+        }
+
+        public void setEventDate(String eventDate) {
+            this.eventDate = eventDate;
+        }
+
+        public String getEventTime() {
+            return eventTime;
+        }
+
+        public void setEventTime(String eventTime) {
+            this.eventTime = eventTime;
+        }
+
+        public String getEventLocation() {
+            return eventLocation;
+        }
+
+        public void setEventLocation(String eventLocation) {
+            this.eventLocation = eventLocation;
+        }
+
+        public int getCreatorUserId() {
+            return creatorUserId;
+        }
+
+        public void setCreatorUserId(int creatorUserId) {
+            this.creatorUserId = creatorUserId;
+        }
+
+        public String getUploaderFullname() {
+            return uploaderFullname;
+        }
+
+        public void setUploaderFullname(String uploaderFullname) {
+            this.uploaderFullname = uploaderFullname;
+        }
     }
 }

@@ -25,7 +25,6 @@ public class DashboardController {
             dashboardPage.loadEvents(events);
             System.out.println("Number of events fetched: " + events.size());
 
-
             dashboardPage.setVisible(true);
 
         } catch (Exception e) {
@@ -53,44 +52,64 @@ public class DashboardController {
         ProfileForm profilePage = new ProfileForm(user);
         profilePage.setVisible(true);
     }
-    
+
     public static void goToWallet(User user) {
-    WalletForm walletPage = new WalletForm(user);
-    walletPage.setVisible(true);
-}
-public static boolean payForEvent(int buyerId, int eventId, double price) {
-    EventDao eventDao = new EventDao();
-    UserDAO userDao = new UserDAO();
-
-    // Get creator ID of the event
-    int creatorId = eventDao.getCreatorIdByEventId(eventId);
-    if (creatorId == -1) {
-        return false; // event or creator not found
+        WalletForm walletPage = new WalletForm(user);
+        walletPage.setVisible(true);
     }
 
-    // Check if buyer has sufficient balance
-    double buyerBalance = userDao.getBalanceById(buyerId);
-    if (buyerBalance < price) {
-        return false; // insufficient funds
+    public static boolean payForEvent(int buyerId, int eventId, double price) {
+        EventDao eventDao = new EventDao();
+        UserDAO userDao = new UserDAO();
+
+        // Get creator ID of the event
+        int creatorId = eventDao.getCreatorIdByEventId(eventId);
+        if (creatorId == -1) {
+            return false; // event or creator not found
+        }
+
+        // Check if buyer has sufficient balance
+        double buyerBalance = userDao.getBalanceById(buyerId);
+        if (buyerBalance < price) {
+            return false; // insufficient funds
+        }
+
+        // Process payment: deduct buyer, credit creator
+        boolean paymentSuccess = userDao.processPayment(buyerId, creatorId, price);
+
+        if (paymentSuccess) {
+            // Create ticket after successful payment
+            EventController eventController = new EventController();
+            boolean ticketCreated = eventController.purchaseTicket(buyerId, eventId, price);
+
+            if (ticketCreated) {
+                System.out.println("Payment successful - Rs. " + price + " transferred from user " + buyerId
+                        + " to user " + creatorId);
+                System.out.println("Ticket created for user " + buyerId + " for event " + eventId);
+            } else {
+                System.out.println("Payment successful but ticket creation failed");
+            }
+        }
+
+        return paymentSuccess;
     }
 
-    // Process payment: deduct buyer, credit creator
-    boolean paymentSuccess = userDao.processPayment(buyerId, creatorId, price);
-    
-    if (paymentSuccess) {
-        // Create ticket after successful payment
-        EventController eventController = new EventController();
-        boolean ticketCreated = eventController.purchaseTicket(buyerId, eventId, price);
-        
-        if (ticketCreated) {
-            System.out.println("Payment successful - Rs. " + price + " transferred from user " + buyerId + " to user " + creatorId);
-            System.out.println("Ticket created for user " + buyerId + " for event " + eventId);
-        } else {
-            System.out.println("Payment successful but ticket creation failed");
+    public static boolean deleteEvent(int eventId) {
+        try {
+            EventDao eventDao = new EventDao();
+            boolean deleteSuccess = eventDao.deleteEvent(eventId);
+
+            if (deleteSuccess) {
+                System.out.println("Event with ID " + eventId + " deleted successfully");
+            } else {
+                System.out.println("Failed to delete event with ID " + eventId);
+            }
+
+            return deleteSuccess;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
-    
-    return paymentSuccess;
-}
 
 }

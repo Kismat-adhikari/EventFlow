@@ -37,7 +37,8 @@ public class Dashboard extends javax.swing.JFrame {
         myEventsbut.addActionListener(evt -> {
             eventflow.controllers.DashboardController.goToMyEvents(user);
             dispose();
-        });        myTicketsbut.addActionListener(evt -> {
+        });
+        myTicketsbut.addActionListener(evt -> {
             eventflow.controllers.TicketController.goToMyTickets(user);
             dispose();
         });
@@ -69,11 +70,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         for (EventWithUser event : events) {
             JPanel card = new JPanel(new GridBagLayout());
-            card.setBackground(new Color(66, 66, 116));  // lighter panel bg
+            card.setBackground(new Color(66, 66, 116)); // lighter panel bg
             card.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(new Color(90, 90, 140), 1, true),
-                    BorderFactory.createEmptyBorder(15, 20, 15, 20)
-            ));
+                    BorderFactory.createEmptyBorder(15, 20, 15, 20)));
             card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 250));
             card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -101,7 +101,8 @@ public class Dashboard extends javax.swing.JFrame {
 
             // Row 2 - Description (wrap with HTML)
             gbc.gridy++;
-            JLabel descLabel = new JLabel("<html><body style='width:650px;'>" + event.getEventDesc() + "</body></html>");
+            JLabel descLabel = new JLabel(
+                    "<html><body style='width:650px;'>" + event.getEventDesc() + "</body></html>");
             descLabel.setForeground(new Color(190, 190, 210));
             descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
             card.add(descLabel, gbc);
@@ -153,86 +154,166 @@ public class Dashboard extends javax.swing.JFrame {
             JLabel priceValue = new JLabel("Rs. " + event.getEventPrice());
             priceValue.setForeground(new Color(0, 255, 153));
             priceValue.setFont(priceValue.getFont().deriveFont(Font.BOLD));
-            card.add(priceValue, gbc);            // Row 7 - Pay Button spanning 2 columns, left aligned
+            card.add(priceValue, gbc);            // Row 7 - Button area spanning 2 columns, left aligned
             gbc.gridy++;
             gbc.gridx = 0;
             gbc.gridwidth = 2;
-            gbc.fill = GridBagConstraints.NONE;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.anchor = GridBagConstraints.WEST;
+              // Create button panel to hold multiple buttons side by side
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+            buttonPanel.setBackground(new Color(66, 66, 116)); // Match card background
+            buttonPanel.setOpaque(false); // Make transparent to show card background
+            buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
             
-            // Check if this is the user's own event
-            if (event.getCreatorUserId() == user.getId()) {
-                JButton ownEventButton = new JButton("Your Event");
-                ownEventButton.setBackground(Color.GRAY);
-                ownEventButton.setForeground(Color.WHITE);
-                ownEventButton.setFocusPainted(false);
-                ownEventButton.setPreferredSize(new Dimension(100, 30));
-                ownEventButton.setEnabled(false);
-                card.add(ownEventButton, gbc);
-            } else {
+            // Show delete button for own events OR admin users
+            if (event.getCreatorUserId() == user.getId() || user.isAdmin()) {
+                JButton deleteButton = new JButton("Delete");
+                deleteButton.setBackground(new Color(220, 53, 69)); // Red color
+                deleteButton.setForeground(Color.WHITE);
+                deleteButton.setFocusPainted(false);
+                deleteButton.setPreferredSize(new Dimension(80, 30));
+                deleteButton.setMaximumSize(new Dimension(80, 30)); // Prevent stretching
+                deleteButton.setFocusPainted(false);
+                deleteButton.setPreferredSize(new Dimension(80, 30));
+                deleteButton.addActionListener(actionEvent -> {
+                    // Different confirmation messages for admin vs owner
+                    String confirmMessage;
+                    if (user.isAdmin() && event.getCreatorUserId() != user.getId()) {
+                        confirmMessage = "As an ADMIN, are you sure you want to delete '" + event.getEventTitle() + 
+                                       "' created by " + event.getUploaderFullname() + "?\n" +
+                                       "This action cannot be undone.";
+                    } else {
+                        confirmMessage = "Are you sure you want to delete the event '" + event.getEventTitle() + "'?\n" +
+                                       "This action cannot be undone.";
+                    }
+                    
+                    // Confirm deletion dialog
+                    int confirm = JOptionPane.showConfirmDialog(
+                            this,
+                            confirmMessage,
+                            "Confirm Deletion",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE);
+
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        // Delete event using controller
+                        boolean deleteSuccess = eventflow.controllers.DashboardController.deleteEvent(event.getId());
+
+                        if (deleteSuccess) {
+                            String successMessage;
+                            if (user.isAdmin() && event.getCreatorUserId() != user.getId()) {
+                                successMessage = "Event '" + event.getEventTitle() + "' by " + 
+                                               event.getUploaderFullname() + " has been deleted successfully! (Admin Action)";
+                            } else {
+                                successMessage = "Event '" + event.getEventTitle() + "' has been deleted successfully!";
+                            }
+                            
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    successMessage,
+                                    "Event Deleted",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
+                            // Remove the event card from UI immediately
+                            Container parent = card.getParent();
+                            parent.remove(card);
+
+                            // Also remove the spacing component that follows this card
+                            Component[] components = parent.getComponents();
+                            for (int i = 0; i < components.length - 1; i++) {
+                                if (components[i] == card && components[i + 1] instanceof Box.Filler) {
+                                    parent.remove(components[i + 1]);
+                                    break;
+                                }
+                            }
+
+                            parent.revalidate();
+                            parent.repaint();
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    "Failed to delete the event. Please try again.",
+                                    "Deletion Failed",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    }                });
+                buttonPanel.add(deleteButton);
+                
+                // Add spacing between buttons if both will be shown
+                if (event.getCreatorUserId() != user.getId()) {
+                    buttonPanel.add(Box.createHorizontalStrut(10)); // 10px spacing
+                }
+            }
+              // Show pay button for events NOT created by the user (including admin users)
+            if (event.getCreatorUserId() != user.getId()) {
                 JButton payButton = new JButton("Pay");
                 payButton.setBackground(new Color(6, 200, 164));
                 payButton.setForeground(Color.WHITE);
                 payButton.setFocusPainted(false);
                 payButton.setPreferredSize(new Dimension(80, 30));
+                payButton.setMaximumSize(new Dimension(80, 30)); // Prevent stretching
                 payButton.addActionListener(actionEvent -> {
                     // Check if user has sufficient balance
                     if (user.getBalance() < event.getEventPrice()) {
                         JOptionPane.showMessageDialog(
-                            this, 
-                            "Insufficient balance! You need Rs. " + event.getEventPrice() + " but only have Rs. " + user.getBalance(),
-                            "Insufficient Funds",
-                            JOptionPane.WARNING_MESSAGE
-                        );
+                                this,
+                                "Insufficient balance! You need Rs. " + event.getEventPrice() + " but only have Rs. "
+                                        + user.getBalance(),
+                                "Insufficient Funds",
+                                JOptionPane.WARNING_MESSAGE);
                         return;
                     }
-                    
+
                     // Confirm payment dialog
                     int confirm = JOptionPane.showConfirmDialog(
-                        this, 
-                        "Are you sure you want to pay Rs. " + event.getEventPrice() + " for " + event.getEventTitle() + "?\n" +
-                        "Your current balance: Rs. " + user.getBalance(),
-                        "Confirm Payment",
-                        JOptionPane.YES_NO_OPTION
-                    );
-                    
+                            this,
+                            "Are you sure you want to pay Rs. " + event.getEventPrice() + " for "
+                                    + event.getEventTitle() + "?\n" +
+                                    "Your current balance: Rs. " + user.getBalance(),
+                            "Confirm Payment",
+                            JOptionPane.YES_NO_OPTION);
+
                     if (confirm == JOptionPane.YES_OPTION) {
                         // Process payment using controller
                         boolean paymentSuccess = eventflow.controllers.DashboardController.payForEvent(
-                            user.getId(), 
-                            event.getId(), 
-                            event.getEventPrice()
-                        );
-                        
+                                user.getId(),
+                                event.getId(),
+                                event.getEventPrice());
+
                         if (paymentSuccess) {
                             // Update user's balance in real-time
                             user.setBalance(user.getBalance() - event.getEventPrice());
-                            
+
                             JOptionPane.showMessageDialog(
-                                this, 
-                                "Payment successful! You have purchased a ticket for " + event.getEventTitle() + "\n" +
-                                "Amount paid: Rs. " + event.getEventPrice() + "\n" +
-                                "New balance: Rs. " + user.getBalance(),
-                                "Payment Success",
-                                JOptionPane.INFORMATION_MESSAGE
-                            );
-                            
+                                    this,
+                                    "Payment successful! You have purchased a ticket for " + event.getEventTitle()
+                                            + "\n" +
+                                            "Amount paid: Rs. " + event.getEventPrice() + "\n" +
+                                            "New balance: Rs. " + user.getBalance(),
+                                    "Payment Success",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
                             // Disable the button after successful payment to prevent double payment
                             payButton.setEnabled(false);
                             payButton.setText("Paid");
                             payButton.setBackground(Color.GRAY);
                         } else {
                             JOptionPane.showMessageDialog(
-                                this, 
-                                "Payment failed! Please check your balance and try again.",
-                                "Payment Failed",
-                                JOptionPane.ERROR_MESSAGE
-                            );
+                                    this,
+                                    "Payment failed! Please check your balance and try again.",
+                                    "Payment Failed",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
-                    }
-                });
-                card.add(payButton, gbc);
-            }
+                    }                });
+                buttonPanel.add(payButton);            }
+            
+            // Add glue to push buttons to the left
+            buttonPanel.add(Box.createHorizontalGlue());
+            
+            // Add the button panel to the card
+            card.add(buttonPanel, gbc);
 
             // Add vertical spacing between cards
             eventsPanel.add(card);
@@ -249,7 +330,8 @@ public class Dashboard extends javax.swing.JFrame {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -284,12 +366,10 @@ public class Dashboard extends javax.swing.JFrame {
         jFrame1.getContentPane().setLayout(jFrame1Layout);
         jFrame1Layout.setHorizontalGroup(
                 jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 400, Short.MAX_VALUE)
-        );
+                        .addGap(0, 400, Short.MAX_VALUE));
         jFrame1Layout.setVerticalGroup(
                 jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 300, Short.MAX_VALUE)
-        );
+                        .addGap(0, 300, Short.MAX_VALUE));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -353,7 +433,8 @@ public class Dashboard extends javax.swing.JFrame {
                 jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 175,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(jLabel1)))
@@ -361,39 +442,63 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                        .addComponent(walletBut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(myTicketsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                                                        .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(myEventsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                                        .addComponent(profileBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout
+                                                .createSequentialGroup()
+                                                .addGroup(jPanel4Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                false)
+                                                        .addComponent(walletBut,
+                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(myTicketsbut,
+                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, 175,
+                                                                Short.MAX_VALUE)
+                                                        .addComponent(jToggleButton3,
+                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(myEventsbut,
+                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 0,
+                                                                Short.MAX_VALUE)
+                                                        .addComponent(profileBut, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                 .addGap(36, 36, 36))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(46, 46, 46))))
-        );
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                                jPanel4Layout.createSequentialGroup()
+                                                        .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(46, 46, 46)))));
         jPanel4Layout.setVerticalGroup(
                 jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(myEventsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(myEventsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(myTicketsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(myTicketsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(walletBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(walletBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(profileBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
-                                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-        );
+                                .addComponent(profileBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311,
+                                        Short.MAX_VALUE)
+                                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -406,7 +511,8 @@ public class Dashboard extends javax.swing.JFrame {
         eventsPanel.setBackground(new java.awt.Color(66, 66, 116));
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Please click on any one of the navigation in the sidebar and come back in Dashboard for the content to load");
+        jLabel6.setText(
+                "Please click on any one of the navigation in the sidebar and come back in Dashboard for the content to load");
 
         javax.swing.GroupLayout eventsPanelLayout = new javax.swing.GroupLayout(eventsPanel);
         eventsPanel.setLayout(eventsPanelLayout);
@@ -414,23 +520,26 @@ public class Dashboard extends javax.swing.JFrame {
                 eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(eventsPanelLayout.createSequentialGroup()
                                 .addGap(64, 64, 64)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-        );
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 630,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()));
         eventsPanelLayout.setVerticalGroup(
                 eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(eventsPanelLayout.createSequentialGroup()
-                                .addGroup(eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(eventsPanelLayout.createSequentialGroup()
-                                                .addGap(87, 87, 87)
-                                                .addComponent(jLabel9))
-                                        .addGroup(eventsPanelLayout.createSequentialGroup()
-                                                .addGap(33, 33, 33)
-                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(85, Short.MAX_VALUE))
-        );
+                                .addGroup(
+                                        eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(eventsPanelLayout.createSequentialGroup()
+                                                        .addGap(87, 87, 87)
+                                                        .addComponent(jLabel9))
+                                                .addGroup(eventsPanelLayout.createSequentialGroup()
+                                                        .addGap(33, 33, 33)
+                                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(85, Short.MAX_VALUE)));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -446,41 +555,55 @@ public class Dashboard extends javax.swing.JFrame {
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 202,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
-                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(jPanel1Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        430, Short.MAX_VALUE)
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(eventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(0, 0, Short.MAX_VALUE))))
-        );
+                                                .addGroup(jPanel1Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(eventsPanel,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 725,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE)))));
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout
+                                                .createSequentialGroup()
                                                 .addGap(15, 15, 15)
-                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel4)
                                                 .addGap(18, 18, 18)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addGroup(jPanel1Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(jLabel5)
                                                         .addComponent(jLabel12))
                                                 .addGap(18, 18, 18)
-                                                .addComponent(eventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(eventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE)))
-                                .addContainerGap())
-        );
+                                .addContainerGap()));
 
         jScrollPane3.setViewportView(jPanel1);
 
@@ -493,32 +616,35 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
-                                .addContainerGap())
-        );
+                                .addContainerGap()));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
-        );
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void myTicketsbutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTicketsbutActionPerformed
+    private void myTicketsbutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_myTicketsbutActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_myTicketsbutActionPerformed
+    }// GEN-LAST:event_myTicketsbutActionPerformed
 
-    private void dashButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashButActionPerformed
+    private void dashButActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_dashButActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_dashButActionPerformed
+    }// GEN-LAST:event_dashButActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -536,7 +662,7 @@ public class Dashboard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        // </editor-fold>
 
         /* Create and display the form */
     }
