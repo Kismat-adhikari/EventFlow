@@ -36,10 +36,8 @@ public class MyEvents extends javax.swing.JFrame {
         myEventsbut.addActionListener(evt -> {
             eventflow.controllers.DashboardController.goToMyEvents(user);
             dispose();
-        });
-
-        myTicketsbut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToMyTickets(user);
+        });        myTicketsbut.addActionListener(evt -> {
+            eventflow.controllers.TicketController.goToMyTickets(user);
             dispose();
         });
 
@@ -57,60 +55,75 @@ public class MyEvents extends javax.swing.JFrame {
     }
 
     private void loadUserEvents() {
-        EventDao dao = new EventDao();
-        List<EventWithUser> events = dao.getEventsByUploader(user.getId());
+    EventDao dao = new EventDao();
+    List<EventWithUser> events = dao.getEventsByUploader(user.getId());
 
-        myEventsPanel.removeAll();
-        myEventsPanel.setLayout(new BoxLayout(myEventsPanel, BoxLayout.Y_AXIS));
+    // Safely handle null before updating event count label
+    int eventCount = (events != null) ? events.size() : 0;
+    tEvents.setText("Events: " + eventCount);
 
-        if (events == null || events.isEmpty()) {
-            JLabel noEvents = new JLabel("You have not created any events.");
-            noEvents.setForeground(Color.WHITE);
-            noEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
-            myEventsPanel.add(noEvents);
-        } else {
-            for (EventWithUser event : events) {
-                JPanel card = new JPanel();
-                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-                card.setBackground(new Color(66, 66, 116));
-                card.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-                card.setMaximumSize(new Dimension(700, 250));
-                card.setAlignmentX(Component.LEFT_ALIGNMENT);
+    myEventsPanel.removeAll();
+    myEventsPanel.setLayout(new BoxLayout(myEventsPanel, BoxLayout.Y_AXIS));
 
-                JLabel titleLabel = new JLabel(event.getEventTitle());
-                titleLabel.setForeground(Color.WHITE);
-                titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+    if (eventCount == 0) {
+        JLabel noEvents = new JLabel("You have not created any events.");
+        noEvents.setForeground(Color.WHITE);
+        noEvents.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        noEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
+        myEventsPanel.add(noEvents);
+    } else {
+        for (EventWithUser event : events) {
+            JPanel card = new JPanel();
+            card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+            card.setBackground(new Color(66, 66, 116));
+            card.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+            card.setMaximumSize(new Dimension(700, 250));
+            card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                JLabel descLabel = new JLabel("<html><body style='width:650px'>" + event.getEventDesc() + "</body></html>");
-                descLabel.setForeground(new Color(200, 200, 200));
+            // Title
+            JLabel titleLabel = new JLabel(event.getEventTitle());
+            titleLabel.setForeground(Color.WHITE);
+            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
 
-                JLabel timeLabel = new JLabel("Time: " + event.getEventTime());
-                timeLabel.setForeground(Color.LIGHT_GRAY);
+            // Description with wrapping
+            JLabel descLabel = new JLabel("<html><body style='width:650px'>" + event.getEventDesc() + "</body></html>");
+            descLabel.setForeground(new Color(200, 200, 200));
+            descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
-                JLabel dateLabel = new JLabel("Date: " + event.getEventDate());
-                dateLabel.setForeground(Color.LIGHT_GRAY);
+            // Event Details
+            JLabel timeLabel = new JLabel("Time: " + event.getEventTime());
+            JLabel dateLabel = new JLabel("Date: " + event.getEventDate());
+            JLabel locationLabel = new JLabel("Location: " + event.getEventLocation());
+            JLabel priceLabel = new JLabel("Price: Rs. " + event.getEventPrice());
 
-                JLabel locationLabel = new JLabel("Location: " + event.getEventLocation());
-                locationLabel.setForeground(Color.LIGHT_GRAY);
-
-                JLabel priceLabel = new JLabel("Price: Rs. " + event.getEventPrice());
-                priceLabel.setForeground(new Color(0, 255, 153));
-
-                card.add(titleLabel);
-                card.add(descLabel);
-                card.add(timeLabel);
-                card.add(dateLabel);
-                card.add(locationLabel);
-                card.add(priceLabel);
-
-                myEventsPanel.add(card);
-                myEventsPanel.add(Box.createVerticalStrut(20)); // gap between cards
+            for (JLabel label : new JLabel[]{timeLabel, dateLabel, locationLabel}) {
+                label.setForeground(Color.LIGHT_GRAY);
+                label.setFont(new Font("Segoe UI", Font.PLAIN, 12));
             }
-        }
 
-        myEventsPanel.revalidate();
-        myEventsPanel.repaint();
+            priceLabel.setForeground(new Color(0, 255, 153));
+            priceLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+
+            // Add all to card
+            card.add(titleLabel);
+            card.add(Box.createVerticalStrut(5));
+            card.add(descLabel);
+            card.add(Box.createVerticalStrut(5));
+            card.add(timeLabel);
+            card.add(dateLabel);
+            card.add(locationLabel);
+            card.add(priceLabel);
+
+            // Add card to panel with spacing
+            myEventsPanel.add(card);
+            myEventsPanel.add(Box.createVerticalStrut(20));
+        }
     }
+
+    myEventsPanel.revalidate();
+    myEventsPanel.repaint();
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.

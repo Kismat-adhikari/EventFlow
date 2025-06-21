@@ -30,10 +30,8 @@ public class WalletForm extends javax.swing.JFrame {
         myEventsbut.addActionListener(evt -> {
             eventflow.controllers.DashboardController.goToMyEvents(user);
             dispose();
-        });
-
-        myTicketsbut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToMyTickets(user);
+        });        myTicketsbut.addActionListener(evt -> {
+            eventflow.controllers.TicketController.goToMyTickets(user);
             dispose();
         });
 

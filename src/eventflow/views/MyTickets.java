@@ -1,11 +1,14 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */// In MyTickets.java
-package eventflow.views;
+ */package eventflow.views;
 
+import eventflow.dao.TicketDao.TicketWithEventDetails;
 import eventflow.models.User;
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class MyTickets extends javax.swing.JFrame {
 
@@ -30,10 +33,8 @@ public class MyTickets extends javax.swing.JFrame {
         myEventsbut.addActionListener(evt -> {
             eventflow.controllers.DashboardController.goToMyEvents(user);
             dispose();
-        });
-
-        myTicketsbut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToMyTickets(user);
+        });        myTicketsbut.addActionListener(evt -> {
+            eventflow.controllers.TicketController.goToMyTickets(user);
             dispose();
         });
 
@@ -48,11 +49,117 @@ public class MyTickets extends javax.swing.JFrame {
         });
 
         double balance = eventflow.controllers.TicketController.getUserBalance(user);
-        balanceLabel.setText("Balance: RS" + balance);
-
-        // ✅ Button to navigate to Create.java
+        balanceLabel.setText("Balance: RS" + balance);        // ✅ Button to navigate to Create.java
         
         // You can now use user.getFullname(), user.getId(), etc.
+    }
+
+    public void loadTickets(List<TicketWithEventDetails> tickets) {
+        myTickets.removeAll();
+        myTickets.setLayout(new BoxLayout(myTickets, BoxLayout.Y_AXIS));
+
+        if (tickets == null || tickets.isEmpty()) {
+            JLabel noTickets = new JLabel("No tickets purchased yet");
+            noTickets.setForeground(Color.WHITE);
+            noTickets.setAlignmentX(Component.LEFT_ALIGNMENT);
+            myTickets.add(noTickets);
+            myTickets.revalidate();
+            myTickets.repaint();
+            return;
+        }
+
+        for (TicketWithEventDetails ticket : tickets) {
+            JPanel card = new JPanel(new GridBagLayout());
+            card.setBackground(new Color(66, 66, 116));
+            card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(90, 90, 140), 1, true),
+                    BorderFactory.createEmptyBorder(15, 20, 15, 20)
+            ));
+            card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+            card.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(5, 5, 5, 5);
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.weightx = 1;
+
+            // Row 0 - Ticket ID
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            JLabel ticketIdLabel = new JLabel("Ticket #" + ticket.getTicketId());
+            ticketIdLabel.setForeground(new Color(180, 180, 255));
+            ticketIdLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            card.add(ticketIdLabel, gbc);
+
+            // Row 1 - Event Title
+            gbc.gridy++;
+            JLabel titleLabel = new JLabel(ticket.getEventTitle());
+            titleLabel.setForeground(Color.WHITE);
+            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+            card.add(titleLabel, gbc);
+
+            // Row 2 - Event Details
+            gbc.gridy++;
+            gbc.gridwidth = 1;
+
+            JLabel dateLabel = new JLabel("Date:");
+            dateLabel.setForeground(Color.LIGHT_GRAY);
+            gbc.gridx = 0;
+            card.add(dateLabel, gbc);
+
+            JLabel dateValue = new JLabel(ticket.getEventDate() + " at " + ticket.getEventTime());
+            dateValue.setForeground(Color.LIGHT_GRAY);
+            gbc.gridx = 1;
+            card.add(dateValue, gbc);
+
+            // Row 3 - Location
+            gbc.gridy++;
+            gbc.gridx = 0;
+            JLabel locationLabel = new JLabel("Location:");
+            locationLabel.setForeground(Color.LIGHT_GRAY);
+            card.add(locationLabel, gbc);
+
+            gbc.gridx = 1;
+            JLabel locationValue = new JLabel(ticket.getEventLocation());
+            locationValue.setForeground(Color.LIGHT_GRAY);
+            card.add(locationValue, gbc);
+
+            // Row 4 - Price Paid
+            gbc.gridy++;
+            gbc.gridx = 0;
+            JLabel priceLabel = new JLabel("Price Paid:");
+            priceLabel.setForeground(new Color(0, 255, 153));
+            priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD));
+            card.add(priceLabel, gbc);
+
+            gbc.gridx = 1;
+            JLabel priceValue = new JLabel("Rs. " + ticket.getPricePaid());
+            priceValue.setForeground(new Color(0, 255, 153));
+            priceValue.setFont(priceValue.getFont().deriveFont(Font.BOLD));
+            card.add(priceValue, gbc);
+
+            // Row 5 - Purchase Date
+            gbc.gridy++;
+            gbc.gridx = 0;
+            JLabel purchaseLabel = new JLabel("Purchased:");
+            purchaseLabel.setForeground(Color.LIGHT_GRAY);
+            card.add(purchaseLabel, gbc);
+
+            gbc.gridx = 1;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            JLabel purchaseValue = new JLabel(ticket.getPurchaseDate().format(formatter));
+            purchaseValue.setForeground(Color.LIGHT_GRAY);
+            card.add(purchaseValue, gbc);
+
+            // Add vertical spacing between cards
+            myTickets.add(card);
+            myTickets.add(Box.createVerticalStrut(15));
+        }
+
+        myTickets.revalidate();
+        myTickets.repaint();
     }
 
 
@@ -78,20 +185,15 @@ public class MyTickets extends javax.swing.JFrame {
         sideLabel = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
         jLabel43 = new javax.swing.JLabel();
-        jPanel22 = new javax.swing.JPanel();
+        myTickets = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel46 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
         jLabel47 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
-        jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
-        jLabel55 = new javax.swing.JLabel();
         jLabel56 = new javax.swing.JLabel();
         jLabel57 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
@@ -108,7 +210,7 @@ public class MyTickets extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 6, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,8 +324,8 @@ public class MyTickets extends javax.swing.JFrame {
         jLabel43.setForeground(java.awt.Color.white);
         jLabel43.setText("MY TICKETS");
 
-        jPanel22.setBackground(new java.awt.Color(66, 66, 116));
-        jPanel22.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        myTickets.setBackground(new java.awt.Color(66, 66, 116));
+        myTickets.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jPanel23.setBackground(new java.awt.Color(31, 110, 153));
         jPanel23.setForeground(new java.awt.Color(51, 204, 255));
@@ -255,16 +357,6 @@ public class MyTickets extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTextField5.setBackground(new java.awt.Color(102, 153, 255));
-        jTextField5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTextField5.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField5.setText("Upcoming");
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-
         jLabel47.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel47.setForeground(java.awt.Color.white);
         jLabel47.setText("Summer Music Festival 2023");
@@ -277,25 +369,11 @@ public class MyTickets extends javax.swing.JFrame {
         jLabel49.setForeground(java.awt.Color.white);
         jLabel49.setText("Description");
 
-        jLabel50.setForeground(java.awt.Color.white);
-        jLabel50.setText("Ticket ID");
-
-        jLabel51.setForeground(java.awt.Color.white);
-        jLabel51.setText("Ticket Type");
-
         jLabel52.setForeground(java.awt.Color.white);
         jLabel52.setText("Price");
 
         jLabel53.setForeground(java.awt.Color.white);
         jLabel53.setText("Purchase Date");
-
-        jLabel54.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel54.setForeground(java.awt.Color.white);
-        jLabel54.setText("#TK- 7829");
-
-        jLabel55.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel55.setForeground(java.awt.Color.white);
-        jLabel55.setText("VIP");
 
         jLabel56.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel56.setForeground(java.awt.Color.white);
@@ -305,67 +383,46 @@ public class MyTickets extends javax.swing.JFrame {
         jLabel57.setForeground(java.awt.Color.white);
         jLabel57.setText("July 28,  2023");
 
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
+        javax.swing.GroupLayout myTicketsLayout = new javax.swing.GroupLayout(myTickets);
+        myTickets.setLayout(myTicketsLayout);
+        myTicketsLayout.setHorizontalGroup(
+            myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(myTicketsLayout.createSequentialGroup()
                 .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel22Layout.createSequentialGroup()
-                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel50)
-                            .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(69, 69, 69)
-                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel51)
-                            .addGroup(jPanel22Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(72, 72, 72)
-                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(myTicketsLayout.createSequentialGroup()
+                        .addGap(265, 265, 265)
+                        .addGroup(myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel52))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addGroup(myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel57)
                             .addComponent(jLabel53))
                         .addGap(26, 26, 26))
-                    .addGroup(jPanel22Layout.createSequentialGroup()
-                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5)
-                            .addGroup(jPanel22Layout.createSequentialGroup()
-                                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel47)
-                                    .addComponent(jLabel48))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(jPanel22Layout.createSequentialGroup()
-                        .addComponent(jLabel49)
+                    .addGroup(myTicketsLayout.createSequentialGroup()
+                        .addGroup(myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel47)
+                            .addComponent(jLabel48)
+                            .addComponent(jLabel49))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        myTicketsLayout.setVerticalGroup(
+            myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(myTicketsLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
                 .addComponent(jLabel47)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel48)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel49)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel50)
-                    .addComponent(jLabel51)
+                .addGroup(myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel52)
                     .addComponent(jLabel53))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel54)
-                    .addComponent(jLabel55)
+                .addGroup(myTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel56)
                     .addComponent(jLabel57))
                 .addContainerGap())
@@ -385,31 +442,34 @@ public class MyTickets extends javax.swing.JFrame {
         jPanel21.setLayout(jPanel21Layout);
         jPanel21Layout.setHorizontalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel21Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel43)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(balanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel21Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addComponent(jLabel43)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(balanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(myTickets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel43)
-                    .addComponent(balanceLabel))
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(balanceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(11, 11, 11)
                 .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(myTickets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(208, Short.MAX_VALUE))
         );
 
@@ -463,10 +523,6 @@ public class MyTickets extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_myTicketsbutActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -508,24 +564,19 @@ public class MyTickets extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton myEventsbut;
+    private javax.swing.JPanel myTickets;
     private javax.swing.JToggleButton myTicketsbut;
     private javax.swing.JToggleButton profileBut;
     private javax.swing.JLabel sideLabel;

@@ -2,6 +2,7 @@ package eventflow.controllers;
 
 import eventflow.dao.EventDao;
 import eventflow.dao.EventDao.EventWithUser;
+import eventflow.dao.UserDAO;
 import eventflow.models.User;
 import eventflow.views.Create;
 import eventflow.views.Dashboard;
@@ -56,6 +57,40 @@ public class DashboardController {
     public static void goToWallet(User user) {
     WalletForm walletPage = new WalletForm(user);
     walletPage.setVisible(true);
+}
+public static boolean payForEvent(int buyerId, int eventId, double price) {
+    EventDao eventDao = new EventDao();
+    UserDAO userDao = new UserDAO();
+
+    // Get creator ID of the event
+    int creatorId = eventDao.getCreatorIdByEventId(eventId);
+    if (creatorId == -1) {
+        return false; // event or creator not found
+    }
+
+    // Check if buyer has sufficient balance
+    double buyerBalance = userDao.getBalanceById(buyerId);
+    if (buyerBalance < price) {
+        return false; // insufficient funds
+    }
+
+    // Process payment: deduct buyer, credit creator
+    boolean paymentSuccess = userDao.processPayment(buyerId, creatorId, price);
+    
+    if (paymentSuccess) {
+        // Create ticket after successful payment
+        EventController eventController = new EventController();
+        boolean ticketCreated = eventController.purchaseTicket(buyerId, eventId, price);
+        
+        if (ticketCreated) {
+            System.out.println("Payment successful - Rs. " + price + " transferred from user " + buyerId + " to user " + creatorId);
+            System.out.println("Ticket created for user " + buyerId + " for event " + eventId);
+        } else {
+            System.out.println("Payment successful but ticket creation failed");
+        }
+    }
+    
+    return paymentSuccess;
 }
 
 }

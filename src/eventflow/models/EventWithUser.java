@@ -9,9 +9,8 @@ public class EventWithUser {
     private String eventDate;
     private String eventTime;
     private String eventLocation;
-    private String uploaderName;  // new field for uploader's fullname
+    private String uploaderFullname;  // same name as DAO query alias
 
-    // getters and setters for all fields including uploaderName
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -36,6 +35,6 @@ public class EventWithUser {
     public String getEventLocation() { return eventLocation; }
     public void setEventLocation(String eventLocation) { this.eventLocation = eventLocation; }
 
-    public String getUploaderName() { return uploaderName; }
-    public void setUploaderName(String uploaderName) { this.uploaderName = uploaderName; }
+    public String getUploaderFullname() { return uploaderFullname; }
+    public void setUploaderFullname(String uploaderFullname) { this.uploaderFullname = uploaderFullname; }
 }
