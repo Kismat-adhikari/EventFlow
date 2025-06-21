@@ -17,7 +17,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     public Dashboard(User user) {
         initComponents(); // NetBeans GUI setup
-         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.user = user;
 
         // Set welcome labels
@@ -37,10 +37,8 @@ public class Dashboard extends javax.swing.JFrame {
         myEventsbut.addActionListener(evt -> {
             eventflow.controllers.DashboardController.goToMyEvents(user);
             dispose();
-        });
-
-        myTicketsbut.addActionListener(evt -> {
-            eventflow.controllers.DashboardController.goToMyTickets(user);
+        });        myTicketsbut.addActionListener(evt -> {
+            eventflow.controllers.TicketController.goToMyTickets(user);
             dispose();
         });
 
@@ -56,133 +54,195 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     public void loadEvents(List<EventWithUser> events) {
-    eventsPanel.removeAll();
-    eventsPanel.setLayout(new BoxLayout(eventsPanel, BoxLayout.Y_AXIS));
+        eventsPanel.removeAll();
+        eventsPanel.setLayout(new BoxLayout(eventsPanel, BoxLayout.Y_AXIS));
 
-    if (events == null || events.isEmpty()) {
-        JLabel noEvents = new JLabel("No events available");
-        noEvents.setForeground(Color.WHITE);
-        noEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
-        eventsPanel.add(noEvents);
+        if (events == null || events.isEmpty()) {
+            JLabel noEvents = new JLabel("No events available");
+            noEvents.setForeground(Color.WHITE);
+            noEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
+            eventsPanel.add(noEvents);
+            eventsPanel.revalidate();
+            eventsPanel.repaint();
+            return;
+        }
+
+        for (EventWithUser event : events) {
+            JPanel card = new JPanel(new GridBagLayout());
+            card.setBackground(new Color(66, 66, 116));  // lighter panel bg
+            card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(90, 90, 140), 1, true),
+                    BorderFactory.createEmptyBorder(15, 20, 15, 20)
+            ));
+            card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 250));
+            card.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(5, 5, 5, 5);
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.weightx = 1;
+
+            // Row 0 - Uploader Name (bold)
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            JLabel nameLabel = new JLabel(event.getUploaderFullname());
+            nameLabel.setForeground(new Color(180, 180, 255));
+            nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            card.add(nameLabel, gbc);
+
+            // Row 1 - Event Title (bigger, bold)
+            gbc.gridy++;
+            JLabel titleLabel = new JLabel(event.getEventTitle());
+            titleLabel.setForeground(Color.WHITE);
+            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+            card.add(titleLabel, gbc);
+
+            // Row 2 - Description (wrap with HTML)
+            gbc.gridy++;
+            JLabel descLabel = new JLabel("<html><body style='width:650px;'>" + event.getEventDesc() + "</body></html>");
+            descLabel.setForeground(new Color(190, 190, 210));
+            descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            card.add(descLabel, gbc);
+
+            // Row 3 - Info labels in 2 columns: label and value pairs
+            gbc.gridy++;
+            gbc.gridwidth = 1;
+
+            JLabel timeLabel = new JLabel("Time:");
+            timeLabel.setForeground(Color.LIGHT_GRAY);
+            gbc.gridx = 0;
+            card.add(timeLabel, gbc);
+
+            JLabel timeValue = new JLabel(event.getEventTime());
+            timeValue.setForeground(Color.LIGHT_GRAY);
+            gbc.gridx = 1;
+            card.add(timeValue, gbc);
+
+            gbc.gridy++;
+            gbc.gridx = 0;
+            JLabel dateLabel = new JLabel("Date:");
+            dateLabel.setForeground(Color.LIGHT_GRAY);
+            card.add(dateLabel, gbc);
+
+            gbc.gridx = 1;
+            JLabel dateValue = new JLabel(event.getEventDate());
+            dateValue.setForeground(Color.LIGHT_GRAY);
+            card.add(dateValue, gbc);
+
+            gbc.gridy++;
+            gbc.gridx = 0;
+            JLabel locationLabel = new JLabel("Location:");
+            locationLabel.setForeground(Color.LIGHT_GRAY);
+            card.add(locationLabel, gbc);
+
+            gbc.gridx = 1;
+            JLabel locationValue = new JLabel(event.getEventLocation());
+            locationValue.setForeground(Color.LIGHT_GRAY);
+            card.add(locationValue, gbc);
+
+            gbc.gridy++;
+            gbc.gridx = 0;
+            JLabel priceLabel = new JLabel("Price:");
+            priceLabel.setForeground(new Color(0, 255, 153));
+            priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD));
+            card.add(priceLabel, gbc);
+
+            gbc.gridx = 1;
+            JLabel priceValue = new JLabel("Rs. " + event.getEventPrice());
+            priceValue.setForeground(new Color(0, 255, 153));
+            priceValue.setFont(priceValue.getFont().deriveFont(Font.BOLD));
+            card.add(priceValue, gbc);            // Row 7 - Pay Button spanning 2 columns, left aligned
+            gbc.gridy++;
+            gbc.gridx = 0;
+            gbc.gridwidth = 2;
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.anchor = GridBagConstraints.WEST;
+            
+            // Check if this is the user's own event
+            if (event.getCreatorUserId() == user.getId()) {
+                JButton ownEventButton = new JButton("Your Event");
+                ownEventButton.setBackground(Color.GRAY);
+                ownEventButton.setForeground(Color.WHITE);
+                ownEventButton.setFocusPainted(false);
+                ownEventButton.setPreferredSize(new Dimension(100, 30));
+                ownEventButton.setEnabled(false);
+                card.add(ownEventButton, gbc);
+            } else {
+                JButton payButton = new JButton("Pay");
+                payButton.setBackground(new Color(6, 200, 164));
+                payButton.setForeground(Color.WHITE);
+                payButton.setFocusPainted(false);
+                payButton.setPreferredSize(new Dimension(80, 30));
+                payButton.addActionListener(actionEvent -> {
+                    // Check if user has sufficient balance
+                    if (user.getBalance() < event.getEventPrice()) {
+                        JOptionPane.showMessageDialog(
+                            this, 
+                            "Insufficient balance! You need Rs. " + event.getEventPrice() + " but only have Rs. " + user.getBalance(),
+                            "Insufficient Funds",
+                            JOptionPane.WARNING_MESSAGE
+                        );
+                        return;
+                    }
+                    
+                    // Confirm payment dialog
+                    int confirm = JOptionPane.showConfirmDialog(
+                        this, 
+                        "Are you sure you want to pay Rs. " + event.getEventPrice() + " for " + event.getEventTitle() + "?\n" +
+                        "Your current balance: Rs. " + user.getBalance(),
+                        "Confirm Payment",
+                        JOptionPane.YES_NO_OPTION
+                    );
+                    
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        // Process payment using controller
+                        boolean paymentSuccess = eventflow.controllers.DashboardController.payForEvent(
+                            user.getId(), 
+                            event.getId(), 
+                            event.getEventPrice()
+                        );
+                        
+                        if (paymentSuccess) {
+                            // Update user's balance in real-time
+                            user.setBalance(user.getBalance() - event.getEventPrice());
+                            
+                            JOptionPane.showMessageDialog(
+                                this, 
+                                "Payment successful! You have purchased a ticket for " + event.getEventTitle() + "\n" +
+                                "Amount paid: Rs. " + event.getEventPrice() + "\n" +
+                                "New balance: Rs. " + user.getBalance(),
+                                "Payment Success",
+                                JOptionPane.INFORMATION_MESSAGE
+                            );
+                            
+                            // Disable the button after successful payment to prevent double payment
+                            payButton.setEnabled(false);
+                            payButton.setText("Paid");
+                            payButton.setBackground(Color.GRAY);
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                this, 
+                                "Payment failed! Please check your balance and try again.",
+                                "Payment Failed",
+                                JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+                    }
+                });
+                card.add(payButton, gbc);
+            }
+
+            // Add vertical spacing between cards
+            eventsPanel.add(card);
+            eventsPanel.add(Box.createVerticalStrut(20));
+        }
+
         eventsPanel.revalidate();
         eventsPanel.repaint();
-        return;
     }
 
-    for (EventWithUser event : events) {
-        JPanel card = new JPanel(new GridBagLayout());
-        card.setBackground(new Color(66, 66, 116));  // lighter panel bg
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(90, 90, 140), 1, true),
-            BorderFactory.createEmptyBorder(15, 20, 15, 20)
-        ));
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 250));
-        card.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1;
-
-        // Row 0 - Uploader Name (bold)
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        JLabel nameLabel = new JLabel(event.getUploaderFullname());
-        nameLabel.setForeground(new Color(180, 180, 255));
-        nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        card.add(nameLabel, gbc);
-
-        // Row 1 - Event Title (bigger, bold)
-        gbc.gridy++;
-        JLabel titleLabel = new JLabel(event.getEventTitle());
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        card.add(titleLabel, gbc);
-
-        // Row 2 - Description (wrap with HTML)
-        gbc.gridy++;
-        JLabel descLabel = new JLabel("<html><body style='width:650px;'>" + event.getEventDesc() + "</body></html>");
-        descLabel.setForeground(new Color(190, 190, 210));
-        descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        card.add(descLabel, gbc);
-
-        // Row 3 - Info labels in 2 columns: label and value pairs
-        gbc.gridy++;
-        gbc.gridwidth = 1;
-
-        JLabel timeLabel = new JLabel("Time:");
-        timeLabel.setForeground(Color.LIGHT_GRAY);
-        gbc.gridx = 0;
-        card.add(timeLabel, gbc);
-
-        JLabel timeValue = new JLabel(event.getEventTime());
-        timeValue.setForeground(Color.LIGHT_GRAY);
-        gbc.gridx = 1;
-        card.add(timeValue, gbc);
-
-        gbc.gridy++;
-        gbc.gridx = 0;
-        JLabel dateLabel = new JLabel("Date:");
-        dateLabel.setForeground(Color.LIGHT_GRAY);
-        card.add(dateLabel, gbc);
-
-        gbc.gridx = 1;
-        JLabel dateValue = new JLabel(event.getEventDate());
-        dateValue.setForeground(Color.LIGHT_GRAY);
-        card.add(dateValue, gbc);
-
-        gbc.gridy++;
-        gbc.gridx = 0;
-        JLabel locationLabel = new JLabel("Location:");
-        locationLabel.setForeground(Color.LIGHT_GRAY);
-        card.add(locationLabel, gbc);
-
-        gbc.gridx = 1;
-        JLabel locationValue = new JLabel(event.getEventLocation());
-        locationValue.setForeground(Color.LIGHT_GRAY);
-        card.add(locationValue, gbc);
-
-        gbc.gridy++;
-        gbc.gridx = 0;
-        JLabel priceLabel = new JLabel("Price:");
-        priceLabel.setForeground(new Color(0, 255, 153));
-        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD));
-        card.add(priceLabel, gbc);
-
-        gbc.gridx = 1;
-        JLabel priceValue = new JLabel("Rs. " + event.getEventPrice());
-        priceValue.setForeground(new Color(0, 255, 153));
-        priceValue.setFont(priceValue.getFont().deriveFont(Font.BOLD));
-        card.add(priceValue, gbc);
-
-        // Row 7 - Pay Button spanning 2 columns, left aligned
-        gbc.gridy++;
-        gbc.gridx = 0;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.WEST;
-        JButton payButton = new JButton("Pay");
-        payButton.setBackground(new Color(6, 200, 164));
-        payButton.setForeground(Color.WHITE);
-        payButton.setFocusPainted(false);
-        payButton.setPreferredSize(new Dimension(80, 30));
-        payButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Paying for: " + event.getEventTitle());
-        });
-        card.add(payButton, gbc);
-
-        // Add vertical spacing between cards
-        eventsPanel.add(card);
-        eventsPanel.add(Box.createVerticalStrut(20));
-    }
-
-    eventsPanel.revalidate();
-    eventsPanel.repaint();
-}
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -223,12 +283,12 @@ public class Dashboard extends javax.swing.JFrame {
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
         jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+                jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+                jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -290,49 +350,49 @@ public class Dashboard extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(walletBut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(myTicketsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                            .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(myEventsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(profileBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(36, 36, 36))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jLabel1)))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(walletBut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(myTicketsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                                        .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(myEventsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                                        .addComponent(profileBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(36, 36, 36))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(46, 46, 46))))
         );
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(myEventsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(myTicketsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(walletBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(profileBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
-                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(dashBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(myEventsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(myTicketsbut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(walletBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(profileBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
+                                .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -351,25 +411,25 @@ public class Dashboard extends javax.swing.JFrame {
         javax.swing.GroupLayout eventsPanelLayout = new javax.swing.GroupLayout(eventsPanel);
         eventsPanel.setLayout(eventsPanelLayout);
         eventsPanelLayout.setHorizontalGroup(
-            eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(eventsPanelLayout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(eventsPanelLayout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
         eventsPanelLayout.setVerticalGroup(
-            eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(eventsPanelLayout.createSequentialGroup()
-                .addGroup(eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(eventsPanelLayout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(jLabel9))
-                    .addGroup(eventsPanelLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(85, Short.MAX_VALUE))
+                eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(eventsPanelLayout.createSequentialGroup()
+                                .addGroup(eventsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(eventsPanelLayout.createSequentialGroup()
+                                                .addGap(87, 87, 87)
+                                                .addComponent(jLabel9))
+                                        .addGroup(eventsPanelLayout.createSequentialGroup()
+                                                .addGap(33, 33, 33)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -383,43 +443,43 @@ public class Dashboard extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(eventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(eventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel12))
-                        .addGap(18, 18, 18)
-                        .addComponent(eventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .addGap(15, 15, 15)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel4)
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLabel5)
+                                                        .addComponent(jLabel12))
+                                                .addGap(18, 18, 18)
+                                                .addComponent(eventsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
         );
 
         jScrollPane3.setViewportView(jPanel1);
@@ -429,15 +489,15 @@ public class Dashboard extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
         );
 
         pack();
@@ -450,6 +510,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void dashButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashButActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dashButActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -478,7 +539,6 @@ public class Dashboard extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

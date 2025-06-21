@@ -2,7 +2,6 @@ package eventflow.dao;
 
 import database.DbConnection;
 import eventflow.models.Event;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +12,7 @@ public class EventDao {
         return DbConnection.getConnection();
     }
 
+    // Insert a new event into the database
     public boolean createEvent(Event event) {
         String sql = "INSERT INTO events (eventTitle, eventDesc, eventTickets, eventPrice, eventDate, eventTime, eventLocation, user_id) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -34,12 +34,11 @@ public class EventDao {
             e.printStackTrace();
             return false;
         }
-    }
-
+    }    // Retrieve all events with uploader's fullname
     public List<EventWithUser> getAllEventsWithUploader() {
         List<EventWithUser> list = new ArrayList<>();
         String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, " +
-                     "e.eventDate, e.eventTime, e.eventLocation, u.fullname AS uploaderFullname " +
+                     "e.eventDate, e.eventTime, e.eventLocation, e.user_id, u.fullname AS uploaderFullname " +
                      "FROM events e JOIN users u ON e.user_id = u.id";
 
         try (Connection conn = getConnection();
@@ -56,6 +55,7 @@ public class EventDao {
                 e.setEventDate(rs.getString("eventDate"));
                 e.setEventTime(rs.getString("eventTime"));
                 e.setEventLocation(rs.getString("eventLocation"));
+                e.setCreatorUserId(rs.getInt("user_id"));
                 e.setUploaderFullname(rs.getString("uploaderFullname"));
                 list.add(e);
             }
@@ -63,33 +63,32 @@ public class EventDao {
             e.printStackTrace();
         }
         return list;
-    }
-
-    // New method to fetch events by specific user/uploader id
+    }    // Retrieve events uploaded by a specific user
     public List<EventWithUser> getEventsByUploader(int userId) {
         List<EventWithUser> list = new ArrayList<>();
         String sql = "SELECT e.id, e.eventTitle, e.eventDesc, e.eventTickets, e.eventPrice, " +
-                     "e.eventDate, e.eventTime, e.eventLocation, u.fullname AS uploaderFullname " +
+                     "e.eventDate, e.eventTime, e.eventLocation, e.user_id, u.fullname AS uploaderFullname " +
                      "FROM events e JOIN users u ON e.user_id = u.id WHERE u.id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                EventWithUser e = new EventWithUser();
-                e.setId(rs.getInt("id"));
-                e.setEventTitle(rs.getString("eventTitle"));
-                e.setEventDesc(rs.getString("eventDesc"));
-                e.setEventTickets(rs.getInt("eventTickets"));
-                e.setEventPrice(rs.getDouble("eventPrice"));
-                e.setEventDate(rs.getString("eventDate"));
-                e.setEventTime(rs.getString("eventTime"));
-                e.setEventLocation(rs.getString("eventLocation"));
-                e.setUploaderFullname(rs.getString("uploaderFullname"));
-                list.add(e);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    EventWithUser e = new EventWithUser();
+                    e.setId(rs.getInt("id"));
+                    e.setEventTitle(rs.getString("eventTitle"));
+                    e.setEventDesc(rs.getString("eventDesc"));
+                    e.setEventTickets(rs.getInt("eventTickets"));
+                    e.setEventPrice(rs.getDouble("eventPrice"));
+                    e.setEventDate(rs.getString("eventDate"));
+                    e.setEventTime(rs.getString("eventTime"));
+                    e.setEventLocation(rs.getString("eventLocation"));
+                    e.setCreatorUserId(rs.getInt("user_id"));
+                    e.setUploaderFullname(rs.getString("uploaderFullname"));
+                    list.add(e);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +96,22 @@ public class EventDao {
         return list;
     }
 
-    // Inner class to hold event details with uploader info
+    // Get the creator user ID of an event by event ID (needed for payment)
+    public int getCreatorIdByEventId(int eventId) {
+        String sql = "SELECT user_id FROM events WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, eventId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("user_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // not found or error
+    }    // Inner class to represent event + uploader info together
     public static class EventWithUser {
         private int id;
         private String eventTitle;
@@ -107,10 +121,10 @@ public class EventDao {
         private String eventDate;
         private String eventTime;
         private String eventLocation;
+        private int creatorUserId;
         private String uploaderFullname;
 
         // Getters and setters
-
         public int getId() { return id; }
         public void setId(int id) { this.id = id; }
 
@@ -134,6 +148,9 @@ public class EventDao {
 
         public String getEventLocation() { return eventLocation; }
         public void setEventLocation(String eventLocation) { this.eventLocation = eventLocation; }
+
+        public int getCreatorUserId() { return creatorUserId; }
+        public void setCreatorUserId(int creatorUserId) { this.creatorUserId = creatorUserId; }
 
         public String getUploaderFullname() { return uploaderFullname; }
         public void setUploaderFullname(String uploaderFullname) { this.uploaderFullname = uploaderFullname; }
