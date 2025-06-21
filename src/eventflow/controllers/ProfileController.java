@@ -48,10 +48,11 @@ public class ProfileController {
     walletPage.setVisible(true);
 }
 
-public static void goToEditProfile(User user) {
-    InfoForm editProfilePage = new InfoForm(user);
-    editProfilePage.setVisible(true);
+public static void goToEditProfile(User user, ProfileForm profileForm) {
+    InfoForm infoForm = new InfoForm(user, profileForm);
+    infoForm.setVisible(true);
 }
+
 
 
  

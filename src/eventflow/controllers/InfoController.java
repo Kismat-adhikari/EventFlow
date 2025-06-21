@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package eventflow.controllers;
 
-/**
- *
- * @author kisma
- */
+import eventflow.models.User;
+import eventflow.services.ProfileService;
+
 public class InfoController {
-    
+
+    public static void updateUserBio(User user, String newBio) {
+        ProfileService.updateBio(user.getId(), newBio);
+    }
+
+    public static void updateUserLocation(User user, String newLocation) {
+        ProfileService.updateLocation(user.getId(), newLocation);
+    }
 }
