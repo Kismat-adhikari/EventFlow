@@ -4,18 +4,32 @@
  */
 package eventflow.views;
 
+import eventflow.models.User;
+
 /**
  *
  * @author TUFBaby
  */
 public class InfoForm extends javax.swing.JFrame {
 
+    private User user;
+
     /**
      * Creates new form InfoForm
      */
-    public InfoForm() {
+    public InfoForm(User user) {
+        this.user = user;
         initComponents();
+        loadUserData(); // optional method to populate user info in the UI
     }
+
+    // Optional: add this method to display user info in form fields
+    private void loadUserData() {
+        // Example:
+        // nameField.setText(user.getName());
+        // emailLabel.setText(user.getEmail());
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,12 +124,7 @@ public class InfoForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InfoForm().setVisible(true);
             }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

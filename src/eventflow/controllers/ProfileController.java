@@ -7,6 +7,7 @@ package eventflow.controllers;
 import eventflow.models.User;
 import eventflow.views.Create;
 import eventflow.views.Dashboard;
+import eventflow.views.InfoForm;
 import eventflow.views.MyEvents;
 import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
@@ -46,6 +47,12 @@ public class ProfileController {
     WalletForm walletPage = new WalletForm(user);
     walletPage.setVisible(true);
 }
- 
+
+public static void goToEditProfile(User user) {
+    InfoForm editProfilePage = new InfoForm(user);
+    editProfilePage.setVisible(true);
+}
+
+
  
 }
