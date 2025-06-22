@@ -52,6 +52,12 @@ public class Dashboard extends javax.swing.JFrame {
             eventflow.controllers.DashboardController.goToWallet(user);
             dispose();
         });
+        
+        logBut.addActionListener(evt -> {
+    eventflow.controllers.DashboardController.goToSignup();
+    dispose();
+});
+
     }
 
     public void loadEvents(List<EventWithUser> events) {

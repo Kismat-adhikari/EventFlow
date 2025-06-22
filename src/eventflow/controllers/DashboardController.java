@@ -9,6 +9,7 @@ import eventflow.views.Dashboard;
 import eventflow.views.MyEvents;
 import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
+import eventflow.views.SignupForm;
 import eventflow.views.WalletForm;
 import java.util.List;
 
@@ -57,6 +58,15 @@ public class DashboardController {
         WalletForm walletPage = new WalletForm(user);
         walletPage.setVisible(true);
     }
+    
+    public static void goToSignup() {
+    SignupForm signupPage = new SignupForm();
+    signupPage.setVisible(true);
+}
+
+    
+    
+    
 
     public static boolean payForEvent(int buyerId, int eventId, double price) {
         EventDao eventDao = new EventDao();
