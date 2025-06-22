@@ -447,6 +447,25 @@ public class Dashboard extends javax.swing.JFrame {
         activateSearch();
     }
 
+    public void activateSearch() {
+        // Setup search field placeholder behavior
+        searchField.setText("🔎Search");
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("🔎Search")) {
+                    searchField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setText("🔎Search");
+                }
+            }
+        });
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
