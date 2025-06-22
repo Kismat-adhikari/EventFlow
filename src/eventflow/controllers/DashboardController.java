@@ -170,4 +170,31 @@ public class DashboardController {
         }
         
         return filteredEvents;
+    }
     
+    /**
+     * Validate search query and return sanitized version
+     * @param query Raw search query
+     * @return Sanitized search query or null if invalid
+     */
+    public static String validateSearchQuery(String query) {
+        if (query == null) {
+            return null;
+        }
+        
+        String trimmed = query.trim();
+        
+        // Ignore placeholder text
+        if (trimmed.equals("🔎Search")) {
+            return null;
+        }
+        
+        // Return null for empty queries (to show all events)
+        if (trimmed.isEmpty()) {
+            return "";
+        }
+        
+        return trimmed;
+    }
+
+}
