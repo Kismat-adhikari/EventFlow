@@ -807,3 +807,189 @@ public class Dashboard extends javax.swing.JFrame {
         updateEventsDisplay(filteredEvents);
     }
 
+    private void updateEventsDisplay(List<EventWithUser> events) {
+        eventsPanel.removeAll();
+        
+        if (events.isEmpty()) {
+            // Hide events panel content and show no results label
+            eventsPanel.setLayout(new BorderLayout());
+            eventsPanel.add(noResultsLabel, BorderLayout.CENTER);
+            noResultsLabel.setVisible(true);
+        } else {
+            // Show filtered events using the same logic as loadEvents
+            noResultsLabel.setVisible(false);
+            eventsPanel.setLayout(new BoxLayout(eventsPanel, BoxLayout.Y_AXIS));
+            
+            for (EventWithUser event : events) {
+                // Recreate the same card structure as in loadEvents
+                JPanel card = new JPanel(new GridBagLayout());
+                card.setBackground(new Color(66, 66, 116));
+                card.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(90, 90, 140), 1, true),
+                        BorderFactory.createEmptyBorder(15, 20, 15, 20)));
+                card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 250));
+                card.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                // Add all the same content as the original loadEvents method
+                createEventCardContent(card, event);
+                
+                eventsPanel.add(card);
+                eventsPanel.add(Box.createVerticalStrut(20));
+            }
+        }
+        
+        eventsPanel.revalidate();
+        eventsPanel.repaint();
+    }    private void createEventCardContent(JPanel card, EventWithUser event) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1;
+
+        // Row 0 - Uploader Name (bold)
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        JLabel nameLabel = new JLabel(event.getUploaderFullname());
+        nameLabel.setForeground(new Color(180, 180, 255));
+        nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        card.add(nameLabel, gbc);
+
+        // Row 1 - Event Title (bigger, bold)
+        gbc.gridy++;
+        JLabel titleLabel = new JLabel(event.getEventTitle());
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        card.add(titleLabel, gbc);
+
+        // Row 2 - Description (wrap with HTML)
+        gbc.gridy++;
+        JLabel descLabel = new JLabel(
+                "<html><body style='width:650px;'>" + event.getEventDesc() + "</body></html>");
+        descLabel.setForeground(new Color(190, 190, 210));
+        descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        card.add(descLabel, gbc);
+
+        // Row 3 - Info labels in 2 columns: label and value pairs
+        gbc.gridy++;
+        gbc.gridwidth = 1;
+
+        JLabel timeLabel = new JLabel("Time:");
+        timeLabel.setForeground(Color.LIGHT_GRAY);
+        gbc.gridx = 0;
+        card.add(timeLabel, gbc);
+
+        JLabel timeValue = new JLabel(event.getEventTime());
+        timeValue.setForeground(Color.LIGHT_GRAY);
+        gbc.gridx = 1;
+        card.add(timeValue, gbc);
+
+        gbc.gridy++;
+        gbc.gridx = 0;
+        JLabel dateLabel = new JLabel("Date:");
+        dateLabel.setForeground(Color.LIGHT_GRAY);
+        card.add(dateLabel, gbc);
+
+        gbc.gridx = 1;
+        JLabel dateValue = new JLabel(event.getEventDate());
+        dateValue.setForeground(Color.LIGHT_GRAY);
+        card.add(dateValue, gbc);
+
+        gbc.gridy++;
+        gbc.gridx = 0;
+        JLabel locationLabel = new JLabel("Location:");
+        locationLabel.setForeground(Color.LIGHT_GRAY);
+        card.add(locationLabel, gbc);
+
+        gbc.gridx = 1;
+        JLabel locationValue = new JLabel(event.getEventLocation());
+        locationValue.setForeground(Color.LIGHT_GRAY);
+        card.add(locationValue, gbc);
+
+        gbc.gridy++;
+        gbc.gridx = 0;
+        JLabel priceLabel = new JLabel("Price:");
+        priceLabel.setForeground(new Color(0, 255, 153));
+        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD));
+        card.add(priceLabel, gbc);
+        gbc.gridx = 1;
+        JLabel priceValue = new JLabel("Rs. " + event.getEventPrice());
+        priceValue.setForeground(new Color(0, 255, 153));
+        priceValue.setFont(priceValue.getFont().deriveFont(Font.BOLD));
+        card.add(priceValue, gbc);
+
+        // Row 6 - Ticket Availability
+        gbc.gridy++;
+        gbc.gridx = 0;
+        JLabel ticketLabel = new JLabel("Tickets:");
+        ticketLabel.setForeground(Color.LIGHT_GRAY);
+        card.add(ticketLabel, gbc);
+
+        gbc.gridx = 1;
+        // Get ticket availability for this event
+        eventflow.dao.EventDao.TicketAvailability ticketInfo = eventflow.controllers.DashboardController
+                .getTicketAvailability(event.getId());
+
+        JLabel ticketValue = new JLabel(ticketInfo.getAvailabilityText());
+        if (ticketInfo.isSoldOut()) {
+            ticketValue.setForeground(new Color(255, 100, 100)); // Red for sold out
+            ticketValue.setFont(ticketValue.getFont().deriveFont(Font.BOLD));
+        } else {
+            ticketValue.setForeground(new Color(100, 200, 255)); // Blue for available
+        }
+        card.add(ticketValue, gbc);
+
+        // Row 7 - Button area (simplified for search results)
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setOpaque(false);
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Add basic Info button for search results
+        JButton infoButton = new JButton("Info");
+        infoButton.setBackground(new Color(70, 130, 180));
+        infoButton.setForeground(Color.WHITE);
+        infoButton.setFocusPainted(false);
+        infoButton.setPreferredSize(new Dimension(80, 30));
+        infoButton.setMaximumSize(new Dimension(80, 30));
+        buttonPanel.add(infoButton);
+        
+        buttonPanel.add(Box.createHorizontalGlue());
+        card.add(buttonPanel, gbc);
+    }
+
+    // Variables declaration - add the essential ones needed for search functionality
+    private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JToggleButton dashBut;
+    private javax.swing.JPanel eventsPanel;
+    private javax.swing.JToggleButton logBut;
+    private javax.swing.JToggleButton myEventsbut;
+    private javax.swing.JToggleButton myTicketsbut;
+    private javax.swing.JToggleButton profileBut;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JLabel sideLabel;
+    private javax.swing.JToggleButton walletBut;
+    // End of variables declaration
+}
