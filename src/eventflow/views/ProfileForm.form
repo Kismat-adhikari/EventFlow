@@ -58,7 +58,11 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="editProfile" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="changePass" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Component id="editProfile" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <Component id="jPanel5" alignment="1" max="32767" attributes="0"/>
                                       <Component id="jPanel7" pref="447" max="32767" attributes="0"/>
                                   </Group>
@@ -81,6 +85,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="editProfile" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="changePass" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -719,6 +724,11 @@
         <Component class="javax.swing.JToggleButton" name="deleteAcc">
           <Properties>
             <Property name="text" type="java.lang.String" value="Delete Account"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="changePass">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Change Pass"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -5,6 +5,7 @@
 package eventflow.controllers;
 
 import eventflow.models.User;
+import eventflow.views.ChangePasswordForm;
 import eventflow.views.Create;
 import eventflow.views.Dashboard;
 import eventflow.views.InfoForm;
@@ -52,6 +53,11 @@ public class ProfileController {
     public static void goToEditProfile(User user, ProfileForm profileForm) {
         InfoForm infoForm = new InfoForm(user, profileForm);
         infoForm.setVisible(true);
+    }
+    
+    public static void goToChangePass(User user, ProfileForm profileForm) {
+        ChangePasswordForm changePasswordForm = new ChangePasswordForm(user, profileForm);
+        changePasswordForm.setVisible(true);
     }
 
     /**

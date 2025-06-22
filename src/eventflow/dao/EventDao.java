@@ -393,4 +393,30 @@ public class EventDao {
             this.uploaderFullname = uploaderFullname;
         }
     }
+
+    // Update an existing event in the database
+    public boolean updateEvent(int eventId, String title, String description, String time, 
+                              String date, String location, double price) {
+        String sql = "UPDATE events SET eventTitle = ?, eventDesc = ?, eventTime = ?, " +
+                    "eventDate = ?, eventLocation = ?, eventPrice = ? WHERE id = ?";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, title);
+            stmt.setString(2, description);
+            stmt.setString(3, time);
+            stmt.setString(4, date);
+            stmt.setString(5, location);
+            stmt.setDouble(6, price);
+            stmt.setInt(7, eventId);
+            
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
