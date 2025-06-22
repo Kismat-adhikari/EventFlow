@@ -184,6 +184,7 @@ public class Create extends javax.swing.JFrame {
         walletBut = new javax.swing.JToggleButton();
         profileBut = new javax.swing.JToggleButton();
         sideLabel = new javax.swing.JLabel();
+        logBut = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         roundedPanelcreate = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -274,6 +275,16 @@ public class Create extends javax.swing.JFrame {
         sideLabel.setForeground(new java.awt.Color(255, 255, 255));
         sideLabel.setText("Username");
 
+        logBut.setBackground(new java.awt.Color(58, 58, 98));
+        logBut.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        logBut.setForeground(new java.awt.Color(160, 160, 178));
+        logBut.setText("Logout");
+        logBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logButActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -289,7 +300,8 @@ public class Create extends javax.swing.JFrame {
                                     .addComponent(myTicketsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                                     .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(myEventsbut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(profileBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(profileBut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(logBut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(30, 30, 30))
                             .addComponent(sideLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -318,6 +330,8 @@ public class Create extends javax.swing.JFrame {
                 .addComponent(walletBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(profileBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(logBut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sideLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -549,6 +563,10 @@ public class Create extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_eventLocationActionPerformed
 
+    private void logButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logButActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logButActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -601,6 +619,7 @@ public class Create extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JToggleButton logBut;
     private javax.swing.JToggleButton myEventsbut;
     private javax.swing.JToggleButton myTicketsbut;
     private javax.swing.JToggleButton profileBut;
