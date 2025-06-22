@@ -114,20 +114,188 @@ public class EventDao {
             e.printStackTrace();
         }
         return -1; // not found or error
+    } // Delete an event from the database with automatic refunds
+
+    public boolean deleteEvent(int eventId) {
+        Connection conn = null;
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false); // Start transaction
+
+            // Step 1: Get all tickets for this event to calculate refunds
+            String getTicketsSql = "SELECT user_id, price_paid FROM tickets WHERE event_id = ?";
+            PreparedStatement getTicketsStmt = conn.prepareStatement(getTicketsSql);
+            getTicketsStmt.setInt(1, eventId);
+            ResultSet ticketsRS = getTicketsStmt.executeQuery();
+
+            // Step 2: Process refunds for each ticket holder
+            eventflow.dao.UserDAO userDao = new eventflow.dao.UserDAO();
+            int refundCount = 0;
+            double totalRefunded = 0.0;
+
+            while (ticketsRS.next()) {
+                int userId = ticketsRS.getInt("user_id");
+                double pricePaid = ticketsRS.getDouble("price_paid");
+
+                // Refund the user
+                boolean refundSuccess = userDao.updateUserBalance(userId, pricePaid, conn);
+                if (!refundSuccess) {
+                    conn.rollback();
+                    return false;
+                }
+                refundCount++;
+                totalRefunded += pricePaid;
+            }
+            ticketsRS.close();
+            getTicketsStmt.close();
+
+            // Step 3: Delete all tickets for this event
+            String deleteTicketsSql = "DELETE FROM tickets WHERE event_id = ?";
+            PreparedStatement deleteTicketsStmt = conn.prepareStatement(deleteTicketsSql);
+            deleteTicketsStmt.setInt(1, eventId);
+            deleteTicketsStmt.executeUpdate();
+            deleteTicketsStmt.close();
+
+            // Step 4: Delete the event itself
+            String deleteEventSql = "DELETE FROM events WHERE id = ?";
+            PreparedStatement deleteEventStmt = conn.prepareStatement(deleteEventSql);
+            deleteEventStmt.setInt(1, eventId);
+            int rowsAffected = deleteEventStmt.executeUpdate();
+            deleteEventStmt.close();
+
+            if (rowsAffected > 0) {
+                conn.commit();
+                System.out.println("Event " + eventId + " deleted successfully. Refunded " + refundCount +
+                        " users with total amount: Rs " + totalRefunded);
+                return true;
+            } else {
+                conn.rollback();
+                return false;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return false;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 
-    // Delete an event from the database
-    public boolean deleteEvent(int eventId) {
-        String sql = "DELETE FROM events WHERE id = ?";
+    // Get refund information for an event before deletion (for confirmation dialog)
+    public RefundInfo getRefundInfo(int eventId) {
+        String sql = "SELECT COUNT(*) as ticket_count, SUM(price_paid) as total_refund FROM tickets WHERE event_id = ?";
         try (Connection conn = getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, eventId);
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int ticketCount = rs.getInt("ticket_count");
+                    double totalRefund = rs.getDouble("total_refund");
+                    return new RefundInfo(ticketCount, totalRefund);
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        }
+        return new RefundInfo(0, 0.0);
+    }
+
+    // Get ticket availability information for an event
+    public TicketAvailability getTicketAvailability(int eventId) {
+        String sql = "SELECT e.eventTickets, COUNT(t.id) as sold FROM events e " +
+                "LEFT JOIN tickets t ON e.id = t.event_id " +
+                "WHERE e.id = ? GROUP BY e.id, e.eventTickets";
+
+        try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, eventId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int totalTickets = rs.getInt("eventTickets");
+                    int soldTickets = rs.getInt("sold");
+                    int availableTickets = totalTickets - soldTickets;
+                    boolean isSoldOut = availableTickets <= 0;
+
+                    return new TicketAvailability(totalTickets, soldTickets, availableTickets, isSoldOut);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new TicketAvailability(0, 0, 0, true); // Default to sold out if error
+    }
+
+    // Helper class for ticket availability information
+    public static class TicketAvailability {
+        private final int totalTickets;
+        private final int soldTickets;
+        private final int availableTickets;
+        private final boolean isSoldOut;
+
+        public TicketAvailability(int totalTickets, int soldTickets, int availableTickets, boolean isSoldOut) {
+            this.totalTickets = totalTickets;
+            this.soldTickets = soldTickets;
+            this.availableTickets = availableTickets;
+            this.isSoldOut = isSoldOut;
+        }
+
+        public int getTotalTickets() {
+            return totalTickets;
+        }
+
+        public int getSoldTickets() {
+            return soldTickets;
+        }
+
+        public int getAvailableTickets() {
+            return availableTickets;
+        }
+
+        public boolean isSoldOut() {
+            return isSoldOut;
+        }
+
+        public String getAvailabilityText() {
+            if (isSoldOut) {
+                return "SOLD OUT";
+            } else {
+                return availableTickets + "/" + totalTickets + " tickets available";
+            }
+        }
+    }
+
+    // Helper class for refund information
+    public static class RefundInfo {
+        private final int ticketCount;
+        private final double totalRefund;
+
+        public RefundInfo(int ticketCount, double totalRefund) {
+            this.ticketCount = ticketCount;
+            this.totalRefund = totalRefund;
+        }
+
+        public int getTicketCount() {
+            return ticketCount;
+        }
+
+        public double getTotalRefund() {
+            return totalRefund;
         }
     }
 

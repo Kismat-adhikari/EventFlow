@@ -4,6 +4,8 @@
  */
 package eventflow.controllers;
 
+import database.DbConnection;
+import eventflow.dao.UserDAO;
 import eventflow.models.User;
 import eventflow.views.Create;
 import eventflow.views.Dashboard;
@@ -47,5 +49,29 @@ public class WalletController {
     WalletForm walletPage = new WalletForm(user);
     walletPage.setVisible(true);
 }
+      public static boolean increaseBalance(User user, double amount) {
+        UserDAO userDao = new UserDAO();
+        try {
+            // Get connection and update balance
+            java.sql.Connection conn = DbConnection.getConnection();
+            conn.setAutoCommit(false);
+            
+            boolean success = userDao.updateUserBalance(user.getId(), amount, conn);
+            if (success) {
+                // Update the user object with new balance
+                user.setBalance(user.getBalance() + amount);
+                conn.commit();
+                conn.close();
+                return true;
+            } else {
+                conn.rollback();
+                conn.close();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     
 }

@@ -58,15 +58,11 @@ public class DashboardController {
         WalletForm walletPage = new WalletForm(user);
         walletPage.setVisible(true);
     }
-    
-    public static void goToSignup() {
-    SignupForm signupPage = new SignupForm();
-    signupPage.setVisible(true);
-}
 
-    
-    
-    
+    public static void goToSignup() {
+        SignupForm signupPage = new SignupForm();
+        signupPage.setVisible(true);
+    }
 
     public static boolean payForEvent(int buyerId, int eventId, double price) {
         EventDao eventDao = new EventDao();
@@ -110,7 +106,7 @@ public class DashboardController {
             boolean deleteSuccess = eventDao.deleteEvent(eventId);
 
             if (deleteSuccess) {
-                System.out.println("Event with ID " + eventId + " deleted successfully");
+                System.out.println("Event with ID " + eventId + " deleted successfully with automatic refunds");
             } else {
                 System.out.println("Failed to delete event with ID " + eventId);
             }
@@ -119,6 +115,28 @@ public class DashboardController {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    // Get refund information for an event
+    public static EventDao.RefundInfo getRefundInfo(int eventId) {
+        try {
+            EventDao eventDao = new EventDao();
+            return eventDao.getRefundInfo(eventId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new EventDao.RefundInfo(0, 0.0);
+        }
+    }
+
+    // Get ticket availability for an event
+    public static EventDao.TicketAvailability getTicketAvailability(int eventId) {
+        try {
+            EventDao eventDao = new EventDao();
+            return eventDao.getTicketAvailability(eventId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new EventDao.TicketAvailability(0, 0, 0, true);
         }
     }
 

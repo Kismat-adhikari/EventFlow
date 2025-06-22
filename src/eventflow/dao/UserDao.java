@@ -13,7 +13,7 @@ public class UserDAO {
     public double getBalanceById(int userId) {
         String sql = "SELECT balance FROM users WHERE id = ?";
         try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -32,7 +32,7 @@ public class UserDAO {
     public User getUserByEmailAndPassword(String email, String password) {
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
         try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
             stmt.setString(2, password);
@@ -53,7 +53,7 @@ public class UserDAO {
     public User getUserById(int userId) {
         String sql = "SELECT * FROM users WHERE id = ?";
         try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
 
@@ -73,7 +73,7 @@ public class UserDAO {
     public boolean createUser(User user) {
         String sql = "INSERT INTO users (fullname, email, password, balance, is_admin) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getFullname());
             stmt.setString(2, user.getEmail());
@@ -93,17 +93,17 @@ public class UserDAO {
     // Helper method to map ResultSet to User object
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
         return new User(
-            rs.getInt("id"),
-            rs.getString("fullname"),
-            rs.getString("email"),
-            rs.getString("password"),
-            rs.getDouble("balance"),
-            rs.getInt("is_admin")
-        );
+                rs.getInt("id"),
+                rs.getString("fullname"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getDouble("balance"),
+                rs.getInt("is_admin"));
     }
 
     /**
-     * Update user balance by adding amount (positive or negative) inside an existing connection.
+     * Update user balance by adding amount (positive or negative) inside an
+     * existing connection.
      * Used within transaction.
      */
     public boolean updateUserBalance(int userId, double amount, Connection conn) throws SQLException {
@@ -118,7 +118,8 @@ public class UserDAO {
     }
 
     /**
-     * Process payment transaction: deduct amount from buyer, add to creator atomically.
+     * Process payment transaction: deduct amount from buyer, add to creator
+     * atomically.
      * Returns true if successful, false if failure or insufficient balance.
      */
     public boolean processPayment(int buyerId, int creatorId, double amount) {
@@ -126,7 +127,7 @@ public class UserDAO {
         Connection conn = null;
         try {
             conn = DbConnection.getConnection();
-            conn.setAutoCommit(false);  // Start transaction
+            conn.setAutoCommit(false); // Start transaction
 
             // Check buyer's balance
             double buyerBalance = 0;
@@ -162,12 +163,16 @@ public class UserDAO {
             }
 
             conn.commit();
-            return true;  // Success
+            return true; // Success
 
         } catch (SQLException e) {
             e.printStackTrace();
             if (conn != null) {
-                try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
             return false;
         } finally {
@@ -180,5 +185,24 @@ public class UserDAO {
                 }
             }
         }
+    }
+
+    /**
+     * Delete user account by user ID
+     * This will also delete related data due to foreign key constraints
+     */
+    public boolean deleteUser(int userId) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = DbConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
