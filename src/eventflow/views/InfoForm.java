@@ -1,10 +1,9 @@
 package eventflow.views;
 
-import eventflow.models.User;
-import eventflow.models.Profile;
-import eventflow.services.ProfileService;
 import eventflow.controllers.InfoController;
-
+import eventflow.models.Profile;
+import eventflow.models.User;
+import eventflow.services.ProfileService;
 import javax.swing.*;
 
 public class InfoForm extends javax.swing.JFrame {

@@ -141,9 +141,9 @@ public class DashboardController {
     }
 
     // Search functionality methods for MVC architecture
-    
     /**
      * Search events by title (case-insensitive)
+     *
      * @param allEvents List of all available events
      * @param searchQuery Search query string
      * @return List of events matching the search query
@@ -152,15 +152,15 @@ public class DashboardController {
         if (allEvents == null || searchQuery == null) {
             return allEvents != null ? allEvents : new java.util.ArrayList<>();
         }
-        
+
         // Normalize search query
         String normalizedQuery = searchQuery.trim();
-        
+
         // If search is empty, return all events
         if (normalizedQuery.isEmpty()) {
             return allEvents;
         }
-        
+
         // Filter events by title (case-insensitive)
         List<EventWithUser> filteredEvents = new java.util.ArrayList<>();
         for (EventWithUser event : allEvents) {
@@ -168,12 +168,13 @@ public class DashboardController {
                 filteredEvents.add(event);
             }
         }
-        
+
         return filteredEvents;
     }
-    
+
     /**
      * Validate search query and return sanitized version
+     *
      * @param query Raw search query
      * @return Sanitized search query or null if invalid
      */
@@ -181,19 +182,19 @@ public class DashboardController {
         if (query == null) {
             return null;
         }
-        
+
         String trimmed = query.trim();
-        
+
         // Ignore placeholder text
         if (trimmed.equals("🔎Search")) {
             return null;
         }
-        
+
         // Return null for empty queries (to show all events)
         if (trimmed.isEmpty()) {
             return "";
         }
-        
+
         return trimmed;
     }
 
