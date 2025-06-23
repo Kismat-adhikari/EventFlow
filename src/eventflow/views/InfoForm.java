@@ -58,6 +58,7 @@ public class InfoForm extends javax.swing.JFrame {
         makeBut = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(71, 70, 123));
 
         jLabel1.setText("Location");
 
@@ -69,7 +70,9 @@ public class InfoForm extends javax.swing.JFrame {
         userBio.setRows(5);
         jScrollPane1.setViewportView(userBio);
 
-        makeBut.setText("Chnage changes");
+        makeBut.setBackground(new java.awt.Color(1, 200, 167));
+        makeBut.setForeground(new java.awt.Color(255, 255, 255));
+        makeBut.setText("Save Changes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
