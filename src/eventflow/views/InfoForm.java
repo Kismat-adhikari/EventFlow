@@ -17,32 +17,31 @@ public class InfoForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); // Close only this window
         loadUserProfile();
         setupListeners();
-    }
-
-    private void loadUserProfile() {
+    }    private void loadUserProfile() {
         Profile profile = ProfileService.getProfileByUserId(user.getId());
         if (profile != null) {
-            userBio.setText(profile.getBio());
-            userLocation.setText(profile.getLocation());  // load location too
+            userBio.setText(profile.getBio() != null ? profile.getBio() : "");
+            userLocation.setText(profile.getLocation() != null ? profile.getLocation() : "");
+        } else {
+            userBio.setText("");
+            userLocation.setText("");
         }
-    }
-
-    private void setupListeners() {
+    }    private void setupListeners() {
         makeBut.addActionListener(evt -> {
             String newBio = userBio.getText().trim();
             String newLocation = userLocation.getText().trim();
 
-            InfoController.updateUserBio(user, newBio);
-            InfoController.updateUserLocation(user, newLocation);
+            System.out.println("User clicked Save changes:");
+            System.out.println("Bio: '" + newBio + "'");
+            System.out.println("Location: '" + newLocation + "'");
+
+            // Use the combined update method for better efficiency
+            InfoController.updateUserProfile(user, newBio, newLocation);
 
             JOptionPane.showMessageDialog(this, "Profile updated successfully!");
 
-            // Close the old ProfileForm window
-            profileForm.dispose();
-
-            // Open a new ProfileForm with updated info
-            ProfileForm newProfile = new ProfileForm(user);
-            newProfile.setVisible(true);
+            // Refresh the existing ProfileForm with updated data
+            profileForm.refreshProfileData();
 
             // Close this InfoForm window
             dispose();
@@ -83,11 +82,11 @@ public class InfoForm extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(userLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(userLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(46, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
