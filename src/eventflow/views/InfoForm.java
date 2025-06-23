@@ -81,7 +81,7 @@ public class InfoForm extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Location");
 
-        userLocation.setText("jTextField1");
+        userLocation.setText("write your location");
 
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
         jLabel2.setText("Bio");
