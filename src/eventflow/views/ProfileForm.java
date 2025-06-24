@@ -81,6 +81,10 @@ public class ProfileForm extends javax.swing.JFrame {
         deleteAcc.addActionListener(evt -> {
             eventflow.controllers.ProfileController.deleteAccount(user, this);
         });
+        logBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToSignup();
+            dispose();
+        });
 
     }
 

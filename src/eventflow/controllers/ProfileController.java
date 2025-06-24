@@ -12,6 +12,7 @@ import eventflow.views.InfoForm;
 import eventflow.views.MyEvents;
 import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
+import eventflow.views.SignupForm;
 import eventflow.views.WalletForm;
 
 /**
@@ -49,6 +50,7 @@ public class ProfileController {
         WalletForm walletPage = new WalletForm(user);
         walletPage.setVisible(true);
     }
+    
 
     public static void goToEditProfile(User user, ProfileForm profileForm) {
         InfoForm infoForm = new InfoForm(user, profileForm);
@@ -59,7 +61,10 @@ public class ProfileController {
         ChangePasswordForm changePasswordForm = new ChangePasswordForm(user, profileForm);
         changePasswordForm.setVisible(true);
     }
-
+    public static void goToSignup() {
+        SignupForm signupPage = new SignupForm();
+        signupPage.setVisible(true);
+    }
     /**
      * Handle account deletion with confirmation
      * 
