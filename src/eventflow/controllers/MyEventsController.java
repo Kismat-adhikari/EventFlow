@@ -12,6 +12,7 @@ import eventflow.views.Dashboard;
 import eventflow.views.MyEvents;
 import eventflow.views.MyTickets;
 import eventflow.views.ProfileForm;
+import eventflow.views.SignupForm;
 import eventflow.views.WalletForm;
 
 /**
@@ -98,7 +99,10 @@ public class MyEventsController {
         Create createPage = new Create(user);
         createPage.setVisible(true);
     }
-
+public static void goToSignup() {
+        SignupForm signupPage = new SignupForm();
+        signupPage.setVisible(true);
+    }
     public static void goToMyEvents(User user) {
         MyEvents myEventsPage = new MyEvents(user);
         myEventsPage.setVisible(true);

@@ -85,6 +85,7 @@ public class ProfileForm extends javax.swing.JFrame {
             eventflow.controllers.DashboardController.goToSignup();
             dispose();
         });
+        
 
     }
 
@@ -207,7 +208,7 @@ public class ProfileForm extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addGap(90, 90, 90)
                             .addComponent(fullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(202, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -486,10 +487,17 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        editProfile.setBackground(new java.awt.Color(1, 200, 167));
+        editProfile.setForeground(new java.awt.Color(255, 255, 255));
         editProfile.setText("Edit Profile");
 
+        deleteAcc.setBackground(new java.awt.Color(1, 200, 167));
+        deleteAcc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        deleteAcc.setForeground(new java.awt.Color(255, 255, 255));
         deleteAcc.setText("Delete Account");
 
+        changePass.setBackground(new java.awt.Color(1, 200, 167));
+        changePass.setForeground(new java.awt.Color(255, 255, 255));
         changePass.setText("Change Pass");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

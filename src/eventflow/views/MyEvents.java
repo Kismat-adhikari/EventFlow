@@ -58,6 +58,10 @@ public class MyEvents extends javax.swing.JFrame {
             eventflow.controllers.DashboardController.goToWallet(user);
             dispose();
         });
+        logBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToSignup();
+            dispose();
+        });
 
         // Add edit button functionality
         if (jButton1 != null) {

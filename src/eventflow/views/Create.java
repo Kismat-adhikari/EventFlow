@@ -48,7 +48,11 @@ public class Create extends javax.swing.JFrame {
             eventflow.controllers.DashboardController.goToWallet(user);
             dispose();
         });
-
+        logBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToSignup();
+            dispose();
+        });
+        
         // Create button logic
         toggleCreate.addActionListener(evt -> {
             try {

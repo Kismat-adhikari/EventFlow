@@ -43,7 +43,10 @@ public class WalletForm extends javax.swing.JFrame {
             eventflow.controllers.DashboardController.goToWallet(user);
             dispose();
         });
-
+logBut.addActionListener(evt -> {
+            eventflow.controllers.DashboardController.goToSignup();
+            dispose();
+        });
         balanceInc.addActionListener(evt -> {
             boolean success = eventflow.controllers.WalletController.increaseBalance(user, 100.0);
             if (success) {
@@ -250,6 +253,8 @@ public class WalletForm extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("My Wallet");
 
+        balanceInc.setBackground(new java.awt.Color(58, 58, 98));
+        balanceInc.setForeground(new java.awt.Color(204, 204, 204));
         balanceInc.setText("Increase Balance");
 
         jLabel2.setForeground(new java.awt.Color(242, 242, 242));
